@@ -7,10 +7,10 @@ public class ConsoleStocks {
 		try {
 			for (int i = 0; i < settings.length; i++) {
 				if (settings[i] != null) {
-					switch (settings[0]) {
-						case "-nogui":
+					switch (settings[i]) {
+						case "--nogui":
 							break;
-						case "-server":
+						case "--server":
 							break;
 					}
 				}
