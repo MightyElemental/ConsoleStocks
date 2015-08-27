@@ -15,7 +15,7 @@ public class ConsoleStocks {
 
 	public ConsoleStocks() {
 		if (showGUI) {
-			
+
 		}
 	}
 
