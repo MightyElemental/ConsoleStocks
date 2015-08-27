@@ -71,6 +71,7 @@ public class ConsoleStocks extends StateBasedGame {
 			appGc = new AppGameContainer(new ConsoleStocks(TITLE));
 			appGc.setDisplayMode(WIDTH, (int) (WIDTH / 16.0 * 9.0), false);
 			appGc.setTargetFrameRate(60);
+			appGc.setShowFPS(false);
 			appGc.start();
 		} catch (SlickException e) {
 			e.printStackTrace();
@@ -81,7 +82,7 @@ public class ConsoleStocks extends StateBasedGame {
 	public void initStatesList(GameContainer gc) throws SlickException {
 		this.getState(STATE_MENU).init(gc, this);
 		this.getState(STATE_GAME).init(gc, this);
-		this.enterState(STATE_MENU);
+		this.enterState(STATE_GAME);
 	}
 
 }
