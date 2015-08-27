@@ -1,5 +1,6 @@
 package net.iridgames.consolestocks;
 
+import net.iridgames.consolestocks.client.Client;
 import net.iridgames.consolestocks.gui.GameFrame;
 import net.iridgames.consolestocks.server.Server;
 
@@ -25,13 +26,16 @@ public class ConsoleStocks {
 						case "--nogui":
 							break;
 						case "--server":
+							server = new Server(4040);
+							server.setupServer();
 							break;
 					}
 				}
 			}
+
+			new Client("WolfgangTS", "localhost", 4040).sendMessage("Wolfgang is a person");
 		} catch (Exception e) {
 		}
-		new ConsoleStocks();
 	}
 
 }
