@@ -1,27 +1,28 @@
 package net.iridgames.consolestocks.gui;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 @SuppressWarnings( "serial" )
-public class GameFrame extends JFrame{
+public class GameFrame extends JFrame {
+
 	public GameFrame() {
 		setTitle("Dat gud game rit dere");
 		getContentPane().setLayout(null);
-		
-		JPanel tlPanel = new JPanel();
+		this.setVisible(true);
+
+		TopLeftPanel tlPanel = new TopLeftPanel();
 		tlPanel.setBounds(0, 0, 328, 211);
 		getContentPane().add(tlPanel);
-		
-		JPanel trPanel = new JPanel();
+
+		TopRightPanel trPanel = new TopRightPanel();
 		trPanel.setBounds(328, 0, 328, 211);
 		getContentPane().add(trPanel);
-		
-		JPanel blPanel = new JPanel();
+
+		BottomLeftPanel blPanel = new BottomLeftPanel();
 		blPanel.setBounds(0, 211, 328, 211);
 		getContentPane().add(blPanel);
-		
-		JPanel brPanel = new JPanel();
+
+		ConsolePanel brPanel = new ConsolePanel();
 		brPanel.setBounds(328, 211, 328, 211);
 		getContentPane().add(brPanel);
 	}
