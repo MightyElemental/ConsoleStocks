@@ -1,7 +1,6 @@
 package net.iridgames.consolestocks;
 
 import net.iridgames.consolestocks.client.Client;
-import net.iridgames.consolestocks.gui.GameFrame;
 import net.iridgames.consolestocks.server.Server;
 
 /** @author MightyElemental & WolfgangTS */
@@ -9,15 +8,14 @@ public class ConsoleStocks {
 
 	public static Server server;
 
-	public static boolean	showGUI	= true;
-	public static GameFrame	gameFrame;
-	public static int port = 4040;
-	public static Client client;
-	public static boolean isServer = false;
+	public static boolean	showGUI		= true;
+	public static int		port		= 4040;
+	public static Client	client;
+	public static boolean	isServer	= false;
 
 	public ConsoleStocks() {
 		if (showGUI) {
-			gameFrame = new GameFrame();
+			
 		}
 	}
 
@@ -40,13 +38,13 @@ public class ConsoleStocks {
 					}
 				}
 			}
-			
-			if(!isServer)
-			{
+
+			if (!isServer) {
 				// do stuff
 			}
 		} catch (Exception e) {
 		}
+		new ConsoleStocks();
 	}
 
 }

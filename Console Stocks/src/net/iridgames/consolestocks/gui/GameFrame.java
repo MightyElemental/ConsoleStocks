@@ -3,27 +3,36 @@ package net.iridgames.consolestocks.gui;
 import javax.swing.JFrame;
 
 @SuppressWarnings( "serial" )
+@Deprecated
 public class GameFrame extends JFrame {
 
+	public TopLeftPanel		tlPanel;
+	public TopRightPanel	trPanel;
+	public BottomLeftPanel	blPanel;
+	public ConsolePanel		brPanel;
+
 	public GameFrame() {
-		setTitle("Dat gud game rit dere");
+		setTitle("That good game right there");
 		getContentPane().setLayout(null);
-		this.setVisible(true);
+		this.setSize(656, 422);
 
-		TopLeftPanel tlPanel = new TopLeftPanel();
+		tlPanel = new TopLeftPanel();
 		tlPanel.setBounds(0, 0, 328, 211);
-		getContentPane().add(tlPanel);
+		add(tlPanel);
 
-		TopRightPanel trPanel = new TopRightPanel();
+		trPanel = new TopRightPanel();
 		trPanel.setBounds(328, 0, 328, 211);
-		getContentPane().add(trPanel);
+		add(trPanel);
 
-		BottomLeftPanel blPanel = new BottomLeftPanel();
+		blPanel = new BottomLeftPanel();
 		blPanel.setBounds(0, 211, 328, 211);
-		getContentPane().add(blPanel);
+		add(blPanel);
 
-		ConsolePanel brPanel = new ConsolePanel();
+		brPanel = new ConsolePanel();
 		brPanel.setBounds(328, 211, 328, 211);
-		getContentPane().add(brPanel);
+		add(brPanel);
+
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
 	}
 }
