@@ -45,7 +45,7 @@ public class Server
 						sb.append(dataArray[i]);
 					}
 					
-					sendData = sb.toString().toUpperCase().getBytes("UTF-8");
+					sendData = (sb.toString()).toUpperCase().getBytes("UTF-8");
 					
 					DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
 					

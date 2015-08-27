@@ -11,6 +11,9 @@ public class ConsoleStocks {
 
 	public static boolean	showGUI	= true;
 	public static GameFrame	gameFrame;
+	public static int port = 4040;
+	public static Client client;
+	public static boolean isServer = false;
 
 	public ConsoleStocks() {
 		if (showGUI) {
@@ -25,15 +28,23 @@ public class ConsoleStocks {
 					switch (settings[i]) {
 						case "--nogui":
 							break;
+						case "--port":
+							i++;
+							port = Integer.parseInt(settings[i]);
+							break;
 						case "--server":
-							server = new Server(4040);
+							isServer = true;
+							server = new Server(port);
 							server.setupServer();
 							break;
 					}
 				}
 			}
-
-			new Client("WolfgangTS", "localhost", 4040).sendMessage("Wolfgang is a person");
+			
+			if(!isServer)
+			{
+				// do stuff
+			}
 		} catch (Exception e) {
 		}
 	}
