@@ -1,9 +1,12 @@
 package net.iridgames.consolestocks;
 
 import net.iridgames.consolestocks.gui.GameFrame;
+import net.iridgames.consolestocks.server.Server;
 
 /** @author MightyElemental & WolfgangTS */
 public class ConsoleStocks {
+
+	public static Server server;
 
 	public static boolean	showGUI	= true;
 	public static GameFrame	gameFrame;
@@ -28,6 +31,7 @@ public class ConsoleStocks {
 			}
 		} catch (Exception e) {
 		}
+		new ConsoleStocks();
 	}
 
 }
