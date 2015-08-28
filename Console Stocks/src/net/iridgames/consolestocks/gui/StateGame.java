@@ -69,7 +69,7 @@ public class StateGame extends BasicGameState {
 		final int yDisp = gc.getHeight() / 2;
 	}
 
-	private float	ticks;
+	private float ticks;
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
@@ -89,7 +89,10 @@ public class StateGame extends BasicGameState {
 	}
 
 	private void flashCursor() {
-		if (ticks % 20 != 0) { return; }
+		if (ticks % 40 > 20) {
+			dispCommandLine = ">" + commandLine;
+			return;
+		}
 		StringBuilder sb = new StringBuilder(commandLine);
 		try {
 			sb.deleteCharAt(cursor);
@@ -107,45 +110,46 @@ public class StateGame extends BasicGameState {
 				sb.deleteCharAt(cursor - 1);
 				cursor--;
 			}
-			updateCursor();
+			updateCursor(sb.length());
 		}
 		if (keyCodePressed == Input.KEY_DELETE) {
 			if (cursor + 1 < sb.length() - 1) {
 				sb.deleteCharAt(cursor + 1);
 			}
-			updateCursor();
+			updateCursor(sb.length());
 		}
 		if (keyCodePressed != Input.KEY_LEFT && keyCodePressed != Input.KEY_RIGHT && keyCodePressed != Input.KEY_BACK
 				&& keyCodePressed != Input.KEY_DELETE) {
-			sb.insert(cursor, keyChar);
+			sb.insert(cursor, (keyChar + "").replaceAll("[^A-Za-z0-9 ]", ""));
 			cursor++;
-			updateCursor();
+			updateCursor(sb.length());
 		}
 		if (keyCodePressed == Input.KEY_LEFT) {
 			cursor--;
-			updateCursor();
+			updateCursor(sb.length());
 		}
 		if (keyCodePressed == Input.KEY_RIGHT) {
 			cursor++;
-			updateCursor();
+			updateCursor(sb.length());
 		}
 		if (keyCodePressed == Input.KEY_ENTER) {
 			cursor = 0;
 			sb.delete(0, sb.length());
-			updateCursor();
+			updateCursor(sb.length());
 		}
 		commandLine = sb.toString();
+		System.out.println(sb.toString());
 		// GO AT END
 		dispCommandLine = ">" + sb.toString();
 	}
 
-	public void updateCursor() {
+	public void updateCursor(int length) {
 		if (cursor < 0) {
 			cursor = 0;
 		}
 		if (cursor > commandLine.length()) {
 			System.out.println("hao");
-			cursor = commandLine.length();
+			cursor = length;
 		}
 	}
 
