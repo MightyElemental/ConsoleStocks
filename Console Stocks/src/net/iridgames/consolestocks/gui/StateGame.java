@@ -79,7 +79,7 @@ public class StateGame extends BasicGameState {
 
 	public void updateCommandLine() {
 		if (keyCodePressed >= 0) {
-			if (keyPressedTime + 200 < System.currentTimeMillis()) {
+			if (keyPressedTime + 500 < System.currentTimeMillis()) {
 				if (ticks % 5 == 0) {
 					processCommandLineInput();
 				}
@@ -113,8 +113,8 @@ public class StateGame extends BasicGameState {
 			updateCursor(sb.length());
 		}
 		if (keyCodePressed == Input.KEY_DELETE) {
-			if (cursor + 1 < sb.length() - 1) {
-				sb.deleteCharAt(cursor + 1);
+			if (cursor < sb.length()) {
+				sb.deleteCharAt(cursor);
 			}
 			updateCursor(sb.length());
 		}
@@ -137,8 +137,7 @@ public class StateGame extends BasicGameState {
 			sb.delete(0, sb.length());
 			updateCursor(sb.length());
 		}
-		commandLine = sb.toString();
-		System.out.println(sb.toString());
+		commandLine = sb.toString(); 
 		// GO AT END
 		dispCommandLine = ">" + sb.toString();
 	}
@@ -148,7 +147,6 @@ public class StateGame extends BasicGameState {
 			cursor = 0;
 		}
 		if (cursor > commandLine.length()) {
-			System.out.println("hao");
 			cursor = length;
 		}
 	}
