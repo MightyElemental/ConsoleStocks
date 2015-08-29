@@ -104,7 +104,6 @@ public class Client
 		String messageOut = this.userName + " : " + message;
 		sendData = messageOut.getBytes();
 		
-		System.out.println(new String(sendData));
 		
 		try
 		{
