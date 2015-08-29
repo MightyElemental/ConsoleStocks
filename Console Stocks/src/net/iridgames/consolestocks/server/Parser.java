@@ -3,6 +3,7 @@ package net.iridgames.consolestocks.server;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class Parser {
@@ -43,6 +44,9 @@ public class Parser {
 				case "PING":
 					sendMessage("PONG!", ip, port);
 					break;
+				case "MSG":
+					messageUser(msg, ip, port);
+					break;
 				default:
 					sendMessage("Invalid command.", ip, port);
 					break;
@@ -50,6 +54,22 @@ public class Parser {
 		} catch (Exception e) {
 			e.printStackTrace();
 			sendMessage("Internal Server Error.", ip, port);
+		}
+	}
+
+	public void messageUser(String[] commands, InetAddress ip, int port) throws UnknownHostException {
+		if (commands.length < 3) { return; }
+		InetAddress sendIP = InetAddress.getByName(commands[1]);
+		String sendMessage = ip.getHostAddress() + "> ";
+		for (int i = 2; i < commands.length; i++) {
+			sendMessage += commands[i]+" ";
+		}
+		try {
+			server.sendData = (sendMessage.toString()).getBytes("UTF-8");
+			DatagramPacket sendPacket = new DatagramPacket(server.sendData, server.sendData.length, sendIP, port);
+			server.serverSocket.send(sendPacket);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
