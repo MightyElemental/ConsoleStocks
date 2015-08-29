@@ -8,8 +8,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import net.iridgames.consolestocks.ConsoleStocks;
-
 public class StateGame extends BasicGameState {
 
 	private final int ID;

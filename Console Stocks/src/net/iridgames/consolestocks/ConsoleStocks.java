@@ -10,11 +10,8 @@ import net.iridgames.consolestocks.gui.StateGame;
 import net.iridgames.consolestocks.gui.StateMenu;
 import net.iridgames.consolestocks.server.Server;
 
-/**
- * @author MightyElemental & WolfgangTS
- */
-public class ConsoleStocks extends StateBasedGame
-{
+/** @author MightyElemental & WolfgangTS */
+public class ConsoleStocks extends StateBasedGame {
 
 	public static Server server;
 
@@ -32,24 +29,18 @@ public class ConsoleStocks extends StateBasedGame
 	public static final String	TITLE		= GAME_NAME + " | v" + VERSION;
 	public static final int		WIDTH		= 1600;
 
-	public ConsoleStocks(String name)
-	{
+	public ConsoleStocks( String name ) {
 		super(name);
-		
+
 		addState(new StateMenu(STATE_MENU));
 		addState(new StateGame(STATE_GAME));
 	}
 
-	public static void main(String[] settings)
-	{
-		try
-		{
-			for (int i = 0; i < settings.length; i++)
-			{
-				if (settings[i] != null)
-				{
-					switch (settings[i])
-					{
+	public static void main(String[] settings) {
+		try {
+			for (int i = 0; i < settings.length; i++) {
+				if (settings[i] != null) {
+					switch (settings[i]) {
 						case "--nogui":
 							showGUI = false;
 							break;
@@ -70,41 +61,31 @@ public class ConsoleStocks extends StateBasedGame
 				}
 			}
 
-			if (showGUI)
-			{
+			if (showGUI) {
 				setupClient();
 			}
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 		}
 
 	}
 
-	private static void setupClient()
-	{
+	private static void setupClient() {
 		client = new Client("Name!", address, port);
 
-
-		
 		AppGameContainer appGc;
-		try
-		{
+		try {
 			appGc = new AppGameContainer(new ConsoleStocks(TITLE));
 			appGc.setDisplayMode(WIDTH, (int) (WIDTH / 16.0 * 9.0), false);
 			appGc.setTargetFrameRate(60);
 			appGc.setShowFPS(false);
 			appGc.start();
-		}
-		catch (SlickException e)
-		{
+		} catch (SlickException e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void initStatesList(GameContainer gc) throws SlickException
-	{
+	public void initStatesList(GameContainer gc) throws SlickException {
 		this.getState(STATE_MENU).init(gc, this);
 		this.getState(STATE_GAME).init(gc, this);
 		this.enterState(STATE_GAME);
