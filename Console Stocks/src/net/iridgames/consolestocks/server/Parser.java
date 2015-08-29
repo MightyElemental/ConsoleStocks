@@ -32,7 +32,7 @@ public class Parser
 			
 			for (int i = 0; i < msg.length; i++)
 			{
-				System.out.println(msg[i]);
+				System.out.println(msg[i] + ":):):):):):):");
 			}
 			
 			switch (msg[0].toUpperCase())
