@@ -18,9 +18,10 @@ public class StateGame extends BasicGameState {
 	public long	keyPressedTime	= -1;
 	public char	keyChar;
 
-	public String prefix = "$ ";
-	public int flashSpeed = 40;
-	public char cursorSymbol = '_';
+	
+	public String	prefix			= "$ ";
+	public int		flashSpeed		= 40;
+	public char		cursorSymbol	= '_';
 	public String	commandLine		= "";
 	public String	dispCommandLine	= prefix;
 	public int		cursor			= 0;
@@ -94,9 +95,8 @@ public class StateGame extends BasicGameState {
 	}
 
 	private void flashCursor() {
-		
-		
-		if (ticks % flashSpeed > flashSpeed/2) {
+
+		if (ticks % flashSpeed > flashSpeed / 2) {
 			dispCommandLine = prefix + commandLine;
 			return;
 		}
@@ -145,9 +145,9 @@ public class StateGame extends BasicGameState {
 			sb.delete(0, sb.length());
 			updateCursor(sb.length());
 		}
-		commandLine = sb.toString(); 
+		commandLine = sb.toString();
 		// GO AT END
-		dispCommandLine = ">" + sb.toString();
+		dispCommandLine = prefix + sb.toString();
 	}
 
 	public void updateCursor(int length) {
