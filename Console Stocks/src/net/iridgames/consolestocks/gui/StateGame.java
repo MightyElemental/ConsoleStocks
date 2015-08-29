@@ -156,7 +156,7 @@ public class StateGame extends BasicGameState {
 			updateCursor(sb.length());
 		}
 		if (keyCodePressed == Input.KEY_ENTER) {
-			// ConsoleStocks.client.sendMessage(sb.toString());
+			ConsoleStocks.client.sendMessage(sb.toString());
 			commands.add(sb.toString());
 			cursor = 0;
 			sb.delete(0, sb.length());
