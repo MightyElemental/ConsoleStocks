@@ -7,13 +7,15 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-public class Client
-{
+public class Client {
+
 	private String	userName;
 	private String	address;
 	private int		port;
-	
+
 	public boolean isRunning;
+
+	private String lastRecievedMessage = "";
 
 	private DatagramSocket clientSocket;
 
@@ -22,95 +24,80 @@ public class Client
 	private byte[]	receiveData;
 	private byte[]	sendData;
 
-	private Thread receiveThread = new Thread("ClientReceiveThread")
-	{
-		public void run()
-		{
+	private Thread receiveThread = new Thread("ClientReceiveThread") {
+
+		public void run() {
 			isRunning = true;
-			
-			while(isRunning)
-			{
-				try
-				{
+
+			while (isRunning) {
+				try {
 					receiveData = new byte[1024];
 					DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 					clientSocket.receive(receivePacket);
 					String receiveData = new String(receivePacket.getData()).trim();
-					
+
 					System.out.println(receiveData.toString());
-				}
-				catch (IOException e)
-				{
+					lastRecievedMessage = receiveData.toString();
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-			
-			try
-			{
+
+			try {
 				this.join();
-			}
-			catch (InterruptedException e)
-			{
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 	};
 
-	public Client(String name, String address, int port)
-	{
+	public Client( String name, String address, int port ) {
 		this.userName = name;
 		this.address = address;
 		this.port = port;
-		
+
 		this.setup();
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return this.userName;
 	}
 
-	public String getAddress()
-	{
+	public String getAddress() {
 		return this.address;
 	}
 
-	public int getPort()
-	{
+	public int getPort() {
 		return port;
 	}
-	
-	public void setup()
-	{
-		try
-		{
+
+	public void setup() {
+		try {
 			clientSocket = new DatagramSocket();
 			IPAddress = InetAddress.getByName(getAddress());
 
 			sendData = new byte[1024];
 			receiveData = new byte[1024];
-		}
-		catch (SocketException | UnknownHostException e)
-		{
+		} catch (SocketException | UnknownHostException e) {
 			e.printStackTrace();
 		}
-		
+
 		receiveThread.start();
 	}
 
-	public void sendMessage(String message)
-	{
+	public void sendMessage(String message) {
 		sendData = null;
 		String messageOut = this.userName + " : " + message;
 		sendData = messageOut.getBytes();
-		
-		try
-		{
+
+		try {
 			clientSocket.send(new DatagramPacket(sendData, sendData.length, this.IPAddress, this.port));
-		}
-		catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public String getLastRecievedMessage() {
+		return lastRecievedMessage;
 	}
 }
