@@ -104,7 +104,6 @@ public class Client
 		String messageOut = this.userName + " : " + message;
 		sendData = messageOut.getBytes();
 		
-		
 		try
 		{
 			clientSocket.send(new DatagramPacket(sendData, sendData.length, this.IPAddress, this.port));
