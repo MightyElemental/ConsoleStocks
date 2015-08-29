@@ -90,7 +90,7 @@ public class StateGame extends BasicGameState {
 		int iStop = commands.size();
 		for (int i = iStart; i < iStop; i++) {
 			if (!commands.isEmpty()) {
-				g.drawString(commands.get(i), x + 10, y + (20 * (i - iStart)));
+				g.drawString(prefix + commands.get(i), x + 10, y + (20 * (i - iStart)));
 				tempY = (20 * (iStop - iStart));
 			}
 		}
@@ -190,6 +190,7 @@ public class StateGame extends BasicGameState {
 			cursor = 0;
 			sb.delete(0, sb.length());
 			updateCursor(sb.length());
+			pastComCur = 0;
 		}
 		System.out.println(sb.length());
 		commandLine = sb.toString();
