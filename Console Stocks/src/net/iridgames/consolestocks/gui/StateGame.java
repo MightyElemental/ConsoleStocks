@@ -73,7 +73,7 @@ public class StateGame extends BasicGameState {
 			g.drawString("Client information not found.", x + 5, y + 5);
 			return;
 		}
-		g.drawString("Connected IP: " + ConsoleStocks.client.getAddress() + ":" + ConsoleStocks.client.getPort(), x + 5, y + 5);
+		String[] list = {"Client Information","Connected IP: "+ConsoleStocks.client.getAddress()+":"+ConsoleStocks.client.getPort(),"User"};
 	}
 
 	@Override
