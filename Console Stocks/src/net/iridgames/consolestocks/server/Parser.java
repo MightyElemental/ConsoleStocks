@@ -22,7 +22,11 @@ public class Parser
 		{
 			String[] msg = message.split(" ");
 			
-			System.out.println(msg.toString());
+			for (int i = 0; i < msg.length; i++)
+			{
+				System.out.println(msg[i]);
+			}
+			
 			switch (msg[0].toUpperCase())
 			{
 				case "GETSTOCKS":
