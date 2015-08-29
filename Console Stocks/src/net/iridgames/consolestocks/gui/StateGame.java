@@ -80,14 +80,6 @@ public class StateGame extends BasicGameState {
 
 	public void renderConsole(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) {
 		int tempY = 0;
-		for (int i = commands.size() - 1; i >= 0; i--) {//max = 21
-			if (!commands.isEmpty()) {
-				if (commands.get(i) != null) {
-					g.drawString(commands.get(i), x + 10, y + (20 * i));
-				}
-				tempY = commands.size()*20;
-			}
-		}
 		g.drawString(dispCommandLine + "\n" + commandLine + ".\n" + cursor + "\n" + commandLine.length(), x + 10, y + tempY);
 	}
 
