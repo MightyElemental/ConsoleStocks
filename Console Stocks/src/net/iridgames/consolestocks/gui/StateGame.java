@@ -56,7 +56,6 @@ public class StateGame extends BasicGameState {
 	public void renderTR(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		final int xDisp = gc.getWidth() / 2;
 		final int yDisp = 0;
-		g.drawString(dispCommandLine + "\n" + commandLine + ".\n" + cursor + "\n" + commandLine.length(), xDisp + 10, yDisp + 10);
 	}
 
 	public void renderBR(GameContainer gc, StateBasedGame sbg, Graphics g) {
@@ -67,6 +66,7 @@ public class StateGame extends BasicGameState {
 	public void renderBL(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		final int xDisp = 0;
 		final int yDisp = gc.getHeight() / 2;
+		g.drawString(dispCommandLine + "\n" + commandLine + ".\n" + cursor + "\n" + commandLine.length(), xDisp + 10, yDisp + 10);
 	}
 
 	private float ticks;
@@ -120,7 +120,7 @@ public class StateGame extends BasicGameState {
 		}
 		if (keyCodePressed != Input.KEY_LEFT && keyCodePressed != Input.KEY_RIGHT && keyCodePressed != Input.KEY_BACK
 				&& keyCodePressed != Input.KEY_DELETE) {
-			sb.insert(cursor, (keyChar + "").replaceAll("[^A-Za-z0-9 ]", ""));
+			sb.insert(cursor, (keyChar + "").replaceAll("[^A-Za-z0-9 -.]", ""));
 			cursor++;
 			updateCursor(sb.length());
 		}
