@@ -100,19 +100,19 @@ public class Client
 
 	public void sendMessage(String message)
 	{
+		sendData = null;
 		String messageOut = this.userName + " : " + message;
-
 		sendData = messageOut.getBytes();
-		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, this.port);
+		
+		System.out.println(new String(sendData));
+		
 		try
 		{
-			clientSocket.send(sendPacket);
-			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+			clientSocket.send(new DatagramPacket(sendData, sendData.length, this.IPAddress, this.port));
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
-
 	}
 }

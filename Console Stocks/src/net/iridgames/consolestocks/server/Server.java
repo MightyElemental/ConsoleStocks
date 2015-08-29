@@ -28,11 +28,15 @@ public class Server
 
 			while (running)
 			{
+				receiveData = new byte[1024];
 				DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 				try
 				{
+					
 					serverSocket.receive(receivePacket);
 					String data = new String(receivePacket.getData()).trim();
+					
+					System.out.println(data);
 					
 					InetAddress IPAddress = receivePacket.getAddress();
 
