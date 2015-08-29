@@ -16,19 +16,7 @@ public class StateGame extends BasicGameState {
 
 	private final int ID;
 
-	public int	keyCodePressed	= -1;
-	public long	keyPressedTime	= -1;
-	public char	keyChar;
-
-	public ArrayList<String> commands = new ArrayList<String>();
-
-	public String	prefix			= "$ ";
-	public int		flashSpeed		= 40;
-	public char		cursorSymbol	= '_';
-	public String	commandLine		= "";
-	public String	dispCommandLine	= prefix;
-	public int		cursor			= 0;
-	public int		pastComCur		= 0;
+	public Console console = new Console();
 
 	public StateGame( int id ) {
 		this.ID = id;
@@ -58,155 +46,35 @@ public class StateGame extends BasicGameState {
 	public void renderTL(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		final int xDisp = 0;
 		final int yDisp = 0;
-		if (keyCodePressed >= 0) {
-			g.drawString(Input.getKeyName(keyCodePressed), xDisp + 10, yDisp + 10);
+		if (console.keyCodePressed >= 0) {
+			g.drawString(Input.getKeyName(console.keyCodePressed), xDisp + 10, yDisp + 10);
 		}
 	}
 
 	public void renderTR(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		final int xDisp = gc.getWidth() / 2;
 		final int yDisp = 0;
-		renderConsole(gc, sbg, g, xDisp, yDisp);
+		console.renderConsole(gc, sbg, g, xDisp, yDisp);
 	}
 
 	public void renderBR(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		final int xDisp = gc.getWidth() / 2;
 		final int yDisp = gc.getHeight() / 2;
-		renderConsole(gc, sbg, g, xDisp, yDisp);
+		console.renderConsole(gc, sbg, g, xDisp, yDisp);
 	}
 
 	public void renderBL(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		final int xDisp = 0;
 		final int yDisp = gc.getHeight() / 2;
-		renderConsole(gc, sbg, g, xDisp, yDisp);
+		console.renderConsole(gc, sbg, g, xDisp, yDisp);
 	}
 
-	public void renderConsole(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) {
-		int tempY = 0;
-		int iStart = commands.size() - 20;
-		if (iStart < 0) {
-			iStart = 0;
-		}
-		int iStop = commands.size();
-		for (int i = iStart; i < iStop; i++) {
-			if (!commands.isEmpty()) {
-				g.drawString(prefix + commands.get(i), x + 10, y + (20 * (i - iStart)));
-				tempY = (20 * (iStop - iStart));
-			}
-		}
-		g.drawString(dispCommandLine, x + 10, y + tempY);
-	}
-
-	private float ticks;
+	public float ticks;
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		ticks += delta / 17;
-		updateCommandLine();
-	}
-
-	public void updateCommandLine() {
-		if (keyCodePressed >= 0) {
-			if (keyPressedTime + 500 < System.currentTimeMillis()) {
-				if (ticks % 2 == 0) {
-					processCommandLineInput();
-				}
-			}
-		}
-		flashCursor();
-	}
-
-	private void flashCursor() {
-
-		if (ticks % flashSpeed > flashSpeed / 2) {
-			dispCommandLine = prefix + commandLine;
-			return;
-		}
-		StringBuilder sb = new StringBuilder(commandLine);
-		try {
-			sb.deleteCharAt(cursor);
-		} catch (Exception e) {
-		}
-
-		sb.insert(cursor, cursorSymbol);
-		dispCommandLine = prefix + sb.toString();
-	}
-
-	public void processCommandLineInput() {
-		StringBuilder sb = new StringBuilder(commandLine);
-		if (keyCodePressed == Input.KEY_BACK) {
-			if (cursor - 1 >= 0) {
-				sb.deleteCharAt(cursor - 1);
-				cursor--;
-			}
-			updateCursor(sb.length());
-		}
-		if (keyCodePressed == Input.KEY_DELETE) {
-			if (cursor < sb.length()) {
-				sb.deleteCharAt(cursor);
-			}
-			updateCursor(sb.length());
-		}
-		if (keyCodePressed != Input.KEY_LEFT && keyCodePressed != Input.KEY_RIGHT && keyCodePressed != Input.KEY_BACK
-				&& keyCodePressed != Input.KEY_DELETE) {
-			sb.insert(cursor, (keyChar + "").replaceAll("[^A-Za-z0-9 -_+=./|\\;:\"'`~!@#$%^&*(){}]", ""));
-			cursor++;
-			updateCursor(sb.length());
-		}
-		if (keyCodePressed == Input.KEY_LEFT) {
-			cursor--;
-			updateCursor(sb.length());
-		}
-		if (keyCodePressed == Input.KEY_RIGHT) {
-			cursor++;
-			updateCursor(sb.length());
-		}
-		if (keyCodePressed == Input.KEY_UP) {
-			if (commands.size() > 0) {
-				pastComCur++;
-				if (commands.size() - 1 - pastComCur < 0) {
-					pastComCur = commands.size() - 1;
-				}
-				sb.delete(0, sb.length());
-				sb.append(commands.get(commands.size() - 1 - pastComCur));
-			}
-			cursor = sb.length();
-		}
-		if (keyCodePressed == Input.KEY_DOWN) {
-			if (commands.size() > 0) {
-				pastComCur--;
-				if (commands.size() - 1 - pastComCur > commands.size() - 1) {
-					pastComCur = 0;
-				}
-				sb.delete(0, sb.length());
-				sb.append(commands.get(commands.size() - 1 - pastComCur));
-			}
-			cursor = sb.length();
-		}
-
-		if (keyCodePressed == Input.KEY_ENTER) {
-			ConsoleStocks.client.sendMessage(sb.toString());
-			commands.add(sb.toString());
-			cursor = 0;
-			sb.delete(0, sb.length());
-			updateCursor(sb.length());
-			pastComCur = 0;
-		}
-		System.out.println(sb.length());
-		commandLine = sb.toString();
-		// GO AT END
-		System.out.println(sb.toString());
-		dispCommandLine = prefix + sb.toString();
-
-	}
-
-	public void updateCursor(int length) {
-		if (cursor < 0) {
-			cursor = 0;
-		}
-		if (cursor > commandLine.length()) {
-			cursor = length;
-		}
+		console.updateCommandLine(ticks);
 	}
 
 	@Override
@@ -217,17 +85,17 @@ public class StateGame extends BasicGameState {
 	@Override
 	public void keyPressed(int key, char c) {
 		super.keyPressed(key, c);
-		keyCodePressed = key;
-		keyPressedTime = System.currentTimeMillis();
-		keyChar = c;
-		processCommandLineInput();
+		console.keyCodePressed = key;
+		console.keyPressedTime = System.currentTimeMillis();
+		console.keyChar = c;
+		console.processCommandLineInput();
 	}
 
 	@Override
 	public void keyReleased(int key, char c) {
 		super.keyReleased(key, c);
-		keyCodePressed = -1;
-		keyPressedTime = -1;
+		console.keyCodePressed = -1;
+		console.keyPressedTime = -1;
 	}
 
 	@Override
