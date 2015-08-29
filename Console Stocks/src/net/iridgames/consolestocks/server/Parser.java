@@ -7,34 +7,35 @@ import java.net.InetAddress;
 public class Parser
 {
 	private Server server;
-	
+
 	public Parser(Server server)
 	{
 		this.server = server;
 	}
-	
+
 	public void parseMessage(String message, String sender, InetAddress ip, int port)
 	{
-		String[] msg = message.split(" ");
-		String[] args = new String[msg.length - 1];
-		String command = msg[0];
-
-		for (int i = 1; i < msg.length; i++)
+		try
 		{
-			args[i] = msg[i];
+			String[] msg = message.split(" ");
+			switch (msg[0].toUpperCase())
+			{
+				case "PING":
+					sendMessage("PONG", ip, port);
+					break;
+				default:
+					sendMessage("INVALID COMMAND", ip, port);
+					break;
+			}
+
 		}
-
-		switch (command.toUpperCase())
+		catch (Exception e)
 		{
-			case "PING":
-				sendMessage("PONG", ip, port);
-				break;
-			default:
-				sendMessage("INVALID COMMAND", ip, port);
-				break;
+			e.printStackTrace();
+			sendMessage("INTERNAL SERVER ERROR", ip, port);
 		}
 	}
-	
+
 	public void sendMessage(String message, InetAddress ip, int port)
 	{
 		try

@@ -18,7 +18,7 @@ public class Server
 	public byte[]	receiveData;
 	public byte[]	sendData;
 
-	private Thread serverTick = new Thread()
+	private Thread serverTick = new Thread("ServerThread")
 	{
 		public void run()
 		{

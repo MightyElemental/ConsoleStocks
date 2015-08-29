@@ -12,6 +12,8 @@ public class Client
 	private String	userName;
 	private String	address;
 	private int		port;
+	
+	public boolean isRunning;
 
 	private DatagramSocket clientSocket;
 
@@ -20,11 +22,46 @@ public class Client
 	private byte[]	receiveData;
 	private byte[]	sendData;
 
+	private Thread receiveThread = new Thread("ClientReceiveThread")
+	{
+		public void run()
+		{
+			isRunning = true;
+			
+			while(isRunning)
+			{
+				try
+				{
+					DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+					clientSocket.receive(receivePacket);
+					String receiveData = new String(receivePacket.getData()).trim();
+					
+					System.out.println(receiveData.toString());
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
+			
+			try
+			{
+				this.join();
+			}
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+		}
+	};
+
 	public Client(String name, String address, int port)
 	{
 		this.userName = name;
 		this.address = address;
 		this.port = port;
+		
+		this.setup();
 	}
 
 	public String getName()
@@ -41,11 +78,9 @@ public class Client
 	{
 		return this.getPort();
 	}
-
-	public void sendMessage(String message)
+	
+	public void setup()
 	{
-		String messageOut = this.userName + " : " + message;
-		
 		try
 		{
 			clientSocket = new DatagramSocket();
@@ -53,31 +88,30 @@ public class Client
 
 			sendData = new byte[1024];
 			receiveData = new byte[1024];
-			
-			sendData = messageOut.getBytes();
-			DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, this.port);
-			try
-			{
-				clientSocket.send(sendPacket);
-				DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-				clientSocket.receive(receivePacket);
-
-				String receiveData = new String(receivePacket.getData()).trim();
-				
-				System.out.println(receiveData);
-
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
 		}
-		catch (SocketException | UnknownHostException e1)
+		catch (SocketException | UnknownHostException e)
 		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			e.printStackTrace();
 		}
+		
+		receiveThread.start();
+	}
 
+	public void sendMessage(String message)
+	{
+		String messageOut = this.userName + " : " + message;
+
+		sendData = messageOut.getBytes();
+		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, this.port);
+		try
+		{
+			clientSocket.send(sendPacket);
+			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 
 	}
 }
