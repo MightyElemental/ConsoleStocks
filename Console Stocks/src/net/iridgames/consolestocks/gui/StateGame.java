@@ -54,7 +54,7 @@ public class StateGame extends BasicGameState {
 	public void renderTR(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		final int xDisp = gc.getWidth() / 2;
 		final int yDisp = 0;
-		PanelRenderers.renderClient(gc, sbg, g, xDisp, yDisp);
+		PRender.renderPanel(PRender.CLIENT_RENDER, gc, sbg, g, xDisp, yDisp);
 	}
 
 	public void renderBR(GameContainer gc, StateBasedGame sbg, Graphics g) {

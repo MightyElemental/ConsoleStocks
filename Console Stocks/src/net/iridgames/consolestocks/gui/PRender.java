@@ -6,9 +6,20 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import net.iridgames.consolestocks.ConsoleStocks;
 
-public class PanelRenderers {
+public class PRender {
+	
+	public static final int CLIENT_RENDER = 1;
 
-	public static void renderClient(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) {
+	public static void renderPanel(int panelID, GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) {
+		switch (panelID) {
+			case CLIENT_RENDER:
+				renderClient(gc, sbg, g, x, y);
+				break;
+		}
+	}
+
+	/** Used to render client information */
+	private static void renderClient(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) {
 		if (ConsoleStocks.client == null) {
 			g.drawString("Client information not found.", x + 5, y + 5);
 			return;
