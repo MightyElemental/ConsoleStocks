@@ -17,8 +17,6 @@ public class Parser
 	{
 		try
 		{
-			sendMessage(message + " sent by " + sender + " @ " + ip.getHostAddress(), ip, port);
-
 			String[] msg = message.split(" ");
 			switch (msg[0].toUpperCase())
 			{
@@ -29,7 +27,6 @@ public class Parser
 					sendMessage("INVALID COMMAND", ip, port);
 					break;
 			}
-
 		}
 		catch (Exception e)
 		{

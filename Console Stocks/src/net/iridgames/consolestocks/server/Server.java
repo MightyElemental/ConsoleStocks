@@ -36,8 +36,6 @@ public class Server
 					serverSocket.receive(receivePacket);
 					String data = new String(receivePacket.getData()).trim();
 					
-					System.out.println(data);
-					
 					InetAddress IPAddress = receivePacket.getAddress();
 
 					int port = receivePacket.getPort();
