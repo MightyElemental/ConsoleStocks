@@ -62,7 +62,7 @@ public class Parser {
 		InetAddress sendIP = InetAddress.getByName(commands[1]);
 		String sendMessage = ip.getHostAddress() + "> ";
 		for (int i = 2; i < commands.length; i++) {
-			sendMessage += commands[i]+" ";
+			sendMessage += commands[i] + " ";
 		}
 		try {
 			server.sendData = (sendMessage.toString()).getBytes("UTF-8");
