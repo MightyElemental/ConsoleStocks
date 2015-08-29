@@ -54,7 +54,7 @@ public class StateGame extends BasicGameState {
 	public void renderTR(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		final int xDisp = gc.getWidth() / 2;
 		final int yDisp = 0;
-		renderClient(gc, sbg, g, xDisp, yDisp);
+		PanelRenderers.renderClient(gc, sbg, g, xDisp, yDisp);
 	}
 
 	public void renderBR(GameContainer gc, StateBasedGame sbg, Graphics g) {
@@ -66,18 +66,6 @@ public class StateGame extends BasicGameState {
 	public void renderBL(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		final int xDisp = 0;
 		final int yDisp = gc.getHeight() / 2;
-	}
-
-	public void renderClient(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) {
-		if (ConsoleStocks.client == null) {
-			g.drawString("Client information not found.", x + 5, y + 5);
-			return;
-		}
-		String[] list = { "Client Information", "Connected IP: " + ConsoleStocks.client.getAddress() + ":" + ConsoleStocks.client.getPort(),
-				"User: " + ConsoleStocks.client.getName() };
-		for (int i = 0; i < list.length; i++) {
-			g.drawString(list[i], x + 5, y + 5 + (20 * i));
-		}
 	}
 
 	@Override
