@@ -128,10 +128,8 @@ public class Console {
 			updateCursor(sb.length());
 			pastComCur = 0;
 		}
-		System.out.println(sb.length());
 		commandLine = sb.toString();
 		// GO AT END
-		System.out.println(sb.toString());
 		dispCommandLine = prefix + sb.toString();
 
 	}
@@ -143,6 +141,10 @@ public class Console {
 		if (cursor > commandLine.length()) {
 			cursor = length;
 		}
+	}
+
+	public void addText(String text) {
+		commands.add(text);
 	}
 
 }

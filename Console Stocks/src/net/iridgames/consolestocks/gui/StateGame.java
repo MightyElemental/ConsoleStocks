@@ -54,7 +54,6 @@ public class StateGame extends BasicGameState {
 	public void renderTR(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		final int xDisp = gc.getWidth() / 2;
 		final int yDisp = 0;
-		console.renderConsole(gc, sbg, g, xDisp, yDisp);
 	}
 
 	public void renderBR(GameContainer gc, StateBasedGame sbg, Graphics g) {
@@ -66,7 +65,6 @@ public class StateGame extends BasicGameState {
 	public void renderBL(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		final int xDisp = 0;
 		final int yDisp = gc.getHeight() / 2;
-		console.renderConsole(gc, sbg, g, xDisp, yDisp);
 	}
 
 	public float ticks;
