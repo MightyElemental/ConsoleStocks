@@ -75,7 +75,7 @@ public class Server {
 	public Server( int port ) {
 		this.port = port;
 		this.running = true;
-		parser = new Parser(this, port);
+		parser = new Parser(this, this.port);
 	}
 
 	public int getPort() {

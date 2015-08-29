@@ -33,27 +33,27 @@ public class Parser {
 			switch (msg[0].toUpperCase()) {
 				case "GETSTOCKS":
 					for (int i = 0; i < stocks.stockList.size(); i++) {
-						sendMessage(stocks.stockList.get(i).getName(), ip);
+						sendMessage(stocks.stockList.get(i).getName(), ip, port);
 					}
 					break;
 				case "GETSTOCK":
 					System.out.println(msg[1]);
-					sendMessage("" + stocks.getStock(msg[1]).getValue(), ip);
+					sendMessage("" + stocks.getStock(msg[1]).getValue(), ip, port);
 					break;
 				case "PING":
-					sendMessage("PONG!", ip);
+					sendMessage("PONG!", ip, port);
 					break;
 				default:
-					sendMessage("Invalid command.", ip);
+					sendMessage("Invalid command.", ip, port);
 					break;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			sendMessage("Internal Server Error.", ip);
+			sendMessage("Internal Server Error.", ip, port);
 		}
 	}
 
-	public void sendMessage(String message, InetAddress ip) {
+	public void sendMessage(String message, InetAddress ip, int port) {
 		String sendMessage = message;
 
 		try {
@@ -67,7 +67,7 @@ public class Parser {
 
 	public void broadCastmessage(String message) {
 		for (int i = 0; i < addressList.size(); i++) {
-			sendMessage(message, addressList.get(i));
+			sendMessage(message, addressList.get(i), this.port);
 		}
 	}
 }
