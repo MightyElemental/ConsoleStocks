@@ -77,7 +77,7 @@ public class Client
 
 	public int getPort()
 	{
-		return this.getPort();
+		return port;
 	}
 	
 	public void setup()

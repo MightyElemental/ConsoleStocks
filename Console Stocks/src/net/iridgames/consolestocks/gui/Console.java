@@ -15,7 +15,8 @@ public class Console {
 	public long	keyPressedTime	= -1;
 	public char	keyChar;
 
-	public ArrayList<String> commands = new ArrayList<String>();
+	public ArrayList<String>	commands	= new ArrayList<String>();
+	public ArrayList<String>	console		= new ArrayList<String>();
 
 	public String	prefix			= "$ ";
 	public int		flashSpeed		= 40;
@@ -27,14 +28,14 @@ public class Console {
 
 	public void renderConsole(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) {
 		int tempY = 0;
-		int iStart = commands.size() - 20;
+		int iStart = console.size() - 20;
 		if (iStart < 0) {
 			iStart = 0;
 		}
-		int iStop = commands.size();
+		int iStop = console.size();
 		for (int i = iStart; i < iStop; i++) {
-			if (!commands.isEmpty()) {
-				g.drawString(prefix + commands.get(i), x + 10, y + (20 * (i - iStart)));
+			if (!console.isEmpty()) {
+				g.drawString(console.get(i), x + 10, y + (20 * (i - iStart)));
 				tempY = (20 * (iStop - iStart));
 			}
 		}
@@ -123,6 +124,7 @@ public class Console {
 		if (keyCodePressed == Input.KEY_ENTER) {
 			ConsoleStocks.client.sendMessage(sb.toString());
 			commands.add(sb.toString());
+			addText(prefix + sb.toString());
 			cursor = 0;
 			sb.delete(0, sb.length());
 			updateCursor(sb.length());
@@ -131,7 +133,6 @@ public class Console {
 		commandLine = sb.toString();
 		// GO AT END
 		dispCommandLine = prefix + sb.toString();
-
 	}
 
 	public void updateCursor(int length) {
@@ -144,7 +145,7 @@ public class Console {
 	}
 
 	public void addText(String text) {
-		commands.add(text);
+		console.add(text);
 	}
 
 }
