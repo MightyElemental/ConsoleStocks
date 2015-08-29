@@ -23,9 +23,9 @@ public class ConsoleStocks extends StateBasedGame {
 	public static final int	STATE_MENU	= 0;
 	public static final int	STATE_GAME	= 1;
 
-	public static final String	GAME_NAME	= "That good game";
+	public static final String	GAME_NAME	= "Console Stocks";
 	public static final String	VERSION		= "0.0.0";
-	public static final String	TITLE		= GAME_NAME + " | Version " + VERSION;
+	public static final String	TITLE		= GAME_NAME + " | v" + VERSION;
 	public static final int		WIDTH		= 1600;
 
 	public ConsoleStocks( String name ) {

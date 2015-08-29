@@ -16,8 +16,11 @@ public class StateGame extends BasicGameState {
 	public long	keyPressedTime	= -1;
 	public char	keyChar;
 
+	public String prefix = "$ ";
+	public int flashSpeed = 40;
+	public char cursorSymbol = '_';
 	public String	commandLine		= "";
-	public String	dispCommandLine	= ">";
+	public String	dispCommandLine	= prefix;
 	public int		cursor			= 0;
 
 	public StateGame( int id ) {
@@ -80,7 +83,7 @@ public class StateGame extends BasicGameState {
 	public void updateCommandLine() {
 		if (keyCodePressed >= 0) {
 			if (keyPressedTime + 500 < System.currentTimeMillis()) {
-				if (ticks % 5 == 0) {
+				if (ticks % 2 == 0) {
 					processCommandLineInput();
 				}
 			}
@@ -89,8 +92,10 @@ public class StateGame extends BasicGameState {
 	}
 
 	private void flashCursor() {
-		if (ticks % 40 > 20) {
-			dispCommandLine = ">" + commandLine;
+		
+		
+		if (ticks % flashSpeed > flashSpeed/2) {
+			dispCommandLine = prefix + commandLine;
 			return;
 		}
 		StringBuilder sb = new StringBuilder(commandLine);
@@ -99,8 +104,8 @@ public class StateGame extends BasicGameState {
 		} catch (Exception e) {
 		}
 
-		sb.insert(cursor, "_");
-		dispCommandLine = ">" + sb.toString();
+		sb.insert(cursor, cursorSymbol);
+		dispCommandLine = prefix + sb.toString();
 	}
 
 	public void processCommandLineInput() {
@@ -120,7 +125,7 @@ public class StateGame extends BasicGameState {
 		}
 		if (keyCodePressed != Input.KEY_LEFT && keyCodePressed != Input.KEY_RIGHT && keyCodePressed != Input.KEY_BACK
 				&& keyCodePressed != Input.KEY_DELETE) {
-			sb.insert(cursor, (keyChar + "").replaceAll("[^A-Za-z0-9 -.]", ""));
+			sb.insert(cursor, (keyChar + "").replaceAll("[^A-Za-z0-9 -_+=./|\\;:\"'`~!@#$%^&*(){}]", ""));
 			cursor++;
 			updateCursor(sb.length());
 		}
