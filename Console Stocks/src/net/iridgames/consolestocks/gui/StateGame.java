@@ -1,7 +1,5 @@
 package net.iridgames.consolestocks.gui;
 
-import java.util.ArrayList;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -17,6 +15,8 @@ public class StateGame extends BasicGameState {
 	private final int ID;
 
 	public Console console = new Console();
+
+	public float ticks;
 
 	public StateGame( int id ) {
 		this.ID = id;
@@ -54,6 +54,7 @@ public class StateGame extends BasicGameState {
 	public void renderTR(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		final int xDisp = gc.getWidth() / 2;
 		final int yDisp = 0;
+		renderClient(gc, sbg, g, xDisp, yDisp);
 	}
 
 	public void renderBR(GameContainer gc, StateBasedGame sbg, Graphics g) {
@@ -67,7 +68,13 @@ public class StateGame extends BasicGameState {
 		final int yDisp = gc.getHeight() / 2;
 	}
 
-	public float ticks;
+	public void renderClient(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) {
+		if (ConsoleStocks.client == null) {
+			g.drawString("Client information not found.", x + 5, y + 5);
+			return;
+		}
+		g.drawString("Connected IP: " + ConsoleStocks.client.getAddress() + ":" + ConsoleStocks.client.getPort(), x + 5, y + 5);
+	}
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
