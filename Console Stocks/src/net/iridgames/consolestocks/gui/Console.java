@@ -30,31 +30,32 @@ public class Console {
 	public void renderConsole(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) {
 		int tempY = 0;
 		int iStart = console.size() - 20;
+		int tempYPast = 0;
 		if (iStart < 0) {
 			iStart = 0;
 		}
 		int iStop = console.size();
 		for (int i = iStart; i < iStop; i++) {
 			if (!console.isEmpty()) {
-				
+
 				int n = 85;
 				char[] chars = new char[n];
 				Arrays.fill(chars, '.');
 				String result = new String(chars);
-			
+
 				String[] command = console.get(i).split("(?<=\\G" + result + ")");
-				
-				g.drawString(strJoin(command, "\n").toString(), x + 10, y + (20 * (i - iStart)));
-				tempY = (20 * (iStop - iStart)) + (command.length * 20);
+
+				g.drawString(strJoin(command, "\n").toString(), x + 10, y + tempYPast + (20 * (i - iStart)));
+				tempYPast += ((command.length - 1) * 20);
+				tempY = (20 * (iStop - iStart)) + tempYPast;
 			}
 		}
-		
 
 		int n = 85;
 		char[] chars = new char[n];
 		Arrays.fill(chars, '.');
 		String result = new String(chars);
-	
+
 		String[] command = dispCommandLine.split("(?<=\\G" + result + ")");
 
 		g.drawString(strJoin(command, "\n").toString(), x + 10, y + tempY);
@@ -151,18 +152,16 @@ public class Console {
 		commandLine = sb.toString();
 		// GO AT END
 
-
 		dispCommandLine = prefix + commandLine.toString();
 	}
-	
+
 	public static String strJoin(String[] aArr, String sSep) {
-	    StringBuilder sbStr = new StringBuilder();
-	    for (int i = 0, il = aArr.length; i < il; i++) {
-	        if (i > 0)
-	            sbStr.append(sSep);
-	        sbStr.append(aArr[i]);
-	    }
-	    return sbStr.toString();
+		StringBuilder sbStr = new StringBuilder();
+		for (int i = 0, il = aArr.length; i < il; i++) {
+			if (i > 0) sbStr.append(sSep);
+			sbStr.append(aArr[i]);
+		}
+		return sbStr.toString();
 	}
 
 	public void updateCursor(int length) {
