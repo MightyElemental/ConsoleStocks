@@ -3,21 +3,29 @@ package net.iridgames.consolestocks.server;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class Parser
 {
 	private Server server;
 	private Stocks stocks;
-
-	public Parser(Server server)
+	private ArrayList<InetAddress> addressList = new ArrayList<InetAddress>();
+	private int port;
+	
+	public Parser(Server server, int port)
 	{
 		this.server = server;
 		this.stocks = new Stocks();
+		this.port = port;
 	}
 
 	public void parseMessage(String message, String sender, InetAddress ip, int port)
 	{
+		if(!addressList.contains(ip))
+		{
+			addressList.add(ip);
+		}
+		
 		try
 		{
 			String[] msg = message.split(" ");
@@ -32,28 +40,29 @@ public class Parser
 				case "GETSTOCKS":
 					for (int i = 0; i < stocks.stockList.size(); i++)
 					{
-						sendMessage(stocks.stockList.get(i).getName(), ip, port);
+						sendMessage(stocks.stockList.get(i).getName(), ip);
 					}
 					break;
 				case "GETSTOCK":
-					sendMessage("" + stocks.getStock(msg[1]).getValue(), ip, port);
+					System.out.println(msg[1]);
+					sendMessage("" + stocks.getStock(msg[1]).getValue(), ip);
 					break;
 				case "PING":
-					sendMessage("PONG!", ip, port);
+					sendMessage("PONG!", ip);
 					break;
 				default:
-					sendMessage("Invalid command.", ip, port);
+					sendMessage("Invalid command.", ip);
 					break;
 			}
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			sendMessage("Internal Server Error.", ip, port);
+			sendMessage("Internal Server Error.", ip);
 		}
 	}
 
-	public void sendMessage(String message, InetAddress ip, int port)
+	public void sendMessage(String message, InetAddress ip)
 	{
 		String sendMessage = message;
 		
@@ -66,6 +75,14 @@ public class Parser
 		catch (IOException e)
 		{
 			e.printStackTrace();
+		}
+	}
+	
+	public void broadCastmessage(String message)
+	{
+		for (int i = 0; i < addressList.size(); i++)
+		{
+			sendMessage(message, addressList.get(i));
 		}
 	}
 }

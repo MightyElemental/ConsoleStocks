@@ -11,7 +11,7 @@ public class Server
 {
 	private int		port;
 	private boolean	running;
-	public Parser parser = new Parser(this);
+	public Parser	parser;
 
 	public DatagramSocket serverSocket;
 
@@ -22,7 +22,7 @@ public class Server
 	{
 		public void run()
 		{
-						
+
 			receiveData = new byte[1024];
 			sendData = new byte[1024];
 
@@ -32,26 +32,26 @@ public class Server
 				DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 				try
 				{
-					
+
 					serverSocket.receive(receivePacket);
 					String data = new String(receivePacket.getData()).trim();
-					
+
 					InetAddress IPAddress = receivePacket.getAddress();
 
 					int port = receivePacket.getPort();
 
 					String[] dataArray = data.split(" : ");
-					
+
 					StringBuilder sb = new StringBuilder();
-					
+
 					for (int i = 1; i < dataArray.length; i++)
 					{
 						sb.append(dataArray[i]);
 					}
-					
+
 					String message = sb.toString();
 					String sender = dataArray[0];
-					
+
 					parser.parseMessage(message, sender, IPAddress, port);
 				}
 				catch (IOException e)
@@ -69,18 +69,13 @@ public class Server
 			}
 		}
 	};
-	
-
-	
-
 
 	public Server(int port)
 	{
 		this.port = port;
 		this.running = true;
+		this.parser = new Parser(this, port);
 	}
-	
-	
 
 	public int getPort()
 	{
