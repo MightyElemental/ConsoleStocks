@@ -8,6 +8,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import net.iridgames.consolestocks.ConsoleStocks;
+
 public class StateGame extends BasicGameState {
 
 	private final int ID;
@@ -138,6 +140,7 @@ public class StateGame extends BasicGameState {
 			updateCursor(sb.length());
 		}
 		if (keyCodePressed == Input.KEY_ENTER) {
+			ConsoleStocks.client.sendMessage(sb.toString());
 			cursor = 0;
 			sb.delete(0, sb.length());
 			updateCursor(sb.length());

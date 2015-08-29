@@ -1,6 +1,7 @@
 package net.iridgames.consolestocks.server;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -10,11 +11,12 @@ public class Server
 {
 	private int		port;
 	private boolean	running;
+	public Parser parser = new Parser(this);
 
-	private DatagramSocket serverSocket;
+	public DatagramSocket serverSocket;
 
-	private byte[]	receiveData;
-	private byte[]	sendData;
+	public byte[]	receiveData;
+	public byte[]	sendData;
 
 	private Thread serverTick = new Thread()
 	{
@@ -45,13 +47,10 @@ public class Server
 						sb.append(dataArray[i]);
 					}
 					
-					sendData = (sb.toString()).toUpperCase().getBytes("UTF-8");
+					String message = sb.toString();
+					String sender = dataArray[0];
 					
-					DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
-					
-					
-					
-					serverSocket.send(sendPacket);
+					parser.parseMessage(message, sender, IPAddress, port);
 				}
 				catch (IOException e)
 				{
@@ -68,12 +67,18 @@ public class Server
 			}
 		}
 	};
+	
+
+	
+
 
 	public Server(int port)
 	{
 		this.port = port;
 		this.running = true;
 	}
+	
+	
 
 	public int getPort()
 	{
