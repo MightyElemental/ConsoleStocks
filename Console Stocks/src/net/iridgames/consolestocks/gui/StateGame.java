@@ -1,5 +1,7 @@
 package net.iridgames.consolestocks.gui;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -18,7 +20,8 @@ public class StateGame extends BasicGameState {
 	public long	keyPressedTime	= -1;
 	public char	keyChar;
 
-	
+	public ArrayList<String> commands = new ArrayList<String>();
+
 	public String	prefix			= "$ ";
 	public int		flashSpeed		= 40;
 	public char		cursorSymbol	= '_';
@@ -72,7 +75,20 @@ public class StateGame extends BasicGameState {
 	public void renderBL(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		final int xDisp = 0;
 		final int yDisp = gc.getHeight() / 2;
-		g.drawString(dispCommandLine + "\n" + commandLine + ".\n" + cursor + "\n" + commandLine.length(), xDisp + 10, yDisp + 10);
+		renderConsole(gc, sbg, g, xDisp, yDisp);
+	}
+
+	public void renderConsole(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) {
+		int tempY = 0;
+		for (int i = commands.size() - 1; i >= 0; i--) {//max = 21
+			if (!commands.isEmpty()) {
+				if (commands.get(i) != null) {
+					g.drawString(commands.get(i), x + 10, y + (20 * i));
+				}
+				tempY = commands.size()*20;
+			}
+		}
+		g.drawString(dispCommandLine + "\n" + commandLine + ".\n" + cursor + "\n" + commandLine.length(), x + 10, y + tempY);
 	}
 
 	private float ticks;
@@ -140,7 +156,8 @@ public class StateGame extends BasicGameState {
 			updateCursor(sb.length());
 		}
 		if (keyCodePressed == Input.KEY_ENTER) {
-			ConsoleStocks.client.sendMessage(sb.toString());
+			// ConsoleStocks.client.sendMessage(sb.toString());
+			commands.add(sb.toString());
 			cursor = 0;
 			sb.delete(0, sb.length());
 			updateCursor(sb.length());
