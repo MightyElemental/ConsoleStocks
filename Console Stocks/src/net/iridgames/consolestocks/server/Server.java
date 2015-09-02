@@ -1,10 +1,13 @@
 package net.iridgames.consolestocks.server;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -122,5 +125,16 @@ public class Server {
 			chars += (char) (ConsoleStocks.rand.nextInt(26) + 'a');
 		}
 		return chars;
+	}
+
+	public static String getExternalIPAddress() {
+		try {
+			URL whatismyip = new URL("http://checkip.amazonaws.com");
+			BufferedReader in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
+			String ip = in.readLine(); // you get the IP as a String
+			return ip;
+		} catch (Exception e) {
+		}
+		return "0.0.0.0";
 	}
 }
