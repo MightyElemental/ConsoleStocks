@@ -1,10 +1,7 @@
 package net.iridgames.consolestocks.server;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import net.iridgames.consolestocks.ConsoleStocks;
