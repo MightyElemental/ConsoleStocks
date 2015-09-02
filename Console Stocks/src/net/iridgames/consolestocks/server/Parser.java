@@ -39,7 +39,6 @@ public class Parser {
 					break;
 				case "GETSTOCK":
 					System.out.println(msg[1]);
-					
 					sendMessage("" + stocks.getStock(msg[1]).getValue(), ip, port);
 					break;
 				case "PING":
@@ -59,7 +58,7 @@ public class Parser {
 	}
 
 	public void sendMessage(String message, InetAddress ip, int port) {
-		String sendMessage = ip.getHostAddress() + ":" + port + "> " + message;
+		String sendMessage = this.server.serverSocket.getInetAddress().getHostAddress() + ":" + port + "> " + message;
 
 		try {
 			server.sendData = (sendMessage.toString()).getBytes("UTF-8");
