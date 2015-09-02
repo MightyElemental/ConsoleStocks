@@ -7,6 +7,8 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+import net.iridgames.consolestocks.ConsoleStocks;
+
 public class Client {
 
 	private String	userName;
@@ -38,6 +40,7 @@ public class Client {
 
 					System.out.println(receiveData.toString());
 					lastRecievedMessage = receiveData.toString();
+					ConsoleStocks.stateGame.console.addText(receiveData.toString());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

@@ -74,7 +74,7 @@ public class Parser {
 	}
 
 	public void sendMessage(String message, InetAddress ip, int port) {
-		String sendMessage = message;
+		String sendMessage = ip.getHostAddress() + ":" + port + "> " + message;
 
 		try {
 			server.sendData = (sendMessage.toString()).getBytes("UTF-8");

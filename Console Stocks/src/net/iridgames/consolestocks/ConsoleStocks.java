@@ -23,6 +23,7 @@ public class ConsoleStocks extends StateBasedGame {
 
 	public static final int	STATE_MENU	= 0;
 	public static final int	STATE_GAME	= 1;
+	public static StateGame	stateGame	= new StateGame(STATE_GAME);
 
 	public static final String	GAME_NAME	= "Console Stocks";
 	public static final String	VERSION		= "0.2.1";
@@ -33,7 +34,7 @@ public class ConsoleStocks extends StateBasedGame {
 		super(name);
 
 		addState(new StateMenu(STATE_MENU));
-		addState(new StateGame(STATE_GAME));
+		addState(stateGame);
 	}
 
 	public static void main(String[] settings) {
