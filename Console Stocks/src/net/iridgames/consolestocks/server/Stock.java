@@ -2,6 +2,8 @@ package net.iridgames.consolestocks.server;
 
 import java.util.Random;
 
+import net.iridgames.consolestocks.ConsoleStocks;
+
 public class Stock
 {
 	private static Random random = new Random();
@@ -31,7 +33,7 @@ public class Stock
 		
 		for (int i = 0; i < n; i++)
 		{
-			characters+=(char)(random.nextInt(26) + 'a');
+			characters += (char) (ConsoleStocks.rand.nextInt(26) + 'a');
 		}
 		
 		return characters.toUpperCase();

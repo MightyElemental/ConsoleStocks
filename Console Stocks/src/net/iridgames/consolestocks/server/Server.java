@@ -5,14 +5,22 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import net.iridgames.consolestocks.ConsoleStocks;
 
 public class Server {
 
 	private int		port;
-	private boolean	running;
+	public boolean	running;
 	public Parser	parser;
 
 	public DatagramSocket serverSocket;
+
+	public Map<String, List<Object>> attachedClients = new HashMap<String, List<Object>>();
 
 	public byte[]	receiveData;
 	public byte[]	sendData;
@@ -57,6 +65,7 @@ public class Server {
 					}
 
 					if (parse) {
+						handleMessage(IPAddress, port);
 						parser.parseMessage(message, sender, IPAddress, port);
 					}
 				} catch (IOException e) {
@@ -90,5 +99,28 @@ public class Server {
 		}
 
 		serverTick.start();
+	}
+
+	private void handleMessage(InetAddress ip, int port) {
+		if (attachedClients.containsValue(Arrays.asList(new Object[] { ip, port }))) { return; }
+		generateClientInfo(ip, port);
+	}
+
+	private void generateClientInfo(InetAddress ip, int port) {
+		String chars = generateClientUID();
+		while (attachedClients.containsKey(chars)) {
+			chars = generateClientUID();
+		}
+		System.out.println("New client! " + chars + " | IP: " + ip.getHostAddress() + ":" + port);
+		attachedClients.put(chars, Arrays.asList(new Object[] { ip, port }));
+	}
+
+	private String generateClientUID() {
+		String chars = "";
+
+		for (int i = 0; i < 6; i++) {
+			chars += (char) (ConsoleStocks.rand.nextInt(26) + 'a');
+		}
+		return chars;
 	}
 }

@@ -1,5 +1,7 @@
 package net.iridgames.consolestocks;
 
+import java.util.Random;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -9,11 +11,13 @@ import net.iridgames.consolestocks.client.Client;
 import net.iridgames.consolestocks.gui.StateGame;
 import net.iridgames.consolestocks.gui.StateMenu;
 import net.iridgames.consolestocks.server.Server;
+import net.iridgames.consolestocks.server.ServerGUI;
 
 /** @author MightyElemental & WolfgangTS */
 public class ConsoleStocks extends StateBasedGame {
 
-	public static Server server;
+	public static Server	server;
+	public static ServerGUI	serverGUI;
 
 	public static boolean	showGUI		= true;
 	public static String	address		= "localhost";
@@ -24,6 +28,8 @@ public class ConsoleStocks extends StateBasedGame {
 	public static final int	STATE_MENU	= 0;
 	public static final int	STATE_GAME	= 1;
 	public static StateGame	stateGame	= new StateGame(STATE_GAME);
+
+	public static Random rand = new Random();
 
 	public static final String	GAME_NAME	= "Console Stocks";
 	public static final String	VERSION		= "0.2.1";
@@ -55,19 +61,25 @@ public class ConsoleStocks extends StateBasedGame {
 							break;
 						case "--server":
 							isServer = true;
-							server = new Server(port);
-							server.setupServer();
 							break;
 					}
 				}
 			}
 
-			if (showGUI) {
+			if (!isServer) {
 				setupClient();
+			} else {
+				setupServer();
 			}
 		} catch (Exception e) {
 		}
 
+	}
+
+	private static void setupServer() {
+		server = new Server(port);
+		server.setupServer();
+		serverGUI = new ServerGUI();
 	}
 
 	private static void setupClient() {
