@@ -58,7 +58,7 @@ public class Parser {
 	}
 
 	public void sendMessage(String message, InetAddress ip, int port) {
-		String sendMessage = this.server.serverSocket.getInetAddress().getHostAddress() + ":" + port + "> " + message;
+		String sendMessage = message;
 
 		try {
 			server.sendData = (sendMessage.toString()).getBytes("UTF-8");
