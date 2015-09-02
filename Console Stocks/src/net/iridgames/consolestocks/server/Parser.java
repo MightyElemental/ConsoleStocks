@@ -39,6 +39,7 @@ public class Parser {
 					break;
 				case "GETSTOCK":
 					System.out.println(msg[1]);
+					
 					sendMessage("" + stocks.getStock(msg[1]).getValue(), ip, port);
 					break;
 				case "PING":
