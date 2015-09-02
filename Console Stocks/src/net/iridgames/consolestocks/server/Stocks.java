@@ -26,7 +26,7 @@ public class Stocks
 	{
 		for (int i = 0; i < stockList.size(); i++)
 		{
-			if(stockList.get(i).getName() == name)
+			if(stockList.get(i).getName().equals(name))
 			{
 				return stockList.get(i);
 			}
