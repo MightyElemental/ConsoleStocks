@@ -15,13 +15,8 @@ public class Common {
 
 	public static void createServerProperties() {
 		if (doesServerPropExist()) { return; }
-		// (use relative path for Unix systems)
-		File f = new File(SERVER_PROPERTIES);
-		// (works for both Windows and Linux)
 		try {
-			f.getParentFile().mkdirs();
-			f.createNewFile();
-			FileWriter fileWriter = new FileWriter(f);
+			FileWriter fileWriter = new FileWriter(SERVER_PROPERTIES);
 			BufferedWriter bw = new BufferedWriter(fileWriter);
 			bw.write("ServerName:");
 			bw.newLine();
