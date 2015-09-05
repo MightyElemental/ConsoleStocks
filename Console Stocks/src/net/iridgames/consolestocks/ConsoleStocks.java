@@ -1,5 +1,6 @@
 package net.iridgames.consolestocks;
 
+import java.io.IOException;
 import java.util.Random;
 
 import org.newdawn.slick.AppGameContainer;
@@ -8,6 +9,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import net.iridgames.consolestocks.client.Client;
+import net.iridgames.consolestocks.common.Common;
 import net.iridgames.consolestocks.gui.StateGame;
 import net.iridgames.consolestocks.gui.StateMenu;
 import net.iridgames.consolestocks.server.Server;
@@ -80,6 +82,7 @@ public class ConsoleStocks extends StateBasedGame {
 		server = new Server(port);
 		server.setupServer();
 		serverGUI = new ServerGUI();
+		Common.createServerProperties();
 	}
 
 	private static void setupClient() {

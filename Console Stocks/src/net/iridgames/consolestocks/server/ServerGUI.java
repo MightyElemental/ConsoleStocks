@@ -21,7 +21,7 @@ public class ServerGUI extends JFrame {
 			while (ConsoleStocks.server.running) {
 				update();
 				try {
-					sleep(1000);
+					sleep(2000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
