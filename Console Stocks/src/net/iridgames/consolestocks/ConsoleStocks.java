@@ -83,6 +83,7 @@ public class ConsoleStocks extends StateBasedGame {
 		server.setupServer();
 		serverGUI = new ServerGUI();
 		Common.createServerProperties();
+		Common.loadServerProperties();
 	}
 
 	private static void setupClient() {

@@ -3,13 +3,13 @@ package net.iridgames.consolestocks.server;
 import java.net.InetAddress;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 
 import net.iridgames.consolestocks.ConsoleStocks;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
 
 public class ServerGUI extends JFrame {
 
