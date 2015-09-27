@@ -1,6 +1,5 @@
 package net.iridgames.consolestocks;
 
-import java.io.IOException;
 import java.util.Random;
 
 import org.newdawn.slick.AppGameContainer;

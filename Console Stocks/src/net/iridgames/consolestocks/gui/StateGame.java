@@ -62,8 +62,8 @@ public class StateGame extends BasicGameState {
 	}
 
 	public void renderBL(GameContainer gc, StateBasedGame sbg, Graphics g) {
-		final int xDisp = 0;
-		final int yDisp = gc.getHeight() / 2;
+		//final int xDisp = 0;
+		//final int yDisp = gc.getHeight() / 2;
 	}
 
 	@Override
