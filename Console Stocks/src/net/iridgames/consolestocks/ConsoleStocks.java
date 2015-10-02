@@ -9,10 +9,10 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import net.iridgames.consolestocks.client.Client;
 import net.iridgames.consolestocks.common.Common;
+import net.iridgames.consolestocks.gui.ServerGUI;
 import net.iridgames.consolestocks.gui.StateGame;
 import net.iridgames.consolestocks.gui.StateMenu;
 import net.iridgames.consolestocks.server.Server;
-import net.iridgames.consolestocks.server.ServerGUI;
 
 /** @author MightyElemental & WolfgangTS */
 public class ConsoleStocks extends StateBasedGame {

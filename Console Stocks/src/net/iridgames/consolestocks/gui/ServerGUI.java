@@ -1,4 +1,4 @@
-package net.iridgames.consolestocks.server;
+package net.iridgames.consolestocks.gui;
 
 import java.net.InetAddress;
 
@@ -10,6 +10,7 @@ import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 
 import net.iridgames.consolestocks.ConsoleStocks;
+import net.iridgames.consolestocks.server.Server;
 
 public class ServerGUI extends JFrame {
 
