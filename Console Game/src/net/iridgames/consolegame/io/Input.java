@@ -4,18 +4,20 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import net.iridgames.consolegame.ConsoleGame;
+
 public class Input {
 
-	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-	public String getInputText() {
-		System.out.print("User> ");
+	public static String getInputText() {
+		System.out.print(ConsoleGame.username + "> ");
 		try {
-			return this.br.readLine();
+			return br.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return "NO INPUT";
 	}
-	
+
 }
