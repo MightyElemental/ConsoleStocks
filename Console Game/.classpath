@@ -3,6 +3,11 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="lib" path="lib/jars/json_simple.jar"/>
-	<classpathentry kind="lib" path="lib/jars/network_engine.jar"/>
+	<classpathentry kind="lib" path="lib/jars/network_engine.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/E:/EclipseWorkspace/JavaProjects/Network Engine/doc"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jars/steamworks4j-1.2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
