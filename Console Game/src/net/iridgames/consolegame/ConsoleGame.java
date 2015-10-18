@@ -34,7 +34,9 @@ public class ConsoleGame implements MessageListenerServer, MessageListenerClient
 			System.out.println("Client");
 			client.setup();
 			client.addListener(this);
-			client.sendMessage(Input.getInputText());
+			for (int i = 0; i < 5; i++) {
+				client.sendMessage(Input.getInputText());
+			}
 		}
 		// System.out.println(Input.getInputText());
 	}
