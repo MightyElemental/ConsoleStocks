@@ -11,12 +11,10 @@ import net.mightyelemental.network.listener.MessageListenerServer;
 
 public class ConsoleGame implements MessageListenerServer, MessageListenerClient {
 
-	public static final String username = System.getProperty("user.name");
-
 	public static Random random = new Random();
 
 	public static Server	server;
-	public static Client	client	= new Client(username, "localhost", 4040);
+	public static Client	client	= new Client("localhost", 4040);
 	String[]				args2;
 
 	public ConsoleGame( String[] args ) {
@@ -24,7 +22,7 @@ public class ConsoleGame implements MessageListenerServer, MessageListenerClient
 		// System.out.println("did not init");
 		// }
 		args2 = args;
-		if (args[0].equals("server")) {
+		if (args[0].equals("--server")) {
 			System.out.println("Server");
 			server = new Server(4040);
 			server.setupServer();
@@ -34,8 +32,10 @@ public class ConsoleGame implements MessageListenerServer, MessageListenerClient
 			System.out.println("Client");
 			client.setup();
 			client.addListener(this);
-			for (int i = 0; i < 5; i++) {
-				client.sendMessage(Input.getInputText());
+			String input = Input.getInputText();
+			while (!input.equals("exit()")) {
+				client.sendMessage(input);
+				input = Input.getInputText();
 			}
 		}
 		// System.out.println(Input.getInputText());
@@ -47,10 +47,11 @@ public class ConsoleGame implements MessageListenerServer, MessageListenerClient
 
 	@Override
 	public void onMessageRecievedFromClient(String message, InetAddress ip) {
-		System.out.println("(" + args2[0] + ") new message! " + message);
-		for (String arg : Parser.getArgs(message)) {
-			System.out.println(arg);
-		}
+		// System.out.println("(" + args2[0] + ") new message! " + message);
+		// for (String arg : Parser.getArgs(message)) {
+		// System.out.println(arg);
+		// }
+		server.broadcastmessage("(bc) You sent '" + message + "'!");
 	}
 
 	@Override
@@ -62,7 +63,7 @@ public class ConsoleGame implements MessageListenerServer, MessageListenerClient
 
 	@Override
 	public void onMessageRecievedFromServer(String message) {
-		// System.out.println("(client) " + message);
+		System.out.println("(client) " + message);
 	}
 
 }

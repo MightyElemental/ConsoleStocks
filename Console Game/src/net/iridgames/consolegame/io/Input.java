@@ -11,7 +11,7 @@ public class Input {
 	private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 	public static String getInputText() {
-		System.out.print(ConsoleGame.username + "> ");
+		System.out.print(ConsoleGame.client.getUID() + "@" + ConsoleGame.client.getFullIPAddress() + "$ ");
 		try {
 			return br.readLine();
 		} catch (IOException e) {
