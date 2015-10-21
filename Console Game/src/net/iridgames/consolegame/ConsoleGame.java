@@ -37,6 +37,8 @@ public class ConsoleGame implements MessageListenerServer, MessageListenerClient
 				client.sendMessage(input);
 				input = Input.getInputText();
 			}
+			client.stopClient();
+			System.exit(0);
 		}
 		// System.out.println(Input.getInputText());
 	}
@@ -46,18 +48,19 @@ public class ConsoleGame implements MessageListenerServer, MessageListenerClient
 	}
 
 	@Override
-	public void onMessageRecievedFromClient(String message, InetAddress ip) {
+	public void onMessageRecievedFromClient(String message, InetAddress ip, int port) {
 		// System.out.println("(" + args2[0] + ") new message! " + message);
 		// for (String arg : Parser.getArgs(message)) {
 		// System.out.println(arg);
 		// }
-		server.broadcastmessage("(bc) You sent '" + message + "'!");
+		Parser.parseCommand(Parser.getArgs(message), server, ip, port);
+		// server.broadcastmessage("(bc) You sent '" + message + "'!");
 	}
 
 	@Override
 	public void onNewClientAdded(InetAddress ip, int port, String uid) {
-		System.out.println("(" + args2[0] + ") hello " + ip.getHostAddress() + ":" + port);
-		server.broadcastmessage("(bc) hello new client! your new UID is " + uid);
+		System.out.println(ip.getHostAddress() + ":" + port + " has connected");
+		// server.broadcastmessage("(bc) hello new client! your new UID is " + uid);
 		// server.sendMessage("(direct) hello new client! your new UID is " + uid, ip, port);
 	}
 
