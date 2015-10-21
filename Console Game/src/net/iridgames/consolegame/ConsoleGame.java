@@ -66,7 +66,7 @@ public class ConsoleGame implements MessageListenerServer, MessageListenerClient
 
 	@Override
 	public void onMessageRecievedFromServer(String message) {
-		System.out.println("(client) " + message);
+		System.out.println(message);
 	}
 
 }
