@@ -4,7 +4,7 @@ public class Output {
 
 	public static void say(String message, String name) {
 		String[] temp = message.split("");
-		System.out.print(name + "> ");
+		System.out.print("[ INFO | " + name + "] ");
 		for (int i = 0; i < temp.length; i++) {
 			System.out.print(temp[i]);
 			try {
@@ -16,9 +16,15 @@ public class Output {
 		System.out.println("");
 	}
 
-	public static void consoleSay(String message) {
+	public static enum LogType {
+			INFO,
+			ERROR,
+			WARNING
+	}
+	
+	public static void consoleSay(String message, LogType f) {
 		String[] temp = message.split("");
-		System.out.print("Console> ");
+		System.out.print("[ " + f.toString() + " | Console] ");
 		for (int i = 0; i < temp.length; i++) {
 			System.out.print(temp[i]);
 			try {
