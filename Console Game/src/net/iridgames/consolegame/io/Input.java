@@ -17,7 +17,7 @@ public class Input {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return "";
+		return "~";
 	}
 
 }
