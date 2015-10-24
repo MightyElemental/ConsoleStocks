@@ -18,11 +18,14 @@ public class ConsoleGame implements MessageListenerServer, MessageListenerClient
 	String[]				args2;
 
 	public ConsoleGame( String[] args ) {
+		
+		
+		
 		// if (SteamAPI.init()) {
 		// System.out.println("did not init");
 		// }
 		args2 = args;
-		if (args[0].equals("--server")) {
+		if (args.length > 0 && args[0].equals("--server")) {
 			System.out.println("Server");
 			server = new Server(4040);
 			server.setupServer();
