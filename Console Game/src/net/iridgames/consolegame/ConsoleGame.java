@@ -16,7 +16,7 @@ public class ConsoleGame implements MessageListenerServer, MessageListenerClient
 	public static Random	random	= new Random();
 
 	public static Server	server;
-	public static Client	client	= new Client("localhost", 4040);
+	public static Client	client	= new Client("151.226.215.143", 4040);
 	String[]				args2;
 	
 	public static Input		input	= new Input();

@@ -41,10 +41,11 @@ public class Parser {
 				break;
 			case "sendBroadcast":
 				StringBuilder sb = new StringBuilder();
+				args.set(0, "");
 				
 				for( String arg : args)
 				{
-					sb.append(arg);
+					sb.append(arg + " ");
 				}
 				server.broadcastmessage(sb.toString());
 				break;
