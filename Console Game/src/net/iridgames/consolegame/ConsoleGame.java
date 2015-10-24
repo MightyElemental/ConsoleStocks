@@ -31,7 +31,7 @@ public class ConsoleGame implements MessageListenerServer, MessageListenerClient
 		args2 = args;
 		if (args.length > 0 && args[0].equals("--server"))
 		{
-			System.out.println("Server");
+			output.consoleSay("You are running a server.", "INFO");
 			server = new Server(4040);
 			server.setupServer();
 			server.addListener(this);
@@ -39,7 +39,7 @@ public class ConsoleGame implements MessageListenerServer, MessageListenerClient
 		}
 		else
 		{
-			System.out.println("Client");
+			output.consoleSay("You are running a client.", "INFO");
 			client.setup();
 			client.addListener(this);
 			String input = Input.getInputText();

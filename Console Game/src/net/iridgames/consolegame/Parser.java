@@ -30,14 +30,23 @@ public class Parser {
 		if (args.size() < 1) { return; }
 		if (args.get(0).contains("JLB1F0")) { return; }
 		switch (args.get(0)) {
-			case "getStocks()":
+			case "getStocks":
 				server.sendMessage("No stocks avaliable!", ip, port);
 				break;
-			case "StealEvansAsiimov()":
+			case "StealEvansAsiimov":
 				server.sendMessage("Ooops! Could not find the Asiimov!", ip, port);
 				break;
-			case "sendMessage()":
+			case "sendMessage":
 				sendMessage(args, server, ip, port);
+				break;
+			case "sendBroadcast":
+				StringBuilder sb = new StringBuilder();
+				
+				for( String arg : args)
+				{
+					sb.append(arg);
+				}
+				server.broadcastmessage(sb.toString());
 				break;
 			default:
 				server.sendMessage("'" + args.get(0) + "' is not a valid command!", ip, port);
