@@ -4,7 +4,7 @@ public class Output {
 
 	public static final String LogType = null;
 
-	public static void say(String message, String name) {
+	public void say(String message, String name) {
 		String[] temp = message.split("");
 		System.out.print("[ INFO | " + name + "] ");
 		for (int i = 0; i < temp.length; i++) {
@@ -18,8 +18,7 @@ public class Output {
 		System.out.println("");
 	}
 
-	
-	public static void consoleSay(String message, String f) {
+	public void consoleSay(String message, String f) {
 		String[] temp = message.split("");
 		System.out.print("[ " + f.toString() + " | Console ] ");
 		for (int i = 0; i < temp.length; i++) {

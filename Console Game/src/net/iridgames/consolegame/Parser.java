@@ -26,7 +26,7 @@ public class Parser {
 		return args;
 	}
 
-	public static void parseCommand(List<String> args, Server server, InetAddress ip, int port) {
+	public static void parseCommand(List<String> args, Server server, InetAddress ip, int port) throws InterruptedException {
 		if (args.size() < 1) { return; }
 		if (args.get(0).contains("JLB1F0")) { return; }
 		switch (args.get(0)) {
@@ -42,9 +42,8 @@ public class Parser {
 			case "sendBroadcast":
 				StringBuilder sb = new StringBuilder();
 				args.set(0, "");
-				
-				for( String arg : args)
-				{
+
+				for (String arg : args) {
 					sb.append(arg + " ");
 				}
 				server.broadcastmessage(sb.toString());
@@ -55,7 +54,7 @@ public class Parser {
 		}
 	}
 
-	private static void sendMessage(List<String> args, Server server, InetAddress ip, int port) {
+	private static void sendMessage(List<String> args, Server server, InetAddress ip, int port) throws InterruptedException {
 		if (args.size() < 3) {
 			notEnoughArgs(server, ip, port);
 			return;
@@ -78,11 +77,19 @@ public class Parser {
 	}
 
 	public static void notEnoughArgs(Server server, InetAddress ip, int port) {
-		server.sendMessage("There are not enough arguments!", ip, port);
+		try {
+			server.sendMessage("There are not enough arguments!", ip, port);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void wrongArgs(Server server, InetAddress ip, int port) {
-		server.sendMessage("Wrong argument!", ip, port);
+		try {
+			server.sendMessage("Wrong argument!", ip, port);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
