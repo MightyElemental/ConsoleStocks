@@ -15,7 +15,7 @@ public class ConsoleGame implements MessageListenerServer, MessageListenerClient
 	public static Random random = new Random();
 
 	public static Server	server;
-	public static Client	client	= new Client("151.226.215.143", 4040);
+	public static Client	client	= new Client("localhost", 4040);
 	String[]				args2;
 
 	public static Input		input	= new Input();
@@ -41,6 +41,8 @@ public class ConsoleGame implements MessageListenerServer, MessageListenerClient
 			while (!input.equals("exit()")) {
 				client.sendMessage(input);
 				input = Input.getInputText();
+				client.sendPingRequest();
+				output.consoleSay("Your ping is " + client.getPingTime(), "INFO");
 			}
 			client.stopClient();
 			System.exit(0);
@@ -77,7 +79,7 @@ public class ConsoleGame implements MessageListenerServer, MessageListenerClient
 
 	@Override
 	public void onMessageRecievedFromServer(String message) {
-
+		output.consoleSay(message, "INFO");
 	}
 
 }
