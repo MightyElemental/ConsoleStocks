@@ -5,8 +5,8 @@ import java.util.Random;
 
 import net.iridgames.consolegame.io.Input;
 import net.iridgames.consolegame.io.Output;
-import net.mightyelemental.network.Server;
-import net.mightyelemental.network.client.Client;
+import net.mightyelemental.network.UDPServer;
+import net.mightyelemental.network.client.UDPClient;
 import net.mightyelemental.network.listener.MessageListenerClient;
 import net.mightyelemental.network.listener.MessageListenerServer;
 
@@ -14,8 +14,8 @@ public class ConsoleGame implements MessageListenerServer, MessageListenerClient
 
 	public static Random random = new Random();
 
-	public static Server	server;
-	public static Client	client	= new Client("localhost", 4040);
+	public static UDPServer	server;
+	public static UDPClient	client	= new UDPClient("localhost", 4040);
 	String[]				args2;
 
 	public static Input		input	= new Input();
@@ -29,7 +29,7 @@ public class ConsoleGame implements MessageListenerServer, MessageListenerClient
 		args2 = args;
 		if (args.length > 0 && args[0].equals("--server")) {
 			output.consoleSay("You are running a server.", "INFO");
-			server = new Server(4040);
+			server = new UDPServer(4040);
 			server.setupServer();
 			server.addListener(this);
 			server.initGUI("Server Stuffs");

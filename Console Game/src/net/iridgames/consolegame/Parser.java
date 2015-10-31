@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.mightyelemental.network.BasicCommands;
-import net.mightyelemental.network.Server;
+import net.mightyelemental.network.UDPServer;
 
 public class Parser {
 
@@ -26,7 +26,7 @@ public class Parser {
 		return args;
 	}
 
-	public static void parseCommand(List<String> args, Server server, InetAddress ip, int port) throws InterruptedException {
+	public static void parseCommand(List<String> args, UDPServer server, InetAddress ip, int port) throws InterruptedException {
 		if (args.size() < 1) { return; }
 		if (args.get(0).contains("JLB1F0")) { return; }
 		switch (args.get(0)) {
@@ -54,7 +54,7 @@ public class Parser {
 		}
 	}
 
-	private static void sendMessage(List<String> args, Server server, InetAddress ip, int port) throws InterruptedException {
+	private static void sendMessage(List<String> args, UDPServer server, InetAddress ip, int port) throws InterruptedException {
 		if (args.size() < 3) {
 			notEnoughArgs(server, ip, port);
 			return;
@@ -76,7 +76,7 @@ public class Parser {
 		BasicCommands.cToSToCMessage(server, sb.toString(), ip, port, cliIP, cliPort);
 	}
 
-	public static void notEnoughArgs(Server server, InetAddress ip, int port) {
+	public static void notEnoughArgs(UDPServer server, InetAddress ip, int port) {
 		try {
 			server.sendMessage("There are not enough arguments!", ip, port);
 		} catch (InterruptedException e) {
@@ -84,7 +84,7 @@ public class Parser {
 		}
 	}
 
-	public static void wrongArgs(Server server, InetAddress ip, int port) {
+	public static void wrongArgs(UDPServer server, InetAddress ip, int port) {
 		try {
 			server.sendMessage("Wrong argument!", ip, port);
 		} catch (InterruptedException e) {
