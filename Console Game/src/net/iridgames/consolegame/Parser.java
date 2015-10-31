@@ -4,8 +4,7 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.mightyelemental.network.BasicCommands;
-import net.mightyelemental.network.UDPServer;
+import net.mightyelemental.network.Server;
 
 public class Parser {
 
@@ -26,7 +25,7 @@ public class Parser {
 		return args;
 	}
 
-	public static void parseCommand(List<String> args, UDPServer server, InetAddress ip, int port) throws InterruptedException {
+	public static void parseCommand(List<String> args, Server server, InetAddress ip, int port) throws InterruptedException {
 		if (args.size() < 1) { return; }
 		if (args.get(0).contains("JLB1F0")) { return; }
 		switch (args.get(0)) {
@@ -37,7 +36,7 @@ public class Parser {
 				server.sendMessage("Ooops! Could not find the Asiimov!", ip, port);
 				break;
 			case "sendMessage":
-				sendMessage(args, server, ip, port);
+				// stuff
 				break;
 			case "sendBroadcast":
 				StringBuilder sb = new StringBuilder();
@@ -46,7 +45,7 @@ public class Parser {
 				for (String arg : args) {
 					sb.append(arg + " ");
 				}
-				server.broadcastmessage(sb.toString());
+				// server.broadcastmessage(sb.toString());
 				break;
 			default:
 				server.sendMessage("'" + args.get(0) + "' is not a valid command!", ip, port);
@@ -54,42 +53,12 @@ public class Parser {
 		}
 	}
 
-	private static void sendMessage(List<String> args, UDPServer server, InetAddress ip, int port) throws InterruptedException {
-		if (args.size() < 3) {
-			notEnoughArgs(server, ip, port);
-			return;
-		}
-		List<Object> obj = server.getAttachedClients().get(args.get(1));
-		if (obj == null) {
-			wrongArgs(server, ip, port);
-			return;
-		}
-		InetAddress cliIP = (InetAddress) obj.get(0);
-		int cliPort = (int) obj.get(1);
-		StringBuilder sb = new StringBuilder();
-
-		for (int i = 2; i < args.size(); i++) {
-			sb.append(args.get(i) + " ");
-		}
-		sb.deleteCharAt(sb.length() - 1);
-
-		BasicCommands.cToSToCMessage(server, sb.toString(), ip, port, cliIP, cliPort);
+	public static void notEnoughArgs(Server server, InetAddress ip, int port) {
+		server.sendMessage("There are not enough arguments!", ip, port);
 	}
 
-	public static void notEnoughArgs(UDPServer server, InetAddress ip, int port) {
-		try {
-			server.sendMessage("There are not enough arguments!", ip, port);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void wrongArgs(UDPServer server, InetAddress ip, int port) {
-		try {
-			server.sendMessage("Wrong argument!", ip, port);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+	public static void wrongArgs(Server server, InetAddress ip, int port) {
+		server.sendMessage("Wrong argument!", ip, port);
 	}
 
 }

@@ -24,7 +24,7 @@ public class Output {
 		for (int i = 0; i < temp.length; i++) {
 			System.out.print(temp[i]);
 			try {
-				Thread.sleep(100);
+				Thread.sleep(10);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
