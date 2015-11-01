@@ -41,7 +41,7 @@ public class ConsoleGame implements MessageListenerServer, MessageListenerClient
 			while (!input.equals("exit()")) {
 				client.sendMessage(input);
 				input = Input.getInputText();
-				//client.sendPingRequest();
+				client.sendPingRequest();
 				output.consoleSay("Your ping is " + client.getPingTime(), "INFO");
 			}
 			client.stopClient();
@@ -60,6 +60,7 @@ public class ConsoleGame implements MessageListenerServer, MessageListenerClient
 		// for (String arg : Parser.getArgs(message)) {
 		// System.out.println(arg);
 		// }
+		// System.out.println(message);
 		try {
 			Parser.parseCommand(Parser.getArgs(message), server, ip, port);
 		} catch (InterruptedException e) {
