@@ -1,5 +1,6 @@
 package net.iridgames.consolestocks.gui;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -12,20 +13,20 @@ import net.iridgames.consolestocks.ConsoleStocks;
 
 public class Console {
 
-	public int	keyCodePressed	= -1;
-	public long	keyPressedTime	= -1;
-	public char	keyChar;
+	public int					keyCodePressed	= -1;
+	public long					keyPressedTime	= -1;
+	public char					keyChar;
 
-	public ArrayList<String>	commands	= new ArrayList<String>();
-	public ArrayList<String>	console		= new ArrayList<String>();
+	public ArrayList<String>	commands		= new ArrayList<String>();
+	public ArrayList<String>	console			= new ArrayList<String>();
 
-	public String	prefix			= "$ ";
-	public int		flashSpeed		= 40;
-	public char		cursorSymbol	= '_';
-	public String	commandLine		= "";
-	public String	dispCommandLine	= prefix;
-	public int		cursor			= 0;
-	public int		pastComCur		= 0;
+	public String				prefix			= "$ ";
+	public int					flashSpeed		= 40;
+	public char					cursorSymbol	= '_';
+	public String				commandLine		= "";
+	public String				dispCommandLine	= prefix;
+	public int					cursor			= 0;
+	public int					pastComCur		= 0;
 
 	public void renderConsole(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) {
 		int tempY = 0;
@@ -141,7 +142,11 @@ public class Console {
 		}
 
 		if (keyCodePressed == Input.KEY_ENTER) {
-			ConsoleStocks.client.sendMessage(sb.toString());
+			try {
+				ConsoleStocks.client.sendObject("Command", sb.toString());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			commands.add(sb.toString());
 			addText(prefix + sb.toString());
 			cursor = 0;

@@ -1,18 +1,19 @@
 package net.iridgames.consolestocks.server;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.util.ArrayList;
 
+import net.mightyelemental.network.TCPServer;
+
 public class Parser {
 
-	private Server					server;
+	private TCPServer				server;
 	private Stocks					stocks;
 	private ArrayList<InetAddress>	addressList	= new ArrayList<InetAddress>();
 	private int						port;
 
-	public Parser( Server server, int port ) {
+	public Parser( TCPServer server, int port ) {
 		this.server = server;
 		this.stocks = new Stocks();
 		this.port = port;
@@ -60,9 +61,7 @@ public class Parser {
 		String sendMessage = message;
 
 		try {
-			server.sendData = (sendMessage.toString()).getBytes("UTF-8");
-			DatagramPacket sendPacket = new DatagramPacket(server.sendData, server.sendData.length, ip, port);
-			server.serverSocket.send(sendPacket);
+			server.sendObject("ServerMessage", sendMessage, ip, port);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

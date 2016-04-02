@@ -9,13 +9,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.iridgames.consolestocks.ConsoleStocks;
-
 public class Common {
 
-	public static final String SERVER_PROPERTIES = "server.properties";
+	public static final String			SERVER_PROPERTIES	= "server.properties";
 
-	public static Map<String, String> serverSettings = new HashMap<String, String>();
+	public static Map<String, String>	serverSettings		= new HashMap<String, String>();
 
 	private static boolean doesServerPropExist() {
 		File f = new File(SERVER_PROPERTIES);
@@ -70,9 +68,6 @@ public class Common {
 		}
 		for (String key : serverSettings.keySet()) {
 			System.out.println(key + " " + serverSettings.get(key));
-		}
-		if (ConsoleStocks.serverGUI != null && Common.serverSettings.get("SERVERNAME") != null) {
-			ConsoleStocks.serverGUI.setTitle(Common.serverSettings.get("SERVERNAME"));
 		}
 	}
 

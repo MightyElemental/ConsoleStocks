@@ -9,28 +9,26 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import net.iridgames.consolestocks.client.Client;
 import net.iridgames.consolestocks.common.Common;
-import net.iridgames.consolestocks.gui.ServerGUI;
 import net.iridgames.consolestocks.gui.StateGame;
 import net.iridgames.consolestocks.gui.StateMenu;
-import net.iridgames.consolestocks.server.Server;
+import net.mightyelemental.network.TCPServer;
 
 /** @author MightyElemental & WolfgangTS */
 public class ConsoleStocks extends StateBasedGame {
 
-	public static Server	server;
-	public static ServerGUI	serverGUI;
+	public static TCPServer		server;
 
-	public static boolean	showGUI		= true;
-	public static String	address		= "localhost";
-	public static int		port		= 4040;
-	public static Client	client;
-	public static boolean	isServer	= false;
+	public static boolean		showGUI		= true;
+	public static String		address		= "localhost";
+	public static int			port		= 4040;
+	public static Client		client;
+	public static boolean		isServer	= false;
 
-	public static final int	STATE_MENU	= 0;
-	public static final int	STATE_GAME	= 1;
-	public static StateGame	stateGame	= new StateGame(STATE_GAME);
+	public static final int		STATE_MENU	= 0;
+	public static final int		STATE_GAME	= 1;
+	public static StateGame		stateGame	= new StateGame(STATE_GAME);
 
-	public static Random rand = new Random();
+	public static Random		rand		= new Random();
 
 	public static final String	GAME_NAME	= "Console Stocks";
 	public static final String	VERSION		= "0.2.1";
@@ -78,15 +76,15 @@ public class ConsoleStocks extends StateBasedGame {
 	}
 
 	private static void setupServer() {
-		server = new Server(port);
+		server = new TCPServer(port, false, 1024);
 		server.setupServer();
-		serverGUI = new ServerGUI();
 		Common.createServerProperties();
 		Common.loadServerProperties();
+		server.initGUI(Common.serverSettings.get("SERVERNAME"));
 	}
 
 	private static void setupClient() {
-		client = new Client("Name!", address, port);
+		client = new Client("Name!", address, port, 1024);
 
 		AppGameContainer appGc;
 		try {

@@ -1,106 +1,22 @@
 package net.iridgames.consolestocks.client;
 
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import net.mightyelemental.network.client.TCPClient;
 
-import net.iridgames.consolestocks.ConsoleStocks;
+public class Client extends TCPClient {
 
-public class Client {
+	public Client( String name, String address, int port, int maxBytes ) {
+		super(address, port, false, maxBytes);
+		this.name = name;
+	}
 
-	private String	userName;
-	private String	address;
-	private int		port;
+	protected String name = "UND_USER";
 
-	public boolean isRunning;
-
-	private String lastRecievedMessage = "";
-
-	private DatagramSocket clientSocket;
-
-	private InetAddress IPAddress;
-
-	private byte[]	receiveData;
-	private byte[]	sendData;
-
-	private Thread receiveThread = new Thread("ClientReceiveThread") {
-
-		public void run() {
-			isRunning = true;
-
-			while (isRunning) {
-				try {
-					receiveData = new byte[1024];
-					DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-					clientSocket.receive(receivePacket);
-					String receiveData = new String(receivePacket.getData()).trim();
-
-					System.out.println(receiveData.toString());
-					lastRecievedMessage = receiveData.toString();
-					ConsoleStocks.stateGame.console.addText(receiveData.toString());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-
-			try {
-				this.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	};
-
-	public Client( String name, String address, int port ) {
-		this.userName = name;
-		this.address = address;
-		this.port = port;
-
-		this.setup();
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getName() {
-		return this.userName;
+		return this.name;
 	}
 
-	public String getAddress() {
-		return this.address;
-	}
-
-	public int getPort() {
-		return port;
-	}
-
-	public void setup() {
-		try {
-			clientSocket = new DatagramSocket();
-			IPAddress = InetAddress.getByName(getAddress());
-
-			sendData = new byte[1024];
-			receiveData = new byte[1024];
-		} catch (SocketException | UnknownHostException e) {
-			e.printStackTrace();
-		}
-
-		receiveThread.start();
-	}
-
-	public void sendMessage(String message) {
-		sendData = null;
-		String messageOut = this.userName + " : " + message;
-		sendData = messageOut.getBytes();
-
-		try {
-			clientSocket.send(new DatagramPacket(sendData, sendData.length, this.IPAddress, this.port));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public String getLastRecievedMessage() {
-		return lastRecievedMessage;
-	}
 }

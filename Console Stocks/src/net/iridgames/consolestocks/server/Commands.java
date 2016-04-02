@@ -1,13 +1,14 @@
 package net.iridgames.consolestocks.server;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import net.mightyelemental.network.TCPServer;
+
 public class Commands {
 
-	public static void messageUser(Server server, String[] commands, InetAddress ip, int port) throws UnknownHostException {
+	public static void messageUser(TCPServer server, String[] commands, InetAddress ip, int port) throws UnknownHostException {
 		if (commands.length < 3) { return; }
 		InetAddress sendIP = InetAddress.getByName(commands[1]);
 		String sendMessage = ip.getHostAddress() + "> ";
@@ -15,9 +16,7 @@ public class Commands {
 			sendMessage += commands[i] + " ";
 		}
 		try {
-			server.sendData = (sendMessage.toString()).getBytes("UTF-8");
-			DatagramPacket sendPacket = new DatagramPacket(server.sendData, server.sendData.length, sendIP, port);
-			server.serverSocket.send(sendPacket);
+			server.sendObject("U2UvS", sendMessage, sendIP, port); // U2UvS - User To User Via Server
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
