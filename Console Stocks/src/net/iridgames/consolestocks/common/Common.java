@@ -10,22 +10,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Common {
-
-	public static final String			SERVER_PROPERTIES	= "server.properties";
-
-	public static Map<String, String>	serverSettings		= new HashMap<String, String>();
-
+	
+	
+	public static final String SERVER_PROPERTIES = "server.properties";
+	
+	public static Map<String, String> serverSettings = new HashMap<String, String>();
+	
 	private static boolean doesServerPropExist() {
 		File f = new File(SERVER_PROPERTIES);
 		return f.exists();
 	}
-
+	
 	public static void createServerProperties() {
 		if (doesServerPropExist()) { return; }
 		try {
 			FileWriter fileWriter = new FileWriter(SERVER_PROPERTIES);
 			BufferedWriter bw = new BufferedWriter(fileWriter);
-			bw.write("//Server Properties");
+			bw.write("//ServerProperties");
 			bw.newLine();
 			bw.write("ServerName:");
 			bw.newLine();
@@ -33,11 +34,17 @@ public class Common {
 			bw.newLine();
 			bw.write("AdminIP:");
 			bw.newLine();
+			bw.write("Currency:");
+			bw.newLine();
+			bw.write("MinNumOfStocks:");
+			bw.newLine();
+			bw.write("MaxNumOfStocks:");
+			bw.newLine();
 			bw.close();
 		} catch (Exception e) {
 		}
 	}
-
+	
 	public static void loadServerProperties() {
 		ArrayList<String> data = new ArrayList<String>();
 		String line = null;
@@ -53,7 +60,7 @@ public class Common {
 			e.printStackTrace();
 		}
 	}
-
+	
 	private static void interServerSettings(ArrayList<String> data) {
 		for (String line : data) {
 			if (line.startsWith("//")) {
@@ -70,5 +77,5 @@ public class Common {
 			System.out.println(key + " " + serverSettings.get(key));
 		}
 	}
-
+	
 }
