@@ -2,8 +2,10 @@ package net.iridgames.consolestocks.server;
 
 import java.util.Random;
 
+import net.iridgames.consolestocks.Calculators;
 import net.iridgames.consolestocks.ConsoleStocks;
 
+/**@author WolfgangTS*/
 public class Stock
 {
 	private static Random random = new Random();
@@ -19,7 +21,8 @@ public class Stock
 	
 	public Stock(String name)
 	{
-		this(name, random.nextFloat()*100+1);
+		// Name, Value
+		this(name, (float) (Calculators.round(random.nextFloat()*100+1, 2)));
 	}
 	
 	public static Stock generateRandom()
