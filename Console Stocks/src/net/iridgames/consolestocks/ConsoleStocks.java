@@ -81,10 +81,10 @@ public class ConsoleStocks extends StateBasedGame {
 	private static void setupServer() {
 		server = new TCPServer(port, false, 1024);
 		server.setupServer();
-		serverParser = new Parser(server);
-		server.addListener(serverParser);
 		Common.createServerProperties();
 		Common.loadServerProperties();
+		serverParser = new Parser(server);
+		server.addListener(serverParser);
 		server.initGUI(Common.serverSettings.get("SERVERNAME"));
 	}
 	

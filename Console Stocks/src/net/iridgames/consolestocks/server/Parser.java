@@ -10,8 +10,8 @@ import net.mightyelemental.network.listener.MessageListenerServer;
 public class Parser implements MessageListenerServer {
 	
 	
-	private TCPServer server;
-	private Stocks stocks;
+	public TCPServer server;
+	public Stocks stocks;
 	
 	public Parser( TCPServer server ) {
 		this.server = server;
@@ -34,13 +34,16 @@ public class Parser implements MessageListenerServer {
 					}
 					break;
 				case "GETSTOCK":
-					Commands.getValueOfStock(server, stocks, msg[1], ip, port);
+					Commands.getValueOfStock(this, msg[1], ip, port);
 					break;
 				case "PING":
 					sendMessage("PONG!", ip, port);
 					break;
 				case "MSG":
 					Commands.messageUser(server, msg, ip, port);
+					break;
+				case "LS":
+					Commands.listCommands(this, ip, port);
 					break;
 				default:
 					sendMessage("Invalid command.", ip, port);
@@ -54,6 +57,8 @@ public class Parser implements MessageListenerServer {
 	
 	public void sendMessage(String message, InetAddress ip, int port) throws IOException {
 		server.sendObject("ServerMessage", message, ip, port);
+		String UID = server.getTCPConnectionFromIP(ip, port).getUID();
+		server.getGUI().addCommand("Server>" + UID + ">>" + message);
 	}
 	
 	// public void broadCastmessage(String message) {
@@ -79,5 +84,12 @@ public class Parser implements MessageListenerServer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public void onClientDisconnect(InetAddress ip, int port, String uid) {
+		server.getGUI().addCommand(uid + ">> Has Disconnected From Server");
+		server.getTcpConnections().remove(uid);
+		server.getGUI().updateClients();
 	}
 }

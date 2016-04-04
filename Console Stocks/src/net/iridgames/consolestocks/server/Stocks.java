@@ -3,6 +3,8 @@ package net.iridgames.consolestocks.server;
 import java.util.ArrayList;
 import java.util.Random;
 
+import net.iridgames.consolestocks.common.Common;
+
 /** @author WolfgangTS */
 public class Stocks {
 	
@@ -16,7 +18,9 @@ public class Stocks {
 	}
 	
 	public void generateForest() {
-		for (int i = 0; i < random.nextInt(100) + 100; i++) {
+		int min = Integer.parseInt(Common.serverSettings.get("MINNUMOFSTOCKS"));
+		int max = Integer.parseInt(Common.serverSettings.get("MAXNUMOFSTOCKS"));
+		for (int i = 0; i < random.nextInt(max - min) + min; i++) {
 			stockList.add(Stock.generateRandom());
 		}
 	}
