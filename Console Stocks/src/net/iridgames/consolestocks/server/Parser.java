@@ -107,7 +107,7 @@ public class Parser implements MessageListenerServer {
 		System.out.println(obj);
 		String UID = server.getTCPConnectionFromIP(ip, port).getUID();
 		String command = (String) ((Map<String, Object>) obj).get("Command");
-		server.getGUI().addCommand(UID + ">>" + command);
+		server.getGUI().addCommand(UID + ">> " + command);
 		try {
 			parseMessage(command, ip, port);
 		} catch (IOException e) {

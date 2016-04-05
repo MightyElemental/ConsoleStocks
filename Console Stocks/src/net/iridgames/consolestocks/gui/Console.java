@@ -21,7 +21,7 @@ public class Console {
 	public ArrayList<String> commands = new ArrayList<String>();
 	public ArrayList<String> console = new ArrayList<String>();
 	
-	public String prefix = "$ ";
+	public String prefix = ">> ";
 	public int flashSpeed = 40;
 	public char cursorSymbol = '_';
 	public String commandLine = "";
@@ -198,7 +198,7 @@ public class Console {
 		if (temp.length() > maxPre) {
 			temp.delete(maxPre, temp.length());
 		}
-		prefix = ConsoleStocks.client.getUID() + "@" + temp.toString() + ":~$ ";
+		prefix = ConsoleStocks.client.getUID() + "@" + temp.toString() + ">> ";
 	}
 	
 	public void addText(String text) {

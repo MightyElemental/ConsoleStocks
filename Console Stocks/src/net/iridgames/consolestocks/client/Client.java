@@ -39,13 +39,14 @@ public class Client extends TCPClient implements MessageListenerClient {
 			serverInfo.putAll(((Map<String, Object>) obj));
 		} else {
 			String command = (String) ((Map<String, Object>) obj).get("ServerMessage");
-			ConsoleStocks.stateGame.console.addText(command);
+			ConsoleStocks.stateGame.console.addText(">> " + command);
 		}
 	}
 	
 	@Override
 	public void onServerClosed() {
 		ConsoleStocks.stateGame.console.addText("SERVER HAS BEEN CLOSED");
+		ConsoleStocks.client.stopClient();
 	}
 	
 }
