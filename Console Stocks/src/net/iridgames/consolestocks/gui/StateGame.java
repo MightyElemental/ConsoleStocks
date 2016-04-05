@@ -9,23 +9,24 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class StateGame extends BasicGameState {
-
+	
+	
 	private final int ID;
-
+	
 	public Console console = new Console();
-
+	
 	public float ticks;
-
+	
 	public StateGame( int id ) {
 		this.ID = id;
 	}
-
+	
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		// TODO Auto-generated method stub
-
+		
 	}
-
+	
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		this.renderBL(gc, sbg, g);
@@ -40,7 +41,7 @@ public class StateGame extends BasicGameState {
 		g.drawRect(0, h - 1, gc.getWidth() / 2, gc.getHeight() / 2);
 		g.drawRect(w - 1, h - 1, gc.getWidth() / 2, gc.getHeight() / 2);
 	}
-
+	
 	public void renderTL(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		final int xDisp = 0;
 		final int yDisp = 0;
@@ -48,35 +49,36 @@ public class StateGame extends BasicGameState {
 			g.drawString(Input.getKeyName(console.keyCodePressed), xDisp + 10, yDisp + 10);
 		}
 	}
-
+	
 	public void renderTR(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		final int xDisp = gc.getWidth() / 2;
 		final int yDisp = 0;
 		PRender.renderPanel(PRender.CLIENT_RENDER, gc, sbg, g, xDisp, yDisp);
 	}
-
+	
 	public void renderBR(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		final int xDisp = gc.getWidth() / 2;
 		final int yDisp = gc.getHeight() / 2;
 		console.renderConsole(gc, sbg, g, xDisp, yDisp);
 	}
-
+	
 	public void renderBL(GameContainer gc, StateBasedGame sbg, Graphics g) {
-		//final int xDisp = 0;
-		//final int yDisp = gc.getHeight() / 2;
+		final int xDisp = 0;
+		final int yDisp = gc.getHeight() / 2;
+		PRender.renderPanel(PRender.SERVER_RENDER, gc, sbg, g, xDisp, yDisp);
 	}
-
+	
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		ticks += delta / 17;
 		console.updateCommandLine(ticks);
 	}
-
+	
 	@Override
 	public int getID() {
 		return ID;
 	}
-
+	
 	@Override
 	public void keyPressed(int key, char c) {
 		super.keyPressed(key, c);
@@ -85,30 +87,30 @@ public class StateGame extends BasicGameState {
 		console.keyChar = c;
 		console.processCommandLineInput();
 	}
-
+	
 	@Override
 	public void keyReleased(int key, char c) {
 		super.keyReleased(key, c);
 		console.keyCodePressed = -1;
 		console.keyPressedTime = -1;
 	}
-
+	
 	@Override
 	public void mouseClicked(int button, int x, int y, int clickCount) {
 		// TODO Auto-generated method stub
 		super.mouseClicked(button, x, y, clickCount);
 	}
-
+	
 	@Override
 	public void mouseReleased(int button, int x, int y) {
 		// TODO Auto-generated method stub
 		super.mouseReleased(button, x, y);
 	}
-
+	
 	@Override
 	public void mouseWheelMoved(int newValue) {
 		// TODO Auto-generated method stub
 		super.mouseWheelMoved(newValue);
 	}
-
+	
 }
