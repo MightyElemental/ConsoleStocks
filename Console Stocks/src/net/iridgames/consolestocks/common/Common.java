@@ -5,7 +5,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +18,9 @@ public class Common {
 	public static final String SERVER_PROPERTIES = "server.properties";
 	
 	public static Map<String, String> serverSettings = new HashMap<String, String>();
+	
+	public static String[][] defaultVariables = { { "ServerName", "Console Stocks" }, { "Password", "" }, { "AdminIP", "" },
+		{ "Currency", "pound" }, { "MinNumOfStocks", "50" }, { "MaxNumOfStocks", "200" } };
 	
 	private static boolean doesServerPropExist() {
 		File f = new File(SERVER_PROPERTIES);
@@ -28,18 +34,34 @@ public class Common {
 			BufferedWriter bw = new BufferedWriter(fileWriter);
 			bw.write("//ServerProperties");
 			bw.newLine();
-			bw.write("ServerName:");
+			for (int i = 0; i < defaultVariables.length; i++) {
+				bw.write(defaultVariables[i][0] + ":" + defaultVariables[i][1]);
+				bw.newLine();
+			}
+			bw.close();
+		} catch (Exception e) {
+		}
+	}
+	
+	private static void verifyServerProperties() {
+		if (!doesServerPropExist()) { return; }
+		try {
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY HH:mm:ss");
+			Calendar cal = Calendar.getInstance();
+			String time = dateFormat.format(cal.getTime());
+			
+			FileWriter fileWriter = new FileWriter(SERVER_PROPERTIES);
+			BufferedWriter bw = new BufferedWriter(fileWriter);
+			bw.write("//ServerProperties Updated " + time);
 			bw.newLine();
-			bw.write("Password:");
-			bw.newLine();
-			bw.write("AdminIP:");
-			bw.newLine();
-			bw.write("Currency:");
-			bw.newLine();
-			bw.write("MinNumOfStocks:");
-			bw.newLine();
-			bw.write("MaxNumOfStocks:");
-			bw.newLine();
+			for (int i = 0; i < defaultVariables.length; i++) {
+				if (serverSettings.containsKey(defaultVariables[i][0].toUpperCase())) {
+					bw.write(defaultVariables[i][0] + ":" + serverSettings.get(defaultVariables[i][0].toUpperCase()));
+				} else {
+					bw.write(defaultVariables[i][0] + ":" + defaultVariables[i][1]);
+				}
+				bw.newLine();
+			}
 			bw.close();
 		} catch (Exception e) {
 		}
@@ -59,6 +81,7 @@ public class Common {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		verifyServerProperties();
 	}
 	
 	private static void interServerSettings(ArrayList<String> data) {
