@@ -85,7 +85,6 @@ public class Console {
 			sb.deleteCharAt(cursor);
 		} catch (Exception e) {
 		}
-		
 		sb.insert(cursor, cursorSymbol);
 		dispCommandLine = prefix + sb.toString();
 	}
@@ -143,20 +142,31 @@ public class Console {
 		}
 		
 		if (keyCodePressed == Input.KEY_ENTER) {
-			try {
-				if (ConsoleStocks.client.isRunning()) {
-					System.out.println(sb.toString());
-					ConsoleStocks.client.sendObject("Command", sb.toString());
+			StringBuilder s = new StringBuilder(sb);
+			// remove unwanted spaces
+			while (s.charAt(0) == ' ' && s.length() > 0) {
+				s.deleteCharAt(0);
+				if (s.length() <= 0) {
+					break;
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
-			commands.add(sb.toString());
-			addText(prefix + sb.toString());
-			cursor = 0;
-			sb.delete(0, sb.length());
-			updateCursor(sb.length());
-			pastComCur = 0;
+			// Send Message
+			if (s.length() > 1) {
+				try {
+					if (ConsoleStocks.client.isRunning()) {
+						System.out.println(s.toString());
+						ConsoleStocks.client.sendObject("Command", s.toString());
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				commands.add(sb.toString());
+				addText(prefix + sb.toString());
+				cursor = 0;
+				sb.delete(0, sb.length());
+				updateCursor(sb.length());
+				pastComCur = 0;
+			}
 		}
 		commandLine = sb.toString();
 		// GO AT END
@@ -180,6 +190,15 @@ public class Console {
 		if (cursor > commandLine.length()) {
 			cursor = length;
 		}
+	}
+	
+	public void updatePrefix() {
+		int maxPre = 7;
+		StringBuilder temp = new StringBuilder(ConsoleStocks.client.serverInfo.get("ServerName").toString().replace(" ", ""));
+		if (temp.length() > maxPre) {
+			temp.delete(maxPre, temp.length());
+		}
+		prefix = ConsoleStocks.client.getUID() + "@" + temp.toString() + ":~$ ";
 	}
 	
 	public void addText(String text) {
