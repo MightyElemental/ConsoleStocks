@@ -2,8 +2,10 @@ package net.iridgames.consolestocks.server;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.HashMap;
 import java.util.Map;
 
+import net.iridgames.consolestocks.common.Common;
 import net.mightyelemental.network.TCPServer;
 import net.mightyelemental.network.listener.MessageListenerServer;
 
@@ -57,8 +59,8 @@ public class Parser implements MessageListenerServer {
 	
 	public void sendMessage(String message, InetAddress ip, int port) throws IOException {
 		server.sendObject("ServerMessage", message, ip, port);
-		String UID = server.getTCPConnectionFromIP(ip, port).getUID();
-		server.getGUI().addCommand("Server>" + UID + ">>" + message);
+		// String UID = server.getTCPConnectionFromIP(ip, port).getUID();
+		// server.getGUI().addCommand("Server>" + UID + ">>" + message);
 	}
 	
 	// public void broadCastmessage(String message) {
@@ -69,7 +71,34 @@ public class Parser implements MessageListenerServer {
 	
 	@Override
 	public void onNewClientAdded(InetAddress ip, int port, String uid) {
-		
+		try {
+			server.sendObject("UID", uid, ip, port);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("ServerName", Common.serverSettings.get("SERVERNAME"));
+			map.put("OnlineClients", server.getTcpConnections().size());
+			map.put("Currency", Common.serverSettings.get("CURRENCY") + " (" + Commands.getCurrencySymbol() + ")");
+			server.sendObjectMap(map, ip, port);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		sendOnlineClients();
+	}
+	
+	public void sendOnlineClients() {
+		try {
+			Object[] keys = server.getTcpConnections().keySet().toArray();
+			for (int i = 0; i < server.getTcpConnections().size(); i++) {
+				InetAddress ip2 = server.getTcpConnections().get(keys[i]).getIp();
+				int port2 = server.getTcpConnections().get(keys[i]).getPort();
+				server.sendObject("OnlineClients", server.getTcpConnections().size(), ip2, port2);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@SuppressWarnings( "unchecked" )
@@ -88,8 +117,9 @@ public class Parser implements MessageListenerServer {
 	
 	@Override
 	public void onClientDisconnect(InetAddress ip, int port, String uid) {
-		server.getGUI().addCommand(uid + ">> Has Disconnected From Server");
+		server.getGUI().addCommand(uid + "> Has Disconnected From Server");
 		server.getTcpConnections().remove(uid);
 		server.getGUI().updateClients();
+		sendOnlineClients();
 	}
 }

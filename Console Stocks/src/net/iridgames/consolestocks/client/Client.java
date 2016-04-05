@@ -14,6 +14,8 @@ public class Client extends TCPClient implements MessageListenerClient {
 		this.name = name;
 	}
 	
+	public Map<String, Object> serverInfo;
+	
 	protected String name = "UND_USER";
 	
 	public void setName(String name) {
@@ -28,8 +30,17 @@ public class Client extends TCPClient implements MessageListenerClient {
 	@Override
 	public void onObjectRecievedFromServer(Object obj) {
 		System.out.println(obj);
-		String command = (String) ((Map<String, Object>) obj).get("ServerMessage");
-		ConsoleStocks.stateGame.console.addText(command);
+		if (((Map<String, Object>) obj).containsKey("UID")) {
+			this.clientUID = (String) ((Map<String, Object>) obj).get("UID");
+		} else if (((Map<String, Object>) obj).containsKey("ServerName")) {
+			serverInfo = ((Map<String, Object>) obj);
+			ConsoleStocks.stateGame.console.updatePrefix();
+		} else if (((Map<String, Object>) obj).containsKey("OnlineClients")) {
+			serverInfo.putAll(((Map<String, Object>) obj));
+		} else {
+			String command = (String) ((Map<String, Object>) obj).get("ServerMessage");
+			ConsoleStocks.stateGame.console.addText(command);
+		}
 	}
 	
 	@Override
