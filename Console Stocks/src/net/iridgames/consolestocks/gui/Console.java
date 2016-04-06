@@ -3,6 +3,7 @@ package net.iridgames.consolestocks.gui;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -10,6 +11,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
 
 import net.iridgames.consolestocks.ConsoleStocks;
+import net.iridgames.consolestocks.client.LocalCommands;
 
 public class Console {
 	
@@ -144,34 +146,85 @@ public class Console {
 		if (keyCodePressed == Input.KEY_ENTER) {
 			StringBuilder s = new StringBuilder(sb);
 			// remove unwanted spaces
-			while (s.charAt(0) == ' ' && s.length() > 0) {
+			while (s.toString().startsWith(" ") && s.length() > 0) {
+				System.out.println("work");
 				s.deleteCharAt(0);
 				if (s.length() <= 0) {
 					break;
 				}
 			}
 			// Send Message
-			if (s.length() > 1) {
-				try {
-					if (ConsoleStocks.client.isRunning()) {
-						System.out.println(s.toString());
-						ConsoleStocks.client.sendObject("Command", s.toString());
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+			if (s.length() > 0) {
 				commands.add(sb.toString());
 				addText(prefix + sb.toString());
 				cursor = 0;
 				sb.delete(0, sb.length());
 				updateCursor(sb.length());
 				pastComCur = 0;
+				try {
+					processCommand(s.toString());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		commandLine = sb.toString();
 		// GO AT END
 		
 		dispCommandLine = prefix + commandLine.toString();
+	}
+	
+	private boolean localMode = false;
+	
+	/** Used to filter out local commands so that the server does not receive any */
+	private void processCommand(String s) throws IOException {
+		ArrayList<ArrayList<String>> list = interpret(s);
+		boolean flag = false;
+		if (list.get(0).get(0).equalsIgnoreCase("local")) {
+			flag = true;
+			if (list.get(0).size() == 1) {
+				localMode = !localMode;
+			} else {
+				for (int i = 0; i < list.size(); i++) {
+					processLocalCommands(list.get(i));
+				}
+			}
+		}
+		if (!localMode && !flag && ConsoleStocks.client.isRunning()) {
+			ConsoleStocks.client.sendObject("Command", s);
+		}
+		if (localMode && !flag) {
+			for (int i = 0; i < list.size(); i++) {
+				list.get(i).add(0, "local");
+				processLocalCommands(list.get(i));
+				System.out.println(list);
+			}
+		}
+		updatePrefix();
+	}
+	
+	private void processLocalCommands(ArrayList<String> command) {
+		if (command.get(0).equalsIgnoreCase("local")) {
+			switch (command.get(1)) {
+				case "set":
+					LocalCommands.setOption(command);
+					break;
+				case "cls":
+					LocalCommands.clearScreen(command);
+					break;
+				case "clear":
+					LocalCommands.clearScreen(command);
+					break;
+				case "ls":
+					LocalCommands.listCommands(command);
+					break;
+				case "help":
+					
+				default:
+					addText("Invalid Command.");
+					break;
+			}
+		}
 	}
 	
 	public static String strJoin(String[] aArr, String sSep) {
@@ -198,11 +251,41 @@ public class Console {
 		if (temp.length() > maxPre) {
 			temp.delete(maxPre, temp.length());
 		}
-		prefix = ConsoleStocks.client.getUID() + "@" + temp.toString() + ">> ";
+		if (localMode) {
+			prefix = ConsoleStocks.client.getUID() + "@local>> ";
+		} else {
+			prefix = ConsoleStocks.client.getUID() + "@" + temp.toString() + ">> ";
+		}
 	}
 	
 	public void addText(String text) {
 		console.add(text);
+	}
+	
+	/** Splits the lines and args up and compiles it into an ArrayList<ArrayList<String>> */
+	public static ArrayList<ArrayList<String>> interpret(String line) {
+		ArrayList<ArrayList<String>> commands = new ArrayList<ArrayList<String>>();
+		
+		StringBuilder sb = new StringBuilder(line);
+		while (sb.toString().startsWith(" ")) {
+			sb.deleteCharAt(0);
+		}
+		while (sb.toString().endsWith(" ")) {
+			sb.deleteCharAt(sb.length() - 1);
+		}
+		line = sb.toString();
+		
+		String[] coms = line.split(";");
+		for (String tempCom : coms) {
+			String[] commAndArgs = tempCom.split(" ");
+			ArrayList<String> args = new ArrayList<String>();
+			Collections.addAll(args, commAndArgs);
+			args.remove(" ");
+			args.remove("");
+			commands.add(args);
+		}
+		
+		return commands;
 	}
 	
 }

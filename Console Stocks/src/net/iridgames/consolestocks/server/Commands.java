@@ -10,7 +10,7 @@ import net.mightyelemental.network.TCPServer;
 public class Commands {
 	
 	
-	public static String[] commandList = { "GETSTOCKS", "GETSTOCK", "PING", "MSG", "LS" };
+	public static String[] commandList = { "GETSTOCKS", "GETSTOCK", "PING", "MSG", "LS", "LOCAL" };
 	
 	public static void messageUser(TCPServer server, String[] commands, InetAddress ip, int port) throws UnknownHostException {
 		if (commands.length < 3) { return; }

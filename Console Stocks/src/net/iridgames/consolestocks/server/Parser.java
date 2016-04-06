@@ -48,7 +48,7 @@ public class Parser implements MessageListenerServer {
 					Commands.listCommands(this, ip, port);
 					break;
 				default:
-					sendMessage("Invalid command.", ip, port);
+					sendMessage("Invalid Command.", ip, port);
 					break;
 			}
 		} catch (Exception e) {
