@@ -53,7 +53,7 @@ public class StateGame extends BasicGameState {
 	public void renderTR(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		final int xDisp = gc.getWidth() / 2;
 		final int yDisp = 0;
-		PRender.renderPanel(PRender.CLIENT_RENDER, gc, sbg, g, xDisp, yDisp);
+		PRender.renderPanel(PRender.CLIENT_INFO, gc, sbg, g, xDisp, yDisp);
 	}
 	
 	public void renderBR(GameContainer gc, StateBasedGame sbg, Graphics g) {
@@ -65,7 +65,7 @@ public class StateGame extends BasicGameState {
 	public void renderBL(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		final int xDisp = 0;
 		final int yDisp = gc.getHeight() / 2;
-		PRender.renderPanel(PRender.SERVER_RENDER, gc, sbg, g, xDisp, yDisp);
+		PRender.renderPanel(PRender.SERVER_INFO, gc, sbg, g, xDisp, yDisp);
 	}
 	
 	@Override

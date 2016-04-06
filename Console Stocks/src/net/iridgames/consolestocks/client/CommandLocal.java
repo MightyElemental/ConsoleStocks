@@ -1,9 +1,9 @@
-package net.iridgames.consolestocks.common;
+package net.iridgames.consolestocks.client;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Command {
+public abstract class CommandLocal {
 	
 	
 	protected final String command;
@@ -12,14 +12,12 @@ public abstract class Command {
 	
 	protected List<String> alias = new ArrayList<String>();
 	
-	protected boolean adminOnly = false;
-	
-	public Command( String command, List<String> alias ) {
+	public CommandLocal( String command, List<String> alias ) {
 		this(command);
 		this.alias = alias;
 	}
 	
-	public Command( String command ) {
+	public CommandLocal( String command ) {
 		this.command = command;
 	}
 	
@@ -42,16 +40,6 @@ public abstract class Command {
 	/** Adds and alias */
 	public void addAlias(String alias) {
 		this.alias.add(alias);
-	}
-	
-	/** Is the command for admins only */
-	public boolean isAdminOnly() {
-		return adminOnly;
-	}
-	
-	/** Set if command is admin only */
-	public void setAdminOnly(boolean adminOnly) {
-		this.adminOnly = adminOnly;
 	}
 	
 	/** Get the description of the command */

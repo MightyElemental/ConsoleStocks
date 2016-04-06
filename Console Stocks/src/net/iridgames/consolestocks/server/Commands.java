@@ -4,14 +4,37 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import net.iridgames.consolestocks.common.Common;
+import net.iridgames.consolestocks.server.commands.CommandGetStockInfo;
+import net.iridgames.consolestocks.server.commands.CommandGetStocks;
+import net.iridgames.consolestocks.server.commands.CommandList;
+import net.iridgames.consolestocks.server.commands.CommandMessage;
+import net.iridgames.consolestocks.server.commands.CommandPing;
 import net.mightyelemental.network.TCPServer;
 
 public class Commands {
 	
 	
+	public static CommandServer ping = new CommandPing();
+	public static CommandServer getStocks = new CommandGetStocks();
+	public static CommandServer getStockInfo = new CommandGetStockInfo();
+	public static CommandServer message = new CommandMessage();
+	public static CommandServer list = new CommandList();
+	
 	public static String[] commandList = { "GETSTOCKS", "GETSTOCK", "PING", "MSG", "LS", "LOCAL" };
+	
+	public static Map<String, CommandServer> commands = new HashMap<String, CommandServer>();
+	
+	public static void setupCommandList() {
+		commands.put(ping.getCommand(), ping);
+		commands.put(getStocks.getCommand(), getStocks);
+		commands.put(getStockInfo.getCommand(), getStockInfo);
+		commands.put(message.getCommand(), message);
+		commands.put(list.getCommand(), list);
+	}
 	
 	public static void messageUser(TCPServer server, ArrayList<String> commands, InetAddress ip, int port) throws UnknownHostException {
 		if (commands.size() < 3) { return; }
@@ -38,27 +61,6 @@ public class Commands {
 				return "\u00A5";
 			default:
 				return "\u00A3";
-		}
-	}
-	
-	public static void getValueOfStock(Parser parse, String name, InetAddress ip, int port) throws IOException {
-		name = name.toUpperCase();
-		float value = 0;
-		try {
-			value = parse.stocks.getStock(name).getValue();
-		} catch (NullPointerException e) {
-			
-		}
-		String message = name + " is worth " + getCurrencySymbol() + value;
-		if (value == 0) {
-			message = name + " is not a valid stock";
-		}
-		parse.sendMessage(message, ip, port);
-	}
-	
-	public static void listCommands(Parser parse, InetAddress ip, int port) throws IOException {
-		for (String com : commandList) {
-			parse.sendMessage(com, ip, port);
 		}
 	}
 }

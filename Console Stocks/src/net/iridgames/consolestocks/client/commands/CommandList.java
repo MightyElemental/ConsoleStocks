@@ -2,10 +2,10 @@ package net.iridgames.consolestocks.client.commands;
 
 import java.util.ArrayList;
 
+import net.iridgames.consolestocks.client.CommandLocal;
 import net.iridgames.consolestocks.client.LocalCommands;
-import net.iridgames.consolestocks.common.Command;
 
-public class CommandList extends Command {
+public class CommandList extends CommandLocal {
 	
 	
 	public CommandList() {
@@ -16,7 +16,7 @@ public class CommandList extends Command {
 	
 	@Override
 	public void run(ArrayList<String> args) {
-		for (Command c : LocalCommands.commands.values()) {
+		for (CommandLocal c : LocalCommands.commands.values()) {
 			LocalCommands.addTextToConsole(c.getCommand());
 			for (int i = 0; i < c.getAlias().size(); i++) {
 				String a = c.getAlias().get(i);

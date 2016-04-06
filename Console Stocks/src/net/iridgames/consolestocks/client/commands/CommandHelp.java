@@ -2,10 +2,10 @@ package net.iridgames.consolestocks.client.commands;
 
 import java.util.ArrayList;
 
+import net.iridgames.consolestocks.client.CommandLocal;
 import net.iridgames.consolestocks.client.LocalCommands;
-import net.iridgames.consolestocks.common.Command;
 
-public class CommandHelp extends Command {
+public class CommandHelp extends CommandLocal {
 	
 	
 	public CommandHelp() {
@@ -14,13 +14,12 @@ public class CommandHelp extends Command {
 	
 	@Override
 	public void run(ArrayList<String> args) {
-		System.out.println("ran");
 		if (args.size() < 3) {
 			LocalCommands.addTextToConsole("Usage: " + getUsage());
 			return;
 		}
 		try {
-			Command toUse = null;
+			CommandLocal toUse = null;
 			for (String s : LocalCommands.commands.keySet()) {
 				if (args.get(2).equalsIgnoreCase(s) || LocalCommands.commands.get(s).getAlias().contains(args.get(2))) {
 					toUse = LocalCommands.commands.get(s);

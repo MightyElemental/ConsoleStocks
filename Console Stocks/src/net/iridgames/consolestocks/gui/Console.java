@@ -147,7 +147,6 @@ public class Console {
 			StringBuilder s = new StringBuilder(sb);
 			// remove unwanted spaces
 			while (s.toString().startsWith(" ") && s.length() > 0) {
-				System.out.println("work");
 				s.deleteCharAt(0);
 				if (s.length() <= 0) {
 					break;

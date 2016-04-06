@@ -37,6 +37,9 @@ public class Client extends TCPClient implements MessageListenerClient {
 			ConsoleStocks.stateGame.console.updatePrefix();
 		} else if (((Map<String, Object>) obj).containsKey("OnlineClients")) {
 			serverInfo.putAll(((Map<String, Object>) obj));
+		} else if (((Map<String, Object>) obj).containsKey("U2UvS")) {// U2UvS
+			String command = (String) ((Map<String, Object>) obj).get("U2UvS");
+			ConsoleStocks.stateGame.console.addText(command);
 		} else {
 			String command = (String) ((Map<String, Object>) obj).get("ServerMessage");
 			ConsoleStocks.stateGame.console.addText(">> " + command);

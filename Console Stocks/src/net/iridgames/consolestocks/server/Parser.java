@@ -29,21 +29,19 @@ public class Parser implements MessageListenerServer {
 			for (int j = 0; j < msg.size(); j++) {
 				switch (msg.get(j).get(0).toUpperCase()) {
 					case "GETSTOCKS":
-						for (int i = 0; i < stocks.stockList.size(); i++) {
-							sendMessage(i + " | " + stocks.stockList.get(i).getName(), ip, port);
-						}
+						Commands.getStocks.run(msg.get(j), ip, port);
 						break;
 					case "GETSTOCK":
-						Commands.getValueOfStock(this, msg.get(j).get(1), ip, port);
+						Commands.getStockInfo.run(msg.get(j), ip, port);
 						break;
 					case "PING":
-						sendMessage("PONG!", ip, port);
+						Commands.ping.run(msg.get(j), ip, port);
 						break;
 					case "MSG":
-						Commands.messageUser(server, msg.get(j), ip, port);
+						Commands.message.run(msg.get(j), ip, port);
 						break;
 					case "LS":
-						Commands.listCommands(this, ip, port);
+						Commands.list.run(msg.get(j), ip, port);
 						break;
 					default:
 						sendMessage("Invalid Command.", ip, port);
@@ -56,8 +54,12 @@ public class Parser implements MessageListenerServer {
 		}
 	}
 	
-	public void sendMessage(String message, InetAddress ip, int port) throws IOException {
-		server.sendObject("ServerMessage", message, ip, port);
+	public void sendMessage(String message, InetAddress ip, int port) {
+		try {
+			server.sendObject("ServerMessage", message, ip, port);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		// String UID = server.getTCPConnectionFromIP(ip, port).getUID();
 		// server.getGUI().addCommand("Server>" + UID + ">>" + message);
 	}

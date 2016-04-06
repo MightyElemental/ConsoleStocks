@@ -3,9 +3,9 @@ package net.iridgames.consolestocks.client.commands;
 import java.util.ArrayList;
 
 import net.iridgames.consolestocks.ConsoleStocks;
-import net.iridgames.consolestocks.common.Command;
+import net.iridgames.consolestocks.client.CommandLocal;
 
-public class CommandClearScreen extends Command {
+public class CommandClearScreen extends CommandLocal {
 	
 	
 	public CommandClearScreen() {

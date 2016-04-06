@@ -13,25 +13,40 @@ import net.iridgames.consolestocks.ConsoleStocks;
 public class PRender {
 	
 	
-	public static final int SERVER_RENDER = 0;
-	public static final int CLIENT_RENDER = 1;
+	public static final int SERVER_INFO = 0;
+	public static final int CLIENT_INFO = 1;
+	public static final int ACCOUNT_INFO = 2;
 	
 	public static void renderPanel(int panelID, GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) {
 		switch (panelID) {
-			case CLIENT_RENDER:
+			case CLIENT_INFO:
 				try {
 					renderClient(gc, sbg, g, x, y);
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
 				}
 				break;
-			case SERVER_RENDER:
+			case SERVER_INFO:
 				try {
 					renderServer(gc, sbg, g, x, y);
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
 				}
 				break;
+			case ACCOUNT_INFO:
+				try {
+					renderAccount(gc, sbg, g, x, y);
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+				}
+				break;
+		}
+	}
+	
+	private static void renderAccount(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) throws UnknownHostException {
+		if (ConsoleStocks.client == null) {
+			g.drawString("Account information not found.", x + 5, y + 5);
+			return;
 		}
 	}
 	
