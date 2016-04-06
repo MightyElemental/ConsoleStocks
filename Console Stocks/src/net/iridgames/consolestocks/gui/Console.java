@@ -23,7 +23,7 @@ public class Console {
 	public ArrayList<String> commands = new ArrayList<String>();
 	public ArrayList<String> console = new ArrayList<String>();
 	
-	public String prefix = ">> ";
+	public String prefix = "abcd@local> ";
 	public int flashSpeed = 40;
 	public char cursorSymbol = '_';
 	public String commandLine = "";
@@ -177,6 +177,10 @@ public class Console {
 	
 	/** Used to filter out local commands so that the server does not receive any */
 	private void processCommand(String s) throws IOException {
+		updatePrefix();
+		if (ConsoleStocks.client == null) {
+			localMode = true;
+		}
 		ArrayList<ArrayList<String>> list = Common.interpretCommandLine(s);
 		boolean flag = false;
 		if (list.get(0).get(0).equalsIgnoreCase("local")) {
@@ -189,7 +193,7 @@ public class Console {
 				}
 			}
 		}
-		if (!localMode && !flag && ConsoleStocks.client.isRunning()) {
+		if (!localMode && !flag && ConsoleStocks.client != null) {
 			ConsoleStocks.client.sendObject("Command", s);
 		}
 		if (localMode && !flag) {
@@ -233,6 +237,10 @@ public class Console {
 	}
 	
 	public void updatePrefix() {
+		if (ConsoleStocks.client == null) {
+			prefix = "abcd@local> ";
+			return;
+		}
 		int maxPre = 7;
 		StringBuilder temp = new StringBuilder(ConsoleStocks.client.serverInfo.get("ServerName").toString().replace(" ", ""));
 		if (temp.length() > maxPre) {

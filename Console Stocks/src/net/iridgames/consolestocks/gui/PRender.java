@@ -80,7 +80,10 @@ public class PRender {
 	 * @throws UnknownHostException */
 	private static void renderServer(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) throws UnknownHostException {
 		if (ConsoleStocks.client == null) {
-			g.drawString("Server information not found.", x + 5, y + 5);
+			String[] list = { "Server information not found.", "", "---WARNING---", "NO CONNECTION" };
+			for (int i = 0; i < list.length; i++) {
+				g.drawString(list[i], x + 5, y + 5 + (20 * i));
+			}
 			return;
 		}
 		if (ConsoleStocks.client.serverInfo == null) {
