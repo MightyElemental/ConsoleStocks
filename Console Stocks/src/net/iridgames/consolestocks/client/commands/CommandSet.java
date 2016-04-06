@@ -25,6 +25,10 @@ public class CommandSet extends CommandLocal {
 	public void run(ArrayList<String> args) {
 		switch (args.get(2)) { // E.G. local set name
 			case "name":
+				if (ConsoleStocks.client == null) {
+					ConsoleStocks.stateGame.console.addText("No client available.");
+					break;
+				}
 				String name = "";
 				if (args.size() < 4) {
 					ConsoleStocks.stateGame.console.addText("Invalid Command.");

@@ -92,10 +92,10 @@ public class ConsoleStocks extends StateBasedGame {
 	}
 	
 	private static void setupClient() {
-		client = new Client("Name!", address, port, 1024);
-		client.setup();
+		// client = new Client("Name!", address, port, 1024);
+		// client.setup();
 		LocalCommands.setupCommandList();
-		client.addListener(client);
+		// client.addListener(client);
 		
 		AppGameContainer appGc;
 		try {
