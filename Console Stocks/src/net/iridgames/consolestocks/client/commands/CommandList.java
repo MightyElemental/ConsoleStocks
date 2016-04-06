@@ -9,8 +9,8 @@ public class CommandList extends CommandLocal {
 	
 	
 	public CommandList() {
-		super("list");
-		this.addAlias("ls");
+		super("ls");
+		// this.addAlias("list");
 		this.setDescription("Use to list all commands");
 	}
 	
@@ -29,7 +29,7 @@ public class CommandList extends CommandLocal {
 	
 	@Override
 	public String getUsage() {
-		return "list";
+		return "ls";
 	}
 	
 }

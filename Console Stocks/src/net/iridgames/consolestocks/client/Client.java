@@ -36,7 +36,9 @@ public class Client extends TCPClient implements MessageListenerClient {
 			serverInfo = ((Map<String, Object>) obj);
 			ConsoleStocks.stateGame.console.updatePrefix();
 		} else if (((Map<String, Object>) obj).containsKey("OnlineClients")) {
-			serverInfo.putAll(((Map<String, Object>) obj));
+			if (serverInfo != null) {
+				serverInfo.putAll(((Map<String, Object>) obj));
+			}
 		} else if (((Map<String, Object>) obj).containsKey("U2UvS")) {// Player to Player chat
 			String command = (String) ((Map<String, Object>) obj).get("U2UvS");
 			ConsoleStocks.stateGame.console.addText(command);
@@ -50,6 +52,7 @@ public class Client extends TCPClient implements MessageListenerClient {
 	public void onServerClosed() {
 		ConsoleStocks.stateGame.console.addText("SERVER HAS BEEN CLOSED");
 		ConsoleStocks.client.stopClient();
+		ConsoleStocks.client = null;
 	}
 	
 }

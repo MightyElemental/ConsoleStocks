@@ -12,6 +12,7 @@ import net.iridgames.consolestocks.client.LocalCommands;
 import net.iridgames.consolestocks.common.Common;
 import net.iridgames.consolestocks.gui.StateGame;
 import net.iridgames.consolestocks.gui.StateMenu;
+import net.iridgames.consolestocks.server.Commands;
 import net.iridgames.consolestocks.server.Parser;
 import net.mightyelemental.network.TCPServer;
 
@@ -82,6 +83,7 @@ public class ConsoleStocks extends StateBasedGame {
 	private static void setupServer() {
 		server = new TCPServer(port, false, 1024);
 		server.setupServer();
+		Commands.setupCommandList();
 		Common.createServerProperties();
 		Common.loadServerProperties();
 		serverParser = new Parser(server);
@@ -90,10 +92,10 @@ public class ConsoleStocks extends StateBasedGame {
 	}
 	
 	private static void setupClient() {
-		// client = new Client("Name!", address, port, 1024);
-		// client.setup();
+		client = new Client("Name!", address, port, 1024);
+		client.setup();
 		LocalCommands.setupCommandList();
-		// client.addListener(client);
+		client.addListener(client);
 		
 		AppGameContainer appGc;
 		try {

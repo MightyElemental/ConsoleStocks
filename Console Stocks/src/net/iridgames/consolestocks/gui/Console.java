@@ -178,7 +178,7 @@ public class Console {
 	/** Used to filter out local commands so that the server does not receive any */
 	private void processCommand(String s) throws IOException {
 		updatePrefix();
-		if (ConsoleStocks.client == null) {
+		if (ConsoleStocks.client == null || !ConsoleStocks.client.isRunning()) {
 			localMode = true;
 		}
 		ArrayList<ArrayList<String>> list = Common.interpretCommandLine(s);
@@ -194,13 +194,15 @@ public class Console {
 			}
 		}
 		if (!localMode && !flag && ConsoleStocks.client != null) {
-			ConsoleStocks.client.sendObject("Command", s);
+			if (ConsoleStocks.client.isRunning()) {
+				ConsoleStocks.client.sendObject("Command", s);
+			}
+			
 		}
 		if (localMode && !flag) {
 			for (int i = 0; i < list.size(); i++) {
 				list.get(i).add(0, "local");
 				processLocalCommands(list.get(i));
-				System.out.println(list);
 			}
 		}
 		updatePrefix();
@@ -237,7 +239,7 @@ public class Console {
 	}
 	
 	public void updatePrefix() {
-		if (ConsoleStocks.client == null) {
+		if (ConsoleStocks.client == null || !ConsoleStocks.client.isRunning()) {
 			prefix = "abcd@local> ";
 			return;
 		}

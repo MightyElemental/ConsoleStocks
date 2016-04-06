@@ -56,6 +56,7 @@ public class Parser implements MessageListenerServer {
 	
 	public void sendMessage(String message, InetAddress ip, int port) {
 		try {
+			System.out.println(message);
 			server.sendObject("ServerMessage", message, ip, port);
 		} catch (IOException e) {
 			e.printStackTrace();

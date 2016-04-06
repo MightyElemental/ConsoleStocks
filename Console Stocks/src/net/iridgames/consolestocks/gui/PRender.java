@@ -44,7 +44,7 @@ public class PRender {
 	}
 	
 	private static void renderAccount(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) throws UnknownHostException {
-		if (ConsoleStocks.client == null) {
+		if (ConsoleStocks.client == null || !ConsoleStocks.client.isRunning()) {
 			g.drawString("Account information not found.", x + 5, y + 5);
 			return;
 		}
@@ -79,7 +79,7 @@ public class PRender {
 	 * 
 	 * @throws UnknownHostException */
 	private static void renderServer(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) throws UnknownHostException {
-		if (ConsoleStocks.client == null) {
+		if (ConsoleStocks.client == null || !ConsoleStocks.client.isRunning()) {
 			String[] list = { "Server information not found.", "", "---WARNING---", "NO CONNECTION" };
 			for (int i = 0; i < list.length; i++) {
 				g.drawString(list[i], x + 5, y + 5 + (20 * i));
