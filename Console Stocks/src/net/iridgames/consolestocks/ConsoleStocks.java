@@ -8,6 +8,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import net.iridgames.consolestocks.client.Client;
+import net.iridgames.consolestocks.client.LocalCommands;
 import net.iridgames.consolestocks.common.Common;
 import net.iridgames.consolestocks.gui.StateGame;
 import net.iridgames.consolestocks.gui.StateMenu;
@@ -91,7 +92,7 @@ public class ConsoleStocks extends StateBasedGame {
 	private static void setupClient() {
 		client = new Client("Name!", address, port, 1024);
 		client.setup();
-		
+		LocalCommands.setupCommandList();
 		client.addListener(client);
 		
 		AppGameContainer appGc;

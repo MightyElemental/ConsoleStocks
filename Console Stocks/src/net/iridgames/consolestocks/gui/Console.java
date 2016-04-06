@@ -3,7 +3,6 @@ package net.iridgames.consolestocks.gui;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -12,6 +11,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import net.iridgames.consolestocks.ConsoleStocks;
 import net.iridgames.consolestocks.client.LocalCommands;
+import net.iridgames.consolestocks.common.Common;
 
 public class Console {
 	
@@ -178,7 +178,7 @@ public class Console {
 	
 	/** Used to filter out local commands so that the server does not receive any */
 	private void processCommand(String s) throws IOException {
-		ArrayList<ArrayList<String>> list = interpret(s);
+		ArrayList<ArrayList<String>> list = Common.interpretCommandLine(s);
 		boolean flag = false;
 		if (list.get(0).get(0).equalsIgnoreCase("local")) {
 			flag = true;
@@ -205,25 +205,13 @@ public class Console {
 	
 	private void processLocalCommands(ArrayList<String> command) {
 		if (command.get(0).equalsIgnoreCase("local")) {
-			switch (command.get(1)) {
-				case "set":
-					LocalCommands.setOption(command);
-					break;
-				case "cls":
-					LocalCommands.clearScreen(command);
-					break;
-				case "clear":
-					LocalCommands.clearScreen(command);
-					break;
-				case "ls":
-					LocalCommands.listCommands(command);
-					break;
-				case "help":
-					
-				default:
-					addText("Invalid Command.");
-					break;
+			for (String s : LocalCommands.commands.keySet()) {
+				if (command.get(1).equalsIgnoreCase(s) || LocalCommands.commands.get(s).getAlias().contains(command.get(1))) {
+					LocalCommands.commands.get(s).run(command);
+					return;
+				}
 			}
+			addText("Invalid Command.");
 		}
 	}
 	
@@ -252,7 +240,7 @@ public class Console {
 			temp.delete(maxPre, temp.length());
 		}
 		if (localMode) {
-			prefix = ConsoleStocks.client.getUID() + "@local>> ";
+			prefix = ConsoleStocks.client.getUID() + "@local> ";
 		} else {
 			prefix = ConsoleStocks.client.getUID() + "@" + temp.toString() + ">> ";
 		}
@@ -260,32 +248,6 @@ public class Console {
 	
 	public void addText(String text) {
 		console.add(text);
-	}
-	
-	/** Splits the lines and args up and compiles it into an ArrayList<ArrayList<String>> */
-	public static ArrayList<ArrayList<String>> interpret(String line) {
-		ArrayList<ArrayList<String>> commands = new ArrayList<ArrayList<String>>();
-		
-		StringBuilder sb = new StringBuilder(line);
-		while (sb.toString().startsWith(" ")) {
-			sb.deleteCharAt(0);
-		}
-		while (sb.toString().endsWith(" ")) {
-			sb.deleteCharAt(sb.length() - 1);
-		}
-		line = sb.toString();
-		
-		String[] coms = line.split(";");
-		for (String tempCom : coms) {
-			String[] commAndArgs = tempCom.split(" ");
-			ArrayList<String> args = new ArrayList<String>();
-			Collections.addAll(args, commAndArgs);
-			args.remove(" ");
-			args.remove("");
-			commands.add(args);
-		}
-		
-		return commands;
 	}
 	
 }

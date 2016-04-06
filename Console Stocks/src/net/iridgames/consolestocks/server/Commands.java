@@ -3,6 +3,7 @@ package net.iridgames.consolestocks.server;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import net.iridgames.consolestocks.common.Common;
 import net.mightyelemental.network.TCPServer;
@@ -12,12 +13,12 @@ public class Commands {
 	
 	public static String[] commandList = { "GETSTOCKS", "GETSTOCK", "PING", "MSG", "LS", "LOCAL" };
 	
-	public static void messageUser(TCPServer server, String[] commands, InetAddress ip, int port) throws UnknownHostException {
-		if (commands.length < 3) { return; }
-		InetAddress sendIP = InetAddress.getByName(commands[1]);
+	public static void messageUser(TCPServer server, ArrayList<String> commands, InetAddress ip, int port) throws UnknownHostException {
+		if (commands.size() < 3) { return; }
+		InetAddress sendIP = InetAddress.getByName(commands.get(1));
 		String sendMessage = ip.getHostAddress() + "> ";
-		for (int i = 2; i < commands.length; i++) {
-			sendMessage += commands[i] + " ";
+		for (int i = 2; i < commands.size(); i++) {
+			sendMessage += commands.get(i) + " ";
 		}
 		try {
 			server.sendObject("U2UvS", sendMessage, sendIP, port); // U2UvS - User To User Via Server

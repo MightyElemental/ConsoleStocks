@@ -2,6 +2,7 @@ package net.iridgames.consolestocks.server;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,33 +24,31 @@ public class Parser implements MessageListenerServer {
 	public void parseMessage(String message, InetAddress ip, int port) throws IOException {
 		
 		try {
-			String[] msg = message.split(" ");
+			ArrayList<ArrayList<String>> msg = Common.interpretCommandLine(message);
 			
-			for (int i = 0; i < msg.length; i++) {
-				System.out.println(msg[i]);
-			}
-			
-			switch (msg[0].toUpperCase()) {
-				case "GETSTOCKS":
-					for (int i = 0; i < stocks.stockList.size(); i++) {
-						sendMessage(i + " | " + stocks.stockList.get(i).getName(), ip, port);
-					}
-					break;
-				case "GETSTOCK":
-					Commands.getValueOfStock(this, msg[1], ip, port);
-					break;
-				case "PING":
-					sendMessage("PONG!", ip, port);
-					break;
-				case "MSG":
-					Commands.messageUser(server, msg, ip, port);
-					break;
-				case "LS":
-					Commands.listCommands(this, ip, port);
-					break;
-				default:
-					sendMessage("Invalid Command.", ip, port);
-					break;
+			for (int j = 0; j < msg.size(); j++) {
+				switch (msg.get(j).get(0).toUpperCase()) {
+					case "GETSTOCKS":
+						for (int i = 0; i < stocks.stockList.size(); i++) {
+							sendMessage(i + " | " + stocks.stockList.get(i).getName(), ip, port);
+						}
+						break;
+					case "GETSTOCK":
+						Commands.getValueOfStock(this, msg.get(j).get(1), ip, port);
+						break;
+					case "PING":
+						sendMessage("PONG!", ip, port);
+						break;
+					case "MSG":
+						Commands.messageUser(server, msg.get(j), ip, port);
+						break;
+					case "LS":
+						Commands.listCommands(this, ip, port);
+						break;
+					default:
+						sendMessage("Invalid Command.", ip, port);
+						break;
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

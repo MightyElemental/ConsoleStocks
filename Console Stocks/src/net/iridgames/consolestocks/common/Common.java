@@ -9,6 +9,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -99,6 +100,32 @@ public class Common {
 		for (String key : serverSettings.keySet()) {
 			System.out.println(key + " " + serverSettings.get(key));
 		}
+	}
+	
+	/** Splits the lines and args up and compiles it into an ArrayList<ArrayList<String>> */
+	public static ArrayList<ArrayList<String>> interpretCommandLine(String line) {
+		ArrayList<ArrayList<String>> commands = new ArrayList<ArrayList<String>>();
+		
+		StringBuilder sb = new StringBuilder(line);
+		while (sb.toString().startsWith(" ")) {
+			sb.deleteCharAt(0);
+		}
+		while (sb.toString().endsWith(" ")) {
+			sb.deleteCharAt(sb.length() - 1);
+		}
+		line = sb.toString();
+		
+		String[] coms = line.split(";");
+		for (String tempCom : coms) {
+			String[] commAndArgs = tempCom.split(" ");
+			ArrayList<String> args = new ArrayList<String>();
+			Collections.addAll(args, commAndArgs);
+			args.remove(" ");
+			args.remove("");
+			commands.add(args);
+		}
+		
+		return commands;
 	}
 	
 }

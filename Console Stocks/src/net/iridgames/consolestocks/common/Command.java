@@ -8,20 +8,15 @@ public abstract class Command {
 	
 	protected final String command;
 	
-	protected String usage = "No usage has been specified";
+	protected String description = "No description has been given";
 	
-	protected List<String> alias;
+	protected List<String> alias = new ArrayList<String>();
 	
 	protected boolean adminOnly = false;
 	
-	public Command( String command, String usage, List<String> alias ) {
-		this(command, usage);
-		this.alias = alias;
-	}
-	
-	public Command( String command, String usage ) {
+	public Command( String command, List<String> alias ) {
 		this(command);
-		this.usage = usage;
+		this.alias = alias;
 	}
 	
 	public Command( String command ) {
@@ -29,7 +24,7 @@ public abstract class Command {
 	}
 	
 	/** Used to call the command */
-	public abstract void run(ArrayList<String> commandArgs);
+	public abstract void run(ArrayList<String> args);
 	
 	/** Get the command */
 	public String getCommand() {
@@ -37,9 +32,7 @@ public abstract class Command {
 	}
 	
 	/** Get the usage */
-	public String getUsage() {
-		return usage;
-	}
+	public abstract String getUsage();
 	
 	/** Returns the aliases */
 	public List<String> getAlias() {
@@ -59,6 +52,16 @@ public abstract class Command {
 	/** Set if command is admin only */
 	public void setAdminOnly(boolean adminOnly) {
 		this.adminOnly = adminOnly;
+	}
+	
+	/** Get the description of the command */
+	public String getDescription() {
+		return this.description;
+	}
+	
+	/** Set the description of the command */
+	public void setDescription(String desc) {
+		this.description = desc;
 	}
 	
 }
