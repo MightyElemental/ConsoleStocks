@@ -40,12 +40,15 @@ public class CommandConnect extends CommandLocal {
 			ConsoleStocks.port = Integer.parseInt(args.get(3));
 		}
 		
-		ConsoleStocks.client = new Client(Common.clientSettings.get("USER"), ConsoleStocks.address, ConsoleStocks.port, 1024);
-		ConsoleStocks.client.setup();
-		ConsoleStocks.client.addListener(ConsoleStocks.client);
+		try {
+			ConsoleStocks.client = new Client(Common.clientSettings.get("USER"), ConsoleStocks.address, ConsoleStocks.port, 1024);
+			ConsoleStocks.client.setup();
+			ConsoleStocks.client.addListener(ConsoleStocks.client);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		this.addTextToConsole("Connecting...");
-		System.out.println("alert");
 	}
 	
 	@Override

@@ -16,8 +16,12 @@ public class CommandDisconnect extends CommandLocal {
 	@Override
 	public void run(ArrayList<String> args) {
 		if (ConsoleStocks.client != null) {
-			ConsoleStocks.client.stopClient();
-			ConsoleStocks.client = null;
+			try {
+				ConsoleStocks.client.stopClient();
+				ConsoleStocks.client = null;
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		} else {
 			this.addTextToConsole("No server to disconnect from");
 		}

@@ -1,5 +1,7 @@
 package net.iridgames.consolestocks;
 
+import java.io.IOException;
+import java.net.BindException;
 import java.util.Random;
 
 import org.newdawn.slick.AppGameContainer;
@@ -36,7 +38,7 @@ public class ConsoleStocks extends StateBasedGame {
 	public static Random rand = new Random();
 	
 	public static final String GAME_NAME = "Console Stocks";
-	public static final String VERSION = "0.4.8";
+	public static final String VERSION = "0.5.0";
 	public static final String TITLE = GAME_NAME + " | v" + VERSION;
 	public static final int WIDTH = 1600;
 	
@@ -76,13 +78,20 @@ public class ConsoleStocks extends StateBasedGame {
 				setupServer();
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 	}
 	
-	private static void setupServer() {
+	private static void setupServer() throws IOException {
 		server = new TCPServer(port, false, 1024);
-		server.setupServer();
+		try {
+			server.setupServer();
+		} catch (BindException e) {
+			System.err.println("There is already a server running on that port!");
+			System.err.println("Make sure you are not using the same port as any other server on your network.");
+			System.exit(1);
+		}
 		Commands.setupCommandList();
 		Common.createServerProperties();
 		Common.loadServerProperties();
@@ -96,7 +105,12 @@ public class ConsoleStocks extends StateBasedGame {
 		Common.loadClientProperties();
 		loadClientProperties();
 		client = new Client(Common.clientSettings.get("USER"), address, port, 1024);
-		client.setup();
+		try {
+			client.setup();
+		} catch (IOException e1) {
+			System.err.println("Could not connect to server!");
+			e1.printStackTrace();
+		}
 		LocalCommands.setupCommandList();
 		client.addListener(client);
 		

@@ -35,6 +35,7 @@ public class Client extends TCPClient implements MessageListenerClient {
 		} else if (((Map<String, Object>) obj).containsKey("ServerName")) {
 			serverInfo = ((Map<String, Object>) obj);
 			ConsoleStocks.stateGame.console.updatePrefix();
+			ConsoleStocks.stateGame.console.console.remove("Connecting...");
 			ConsoleStocks.stateGame.console.addText("Connected to server '" + serverInfo.get("ServerName") + "'");
 		} else if (((Map<String, Object>) obj).containsKey("OnlineClients")) {
 			if (serverInfo != null) {
@@ -52,7 +53,11 @@ public class Client extends TCPClient implements MessageListenerClient {
 	@Override
 	public void onServerClosed() {
 		ConsoleStocks.stateGame.console.addText("SERVER HAS BEEN CLOSED");
-		ConsoleStocks.client.stopClient();
+		try {
+			ConsoleStocks.client.stopClient();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		ConsoleStocks.client = null;
 	}
 	

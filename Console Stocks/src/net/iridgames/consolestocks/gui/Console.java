@@ -298,7 +298,9 @@ public class Console {
 			return;
 		}
 		int maxPre = 7;
-		StringBuilder temp = new StringBuilder(ConsoleStocks.client.serverInfo.get("ServerName").toString().replace(" ", ""));
+		String s = ConsoleStocks.client.serverInfo.get("ServerName").toString().replace(" ", "");
+		s = s.replace(";", "").replace("!", "").replace("\"", "").replace("\\", "").replace("/", "").replace(",", "");
+		StringBuilder temp = new StringBuilder(s);
 		if (temp.length() > maxPre) {
 			temp.delete(maxPre, temp.length());
 		}
@@ -310,7 +312,9 @@ public class Console {
 	}
 	
 	public void addText(String text) {
-		console.add(text);
+		if (text != null) {
+			console.add(text);
+		}
 	}
 	
 }
