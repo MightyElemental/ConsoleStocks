@@ -124,6 +124,7 @@ public class ConsoleStocks extends StateBasedGame {
 			appGc.start();
 		} catch (SlickException e) {
 			e.printStackTrace();
+			System.exit(1);
 		}
 	}
 	
