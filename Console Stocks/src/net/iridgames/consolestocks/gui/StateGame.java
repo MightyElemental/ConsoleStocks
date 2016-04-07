@@ -71,6 +71,7 @@ public class StateGame extends BasicGameState {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		ticks += delta / 17;
+		console.lControlDown = gc.getInput().isKeyDown(Input.KEY_LCONTROL);
 		console.updateCommandLine(ticks);
 	}
 	

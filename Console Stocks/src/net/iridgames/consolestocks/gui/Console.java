@@ -30,10 +30,19 @@ public class Console {
 	public String dispCommandLine = prefix;
 	public int cursor = 0;
 	public int pastComCur = 0;
+	public int commandViewOffset = 0;
+	
+	public boolean lControlDown = false;
 	
 	public void renderConsole(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) {
+		if (commandViewOffset < 0) {
+			commandViewOffset = 0;
+		}
+		if (commandViewOffset > console.size() - 20) {
+			commandViewOffset = console.size() - 20;
+		}
 		int tempY = 0;
-		int iStart = console.size() - 20;
+		int iStart = console.size() - 20 - commandViewOffset;
 		int tempYPast = 0;
 		if (iStart < 0) {
 			iStart = 0;
@@ -41,6 +50,10 @@ public class Console {
 		int iStop = console.size();
 		for (int i = iStart; i < iStop; i++) {
 			if (!console.isEmpty()) {
+				
+				if (console.get(i) == null) {
+					continue;
+				}
 				
 				int n = 85;
 				char[] chars = new char[n];
@@ -121,26 +134,34 @@ public class Console {
 			updateCursor(sb.length());
 		}
 		if (keyCodePressed == Input.KEY_UP) {
-			if (commands.size() > 0) {
-				pastComCur++;
-				if (commands.size() - 1 - pastComCur < 0) {
-					pastComCur = commands.size() - 1;
+			if (lControlDown) {
+				this.commandViewOffset++;
+			} else {
+				if (commands.size() > 0) {
+					pastComCur++;
+					if (commands.size() - 1 - pastComCur < 0) {
+						pastComCur = commands.size() - 1;
+					}
+					sb.delete(0, sb.length());
+					sb.append(commands.get(commands.size() - 1 - pastComCur));
 				}
-				sb.delete(0, sb.length());
-				sb.append(commands.get(commands.size() - 1 - pastComCur));
+				cursor = sb.length();
 			}
-			cursor = sb.length();
 		}
 		if (keyCodePressed == Input.KEY_DOWN) {
-			if (commands.size() > 0) {
-				pastComCur--;
-				if (commands.size() - 1 - pastComCur > commands.size() - 1) {
-					pastComCur = 0;
+			if (lControlDown) {
+				this.commandViewOffset--;
+			} else {
+				if (commands.size() > 0) {
+					pastComCur--;
+					if (commands.size() - 1 - pastComCur > commands.size() - 1) {
+						pastComCur = 0;
+					}
+					sb.delete(0, sb.length());
+					sb.append(commands.get(commands.size() - 1 - pastComCur));
 				}
-				sb.delete(0, sb.length());
-				sb.append(commands.get(commands.size() - 1 - pastComCur));
+				cursor = sb.length();
 			}
-			cursor = sb.length();
 		}
 		
 		if (keyCodePressed == Input.KEY_ENTER) {
@@ -167,6 +188,11 @@ public class Console {
 				}
 			}
 		}
+		
+		if (!lControlDown) {
+			this.commandViewOffset = 0;
+		}
+		
 		commandLine = sb.toString();
 		// GO AT END
 		

@@ -103,6 +103,7 @@ public class ConsoleStocks extends StateBasedGame {
 			appGc.setDisplayMode(WIDTH, (int) (WIDTH / 16.0 * 9.0), false);
 			appGc.setTargetFrameRate(60);
 			appGc.setShowFPS(false);
+			appGc.setAlwaysRender(true);
 			appGc.start();
 		} catch (SlickException e) {
 			e.printStackTrace();

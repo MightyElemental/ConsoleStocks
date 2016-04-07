@@ -16,6 +16,8 @@ public class PRender {
 	public static final int SERVER_INFO = 0;
 	public static final int CLIENT_INFO = 1;
 	public static final int ACCOUNT_INFO = 2;
+	public static final int CHAT_BOX = 3;
+	public static final int STOCK_VALUE_INFO = 4;
 	
 	public static void renderPanel(int panelID, GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) {
 		switch (panelID) {

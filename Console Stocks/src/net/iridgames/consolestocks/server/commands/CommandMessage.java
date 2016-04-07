@@ -21,9 +21,12 @@ public class CommandMessage extends CommandServer {
 		try {
 			TCPConnection con = ConsoleStocks.server.getTCPConnectionFromUID(args.get(1));
 			
-			String senderUID = ConsoleStocks.server.getTCPConnectionFromIP(ip, port).getUID();
+			if (con == null) {
+				ConsoleStocks.serverParser.sendMessage("'" + args.get(1) + "' is not a valid ClientUID", ip, port);
+				return;
+			}
 			
-			System.out.println(senderUID);
+			String senderUID = ConsoleStocks.server.getTCPConnectionFromIP(ip, port).getUID();
 			
 			String sendMessage = senderUID + ">> ";
 			for (int i = 2; i < args.size(); i++) {
