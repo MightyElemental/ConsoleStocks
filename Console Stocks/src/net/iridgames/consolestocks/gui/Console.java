@@ -12,6 +12,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import net.iridgames.consolestocks.ConsoleStocks;
 import net.iridgames.consolestocks.client.LocalCommands;
 import net.iridgames.consolestocks.common.Common;
+import net.iridgames.consolestocks.server.Commands;
 
 public class Console {
 	
@@ -106,6 +107,27 @@ public class Console {
 	
 	public void processCommandLineInput() {
 		StringBuilder sb = new StringBuilder(commandLine);
+		if (keyCodePressed == Input.KEY_TAB) {
+			if (localMode) {
+				for (String k : LocalCommands.commands.keySet()) {
+					if (k.startsWith(commandLine.toUpperCase())) {
+						sb.delete(0, sb.length());
+						commandLine = k;
+						sb.append(k);
+						cursor = k.length();
+					}
+				}
+			} else {
+				for (String k : Commands.commands.keySet()) {
+					if (k.startsWith(commandLine.toUpperCase())) {
+						sb.delete(0, sb.length());
+						commandLine = k;
+						sb.append(k);
+						cursor = k.length();
+					}
+				}
+			}
+		}
 		if (keyCodePressed == Input.KEY_BACK) {
 			if (cursor - 1 >= 0) {
 				sb.deleteCharAt(cursor - 1);
@@ -167,7 +189,7 @@ public class Console {
 		if (keyCodePressed == Input.KEY_ENTER) {
 			StringBuilder s = new StringBuilder(sb);
 			// remove unwanted spaces
-			while (s.toString().startsWith(" ") && s.length() > 0) {
+			while ((s.toString().startsWith(" ") || s.toString().startsWith(";")) && s.length() > 0) {
 				s.deleteCharAt(0);
 				if (s.length() <= 0) {
 					break;
@@ -209,26 +231,32 @@ public class Console {
 		}
 		ArrayList<ArrayList<String>> list = Common.interpretCommandLine(s);
 		boolean flag = false;
-		if (list.get(0).get(0).equalsIgnoreCase("local")) {
-			flag = true;
-			if (list.get(0).size() == 1) {
-				localMode = !localMode;
-			} else {
-				for (int i = 0; i < list.size(); i++) {
-					processLocalCommands(list.get(i));
+		if (list.get(0).get(0).equalsIgnoreCase(LocalCommands.disconnect.getCommand())) {
+			LocalCommands.disconnect.run(list.get(0));
+		} else {
+			// Run single local command
+			if (list.get(0).get(0).equalsIgnoreCase("local")) {
+				flag = true;
+				if (list.get(0).size() == 1) {
+					localMode = !localMode;
+				} else {
+					for (int i = 0; i < list.size(); i++) {
+						processLocalCommands(list.get(i));
+					}
 				}
 			}
-		}
-		if (!localMode && !flag && ConsoleStocks.client != null) {
-			if (ConsoleStocks.client.isRunning()) {
-				ConsoleStocks.client.sendObject("Command", s);
+			// Run server command
+			if (!localMode && !flag && ConsoleStocks.client != null) {
+				if (ConsoleStocks.client.isRunning()) {
+					ConsoleStocks.client.sendObject("Command", s);
+				}
 			}
-			
-		}
-		if (localMode && !flag) {
-			for (int i = 0; i < list.size(); i++) {
-				list.get(i).add(0, "local");
-				processLocalCommands(list.get(i));
+			// Run local command while in local mode
+			if (localMode && !flag) {
+				for (int i = 0; i < list.size(); i++) {
+					list.get(i).add(0, "local");
+					processLocalCommands(list.get(i));
+				}
 			}
 		}
 		updatePrefix();

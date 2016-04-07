@@ -217,7 +217,7 @@ public class Common {
 		ArrayList<ArrayList<String>> commands = new ArrayList<ArrayList<String>>();
 		
 		StringBuilder sb = new StringBuilder(line);
-		while (sb.toString().startsWith(" ")) {
+		while (sb.toString().startsWith(" ") || sb.toString().startsWith(";")) {
 			sb.deleteCharAt(0);
 		}
 		while (sb.toString().endsWith(" ")) {
@@ -234,7 +234,6 @@ public class Common {
 			args.remove("");
 			commands.add(args);
 		}
-		
 		return commands;
 	}
 	
