@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.iridgames.consolestocks.ConsoleStocks;
 import net.iridgames.consolestocks.client.CommandLocal;
+import net.iridgames.consolestocks.common.Common;
 
 public class CommandSet extends CommandLocal {
 	
@@ -40,6 +41,7 @@ public class CommandSet extends CommandLocal {
 						}
 					}
 					ConsoleStocks.client.setName(name);
+					Common.setClientVariable("USER", name);
 					ConsoleStocks.stateGame.console.addText("Your username has been set to: " + name);
 				}
 				break;

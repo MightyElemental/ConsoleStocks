@@ -92,7 +92,10 @@ public class ConsoleStocks extends StateBasedGame {
 	}
 	
 	private static void setupClient() {
-		client = new Client("Name!", address, port, 1024);
+		Common.createClientProperties();
+		Common.loadClientProperties();
+		loadClientProperties();
+		client = new Client(Common.clientSettings.get("USER"), address, port, 1024);
 		client.setup();
 		LocalCommands.setupCommandList();
 		client.addListener(client);
@@ -107,6 +110,24 @@ public class ConsoleStocks extends StateBasedGame {
 			appGc.start();
 		} catch (SlickException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	private static void loadClientProperties() {
+		if (Common.clientSettings.get("DEFAULTSERVERIP").length() > 5) {
+			address = Common.clientSettings.get("DEFAULTSERVERIP");
+		}
+		if (Common.clientSettings.get("DEFAULTSERVERPORT").length() > 1) {
+			try {
+				port = Integer.parseInt(Common.clientSettings.get("DEFAULTSERVERPORT"));
+			} catch (Exception e) {
+				System.err.println("'" + Common.clientSettings.get("DEFAULTSERVERPORT") + "' is not a valid port");
+			}
+		}
+		try {
+			stateGame.console.flashSpeed = Integer.parseInt(Common.clientSettings.get("CURSORFLASHSPEED"));
+		} catch (Exception e) {
+			System.err.println("'" + Common.clientSettings.get("CURSORFLASHSPEED") + "' is not a valid number");
 		}
 	}
 	

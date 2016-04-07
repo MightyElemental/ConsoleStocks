@@ -91,7 +91,7 @@ public class Console {
 	
 	private void flashCursor(float ticks) {
 		
-		if (ticks % flashSpeed > flashSpeed / 2) {
+		if (ticks % flashSpeed > flashSpeed / 2 && keyCodePressed != Input.KEY_LEFT && keyCodePressed != Input.KEY_RIGHT) {
 			dispCommandLine = prefix + commandLine;
 			return;
 		}

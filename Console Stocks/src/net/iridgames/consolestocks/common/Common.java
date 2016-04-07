@@ -17,26 +17,100 @@ public class Common {
 	
 	
 	public static final String SERVER_PROPERTIES = "server.properties";
+	public static final String CLIENT_PROPERTIES = "client.properties";
 	
 	public static Map<String, String> serverSettings = new HashMap<String, String>();
+	public static Map<String, String> clientSettings = new HashMap<String, String>();
 	
-	public static String[][] defaultVariables = { { "ServerName", "Console Stocks" }, { "Password", "" }, { "AdminIP", "" },
+	public static String[][] defaultServerVariables = { { "ServerName", "Console Stocks" }, { "Password", "" }, { "AdminIP", "" },
 		{ "Currency", "pound" }, { "MinNumOfStocks", "50" }, { "MaxNumOfStocks", "200" } };
 	
-	private static boolean doesServerPropExist() {
-		File f = new File(SERVER_PROPERTIES);
+	public static String[][] defaultClientVariables = { { "User", "name!" }, { "CursorFlashSpeed", "40" }, { "DefaultServerIP", "" },
+		{ "DefaultServerPort", "4040" } };
+	
+	private static boolean doesFileExist(String file) {
+		File f = new File(file);
 		return f.exists();
 	}
 	
+	public static void createClientProperties() {
+		if (doesFileExist(CLIENT_PROPERTIES)) { return; }
+		try {
+			FileWriter fileWriter = new FileWriter(CLIENT_PROPERTIES);
+			BufferedWriter bw = new BufferedWriter(fileWriter);
+			bw.write("//ClientProperties");
+			bw.newLine();
+			for (int i = 0; i < defaultClientVariables.length; i++) {
+				bw.write(defaultClientVariables[i][0] + ":" + defaultClientVariables[i][1]);
+				bw.newLine();
+			}
+			bw.close();
+		} catch (Exception e) {
+		}
+	}
+	
 	public static void createServerProperties() {
-		if (doesServerPropExist()) { return; }
+		if (doesFileExist(SERVER_PROPERTIES)) { return; }
 		try {
 			FileWriter fileWriter = new FileWriter(SERVER_PROPERTIES);
 			BufferedWriter bw = new BufferedWriter(fileWriter);
 			bw.write("//ServerProperties");
 			bw.newLine();
-			for (int i = 0; i < defaultVariables.length; i++) {
-				bw.write(defaultVariables[i][0] + ":" + defaultVariables[i][1]);
+			for (int i = 0; i < defaultServerVariables.length; i++) {
+				bw.write(defaultServerVariables[i][0] + ":" + defaultServerVariables[i][1]);
+				bw.newLine();
+			}
+			bw.close();
+		} catch (Exception e) {
+		}
+	}
+	
+	private static void verifyClientProperties() {
+		if (!doesFileExist(CLIENT_PROPERTIES)) { return; }
+		try {
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY HH:mm:ss");
+			Calendar cal = Calendar.getInstance();
+			String time = dateFormat.format(cal.getTime());
+			
+			FileWriter fileWriter = new FileWriter(CLIENT_PROPERTIES);
+			BufferedWriter bw = new BufferedWriter(fileWriter);
+			bw.write("//ClientProperties " + time);
+			bw.newLine();
+			for (int i = 0; i < defaultClientVariables.length; i++) {
+				if (clientSettings.containsKey(defaultClientVariables[i][0].toUpperCase())) {
+					bw.write(defaultClientVariables[i][0] + ":" + clientSettings.get(defaultClientVariables[i][0].toUpperCase()));
+				} else {
+					bw.write(defaultClientVariables[i][0] + ":" + defaultClientVariables[i][1]);
+				}
+				bw.newLine();
+			}
+			bw.close();
+		} catch (Exception e) {
+		}
+	}
+	
+	public static void setClientVariable(String key, String value) {
+		if (!doesFileExist(CLIENT_PROPERTIES)) {
+			createClientProperties();
+		}
+		try {
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY HH:mm:ss");
+			Calendar cal = Calendar.getInstance();
+			String time = dateFormat.format(cal.getTime());
+			
+			FileWriter fileWriter = new FileWriter(CLIENT_PROPERTIES);
+			BufferedWriter bw = new BufferedWriter(fileWriter);
+			bw.write("//ClientProperties " + time);
+			bw.newLine();
+			for (int i = 0; i < defaultClientVariables.length; i++) {
+				if (defaultClientVariables[i][0].toUpperCase().equals(key.toUpperCase())) {
+					bw.write(defaultClientVariables[i][0] + ":" + value);
+				} else if (clientSettings.containsKey(defaultClientVariables[i][0].toUpperCase())) {
+					bw.write(defaultClientVariables[i][0] + ":" + clientSettings.get(defaultClientVariables[i][0].toUpperCase()));
+				} else {
+					bw.write(defaultClientVariables[i][0] + ":" + defaultClientVariables[i][1]);
+				}
+				
 				bw.newLine();
 			}
 			bw.close();
@@ -45,7 +119,7 @@ public class Common {
 	}
 	
 	private static void verifyServerProperties() {
-		if (!doesServerPropExist()) { return; }
+		if (!doesFileExist(SERVER_PROPERTIES)) { return; }
 		try {
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY HH:mm:ss");
 			Calendar cal = Calendar.getInstance();
@@ -53,19 +127,36 @@ public class Common {
 			
 			FileWriter fileWriter = new FileWriter(SERVER_PROPERTIES);
 			BufferedWriter bw = new BufferedWriter(fileWriter);
-			bw.write("//ServerProperties Updated " + time);
+			bw.write("//ServerProperties " + time);
 			bw.newLine();
-			for (int i = 0; i < defaultVariables.length; i++) {
-				if (serverSettings.containsKey(defaultVariables[i][0].toUpperCase())) {
-					bw.write(defaultVariables[i][0] + ":" + serverSettings.get(defaultVariables[i][0].toUpperCase()));
+			for (int i = 0; i < defaultServerVariables.length; i++) {
+				if (serverSettings.containsKey(defaultServerVariables[i][0].toUpperCase())) {
+					bw.write(defaultServerVariables[i][0] + ":" + serverSettings.get(defaultServerVariables[i][0].toUpperCase()));
 				} else {
-					bw.write(defaultVariables[i][0] + ":" + defaultVariables[i][1]);
+					bw.write(defaultServerVariables[i][0] + ":" + defaultServerVariables[i][1]);
 				}
 				bw.newLine();
 			}
 			bw.close();
 		} catch (Exception e) {
 		}
+	}
+	
+	public static void loadClientProperties() {
+		ArrayList<String> data = new ArrayList<String>();
+		String line = null;
+		try {
+			FileReader fileReader = new FileReader(CLIENT_PROPERTIES);
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
+			while ((line = bufferedReader.readLine()) != null) {
+				data.add(line);
+			}
+			interClientSettings(data);
+			bufferedReader.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		verifyClientProperties();
 	}
 	
 	public static void loadServerProperties() {
@@ -83,6 +174,23 @@ public class Common {
 			e.printStackTrace();
 		}
 		verifyServerProperties();
+	}
+	
+	private static void interClientSettings(ArrayList<String> data) {
+		for (String line : data) {
+			if (line.startsWith("//")) {
+				continue;
+			}
+			String[] setting = line.split(":");
+			line = "";
+			for (int i = 1; i < setting.length; i++) {
+				line += setting[i];
+			}
+			clientSettings.put(setting[0].toUpperCase(), line);
+		}
+		for (String key : clientSettings.keySet()) {
+			System.out.println(key + " " + clientSettings.get(key));
+		}
 	}
 	
 	private static void interServerSettings(ArrayList<String> data) {
