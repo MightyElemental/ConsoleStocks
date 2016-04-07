@@ -35,6 +35,7 @@ public class Common {
 	
 	public static void createClientProperties() {
 		if (doesFileExist(CLIENT_PROPERTIES)) { return; }
+		System.out.println("Generating client properties file");
 		try {
 			FileWriter fileWriter = new FileWriter(CLIENT_PROPERTIES);
 			BufferedWriter bw = new BufferedWriter(fileWriter);
@@ -51,6 +52,7 @@ public class Common {
 	
 	public static void createServerProperties() {
 		if (doesFileExist(SERVER_PROPERTIES)) { return; }
+		System.out.println("Generating server properties file");
 		try {
 			FileWriter fileWriter = new FileWriter(SERVER_PROPERTIES);
 			BufferedWriter bw = new BufferedWriter(fileWriter);
