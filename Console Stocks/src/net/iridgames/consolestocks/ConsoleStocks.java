@@ -105,14 +105,19 @@ public class ConsoleStocks extends StateBasedGame {
 		Common.loadClientProperties();
 		loadClientProperties();
 		client = new Client(Common.clientSettings.get("USER"), address, port, 1024);
+		LocalCommands.setupCommandList();
 		try {
 			client.setup();
-		} catch (IOException e1) {
+			client.addListener(client);
+		} catch (IOException e) {
 			System.err.println("Could not connect to server!");
-			e1.printStackTrace();
+			try {
+				client.stopClient();
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+			client = null;
 		}
-		LocalCommands.setupCommandList();
-		client.addListener(client);
 		
 		AppGameContainer appGc;
 		try {

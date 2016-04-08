@@ -26,7 +26,7 @@ public class Common {
 		{ "Currency", "pound" }, { "MinNumOfStocks", "50" }, { "MaxNumOfStocks", "200" } };
 	
 	public static String[][] defaultClientVariables = { { "User", "name!" }, { "CursorFlashSpeed", "40" }, { "DefaultServerIP", "" },
-		{ "DefaultServerPort", "4040" } };
+		{ "DefaultServerPort", "4040" }, { "ShowPanelNumbers", "false" } };
 	
 	private static boolean doesFileExist(String file) {
 		File f = new File(file);
@@ -107,6 +107,7 @@ public class Common {
 			for (int i = 0; i < defaultClientVariables.length; i++) {
 				if (defaultClientVariables[i][0].toUpperCase().equals(key.toUpperCase())) {
 					bw.write(defaultClientVariables[i][0] + ":" + value);
+					clientSettings.put(defaultClientVariables[i][0].toUpperCase(), value);
 				} else if (clientSettings.containsKey(defaultClientVariables[i][0].toUpperCase())) {
 					bw.write(defaultClientVariables[i][0] + ":" + clientSettings.get(defaultClientVariables[i][0].toUpperCase()));
 				} else {

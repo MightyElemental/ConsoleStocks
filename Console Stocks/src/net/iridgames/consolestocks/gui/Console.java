@@ -221,7 +221,7 @@ public class Console {
 		dispCommandLine = prefix + commandLine.toString();
 	}
 	
-	private boolean localMode = false;
+	public boolean localMode = false;
 	
 	/** Used to filter out local commands so that the server does not receive any */
 	private void processCommand(String s) throws IOException {

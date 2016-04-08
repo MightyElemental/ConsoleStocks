@@ -8,6 +8,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import net.iridgames.consolestocks.common.Common;
+
 public class StateGame extends BasicGameState {
 	
 	
@@ -48,24 +50,39 @@ public class StateGame extends BasicGameState {
 		if (console.keyCodePressed >= 0) {
 			g.drawString(Input.getKeyName(console.keyCodePressed), xDisp + 10, yDisp + 10);
 		}
+		renderPanelNumber(g, gc, 1, xDisp, yDisp);
 	}
 	
 	public void renderTR(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		final int xDisp = gc.getWidth() / 2;
 		final int yDisp = 0;
 		PRender.renderPanel(PRender.CLIENT_INFO, gc, sbg, g, xDisp, yDisp);
+		renderPanelNumber(g, gc, 2, xDisp, yDisp);
 	}
 	
 	public void renderBR(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		final int xDisp = gc.getWidth() / 2;
 		final int yDisp = gc.getHeight() / 2;
 		console.renderConsole(gc, sbg, g, xDisp, yDisp);
+		renderPanelNumber(g, gc, 4, xDisp, yDisp);
 	}
 	
 	public void renderBL(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		final int xDisp = 0;
 		final int yDisp = gc.getHeight() / 2;
 		PRender.renderPanel(PRender.SERVER_INFO, gc, sbg, g, xDisp, yDisp);
+		renderPanelNumber(g, gc, 3, xDisp, yDisp);
+	}
+	
+	public void renderPanelNumber(Graphics g, GameContainer gc, int number, int x, int y) {
+		if (Common.clientSettings.get("SHOWPANELNUMBERS").equals("false")) { return; }
+		float xD = x + gc.getWidth() / 2f;
+		float yD = y + gc.getHeight() / 2f;
+		g.setColor(new Color(100, 100, 100, 0.5f));
+		g.fillRoundRect(xD - 26, yD - 28, 20, 23, 5);
+		g.drawString(number + "", xD - 21, yD - 25);
+		g.setColor(new Color(255, 255, 255, 1f));
+		
 	}
 	
 	@Override

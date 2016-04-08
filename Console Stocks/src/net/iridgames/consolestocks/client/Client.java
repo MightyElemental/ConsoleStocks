@@ -37,6 +37,7 @@ public class Client extends TCPClient implements MessageListenerClient {
 			ConsoleStocks.stateGame.console.updatePrefix();
 			ConsoleStocks.stateGame.console.console.remove("Connecting...");
 			ConsoleStocks.stateGame.console.addText("Connected to server '" + serverInfo.get("ServerName") + "'");
+			ConsoleStocks.stateGame.console.localMode = false;
 		} else if (((Map<String, Object>) obj).containsKey("OnlineClients")) {
 			if (serverInfo != null) {
 				serverInfo.putAll(((Map<String, Object>) obj));

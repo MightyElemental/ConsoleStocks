@@ -24,7 +24,7 @@ public class Commands {
 	public static CommandServer message = new CommandMessage();
 	public static CommandServer list = new CommandList();
 	
-	public static String[] commandList = { "GETSTOCKS", "GETSTOCK", "PING", "MSG", "LS", "LOCAL" };
+	// public static String[] commandList = { "GETSTOCKS", "GETSTOCK", "PING", "MSG", "LS", "LOCAL" };
 	
 	public static Map<String, CommandServer> commands = new HashMap<String, CommandServer>();
 	
