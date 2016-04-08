@@ -19,9 +19,4 @@ public class CommandClearScreen extends CommandLocal {
 		ConsoleStocks.stateGame.console.console.clear();
 	}
 	
-	@Override
-	public String getUsage() {
-		return "cls";
-	}
-	
 }

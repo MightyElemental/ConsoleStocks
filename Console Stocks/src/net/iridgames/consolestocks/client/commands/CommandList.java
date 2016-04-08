@@ -27,9 +27,4 @@ public class CommandList extends CommandLocal {
 		}
 	}
 	
-	@Override
-	public String getUsage() {
-		return "ls";
-	}
-	
 }

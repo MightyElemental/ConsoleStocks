@@ -21,9 +21,4 @@ public class CommandList extends CommandServer {
 		}
 	}
 	
-	@Override
-	public String getUsage() {
-		return "ls";
-	}
-	
 }
