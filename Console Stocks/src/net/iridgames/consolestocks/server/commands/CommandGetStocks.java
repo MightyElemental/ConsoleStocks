@@ -15,11 +15,6 @@ public class CommandGetStocks extends CommandServer {
 	}
 	
 	@Override
-	public String getUsage() {
-		return "getstocks";
-	}
-	
-	@Override
 	public void run(ArrayList<String> args, InetAddress ip, int port) {
 		for (int i = 0; i < ConsoleStocks.serverParser.stocks.stockList.size(); i++) {
 			ConsoleStocks.serverParser.sendMessage(i + " | " + ConsoleStocks.serverParser.stocks.stockList.get(i).getName(), ip, port);

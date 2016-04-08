@@ -16,7 +16,7 @@ public class CommandGetStockInfo extends CommandServer {
 	
 	@Override
 	public String getUsage() {
-		return getCommand() + " <stock code>";
+		return getCommand() + " <stockID>";
 	}
 	
 	@Override

@@ -50,6 +50,7 @@ public class PRender {
 			g.drawString("Account information not found.", x + 5, y + 5);
 			return;
 		}
+		
 	}
 	
 	/** Used to render client information

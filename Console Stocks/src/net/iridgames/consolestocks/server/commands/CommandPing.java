@@ -19,9 +19,4 @@ public class CommandPing extends CommandServer {
 		ConsoleStocks.serverParser.sendMessage("PONG!", ip, port);
 	}
 	
-	@Override
-	public String getUsage() {
-		return "ping";
-	}
-	
 }

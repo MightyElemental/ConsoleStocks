@@ -1,8 +1,10 @@
 package net.iridgames.consolestocks.client;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import net.iridgames.consolestocks.ConsoleStocks;
+import net.iridgames.consolestocks.common.Common;
 import net.mightyelemental.network.client.TCPClient;
 import net.mightyelemental.network.listener.MessageListenerClient;
 
@@ -11,19 +13,24 @@ public class Client extends TCPClient implements MessageListenerClient {
 	
 	public Client( String name, String address, int port, int maxBytes ) {
 		super(address, port, false, maxBytes);
-		this.name = name;
+		accountInfo.put("username", name);
+		accountInfo.put("displayName", Common.clientSettings.get("USER"));
+		accountInfo.put("balance", 0);
+		accountInfo.put("stocksOwned", 0);
+		accountInfo.put("stocksBought", 0);
+		accountInfo.put("stocksSold", 0);
 	}
 	
 	public Map<String, Object> serverInfo;
 	
-	protected String name = "UND_USER";
+	public Map<String, Object> accountInfo = new HashMap<String, Object>();
 	
 	public void setName(String name) {
-		this.name = name;
+		accountInfo.put("username", name);
 	}
 	
 	public String getName() {
-		return this.name;
+		return accountInfo.get("username") + "";
 	}
 	
 	@SuppressWarnings( "unchecked" )
