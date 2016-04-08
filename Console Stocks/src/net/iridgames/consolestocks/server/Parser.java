@@ -27,26 +27,32 @@ public class Parser implements MessageListenerServer {
 			ArrayList<ArrayList<String>> msg = Common.interpretCommandLine(message);
 			
 			for (int j = 0; j < msg.size(); j++) {
-				switch (msg.get(j).get(0).toUpperCase()) {
-					case "GETSTOCKS":
-						Commands.getStocks.run(msg.get(j), ip, port);
-						break;
-					case "GETSTOCK":
-						Commands.getStockInfo.run(msg.get(j), ip, port);
-						break;
-					case "PING":
-						Commands.ping.run(msg.get(j), ip, port);
-						break;
-					case "MSG":
-						Commands.message.run(msg.get(j), ip, port);
-						break;
-					case "LS":
-						Commands.list.run(msg.get(j), ip, port);
-						break;
-					default:
-						sendMessage("Invalid Command.", ip, port);
-						break;
+				for (String s : Commands.commands.keySet()) {
+					if (msg.get(j).get(0).equalsIgnoreCase(s) || Commands.commands.get(s).getAlias().contains(msg.get(0))) {
+						Commands.commands.get(s).run(msg.get(j), ip, port);
+						return;
+					} // Add invalid command
 				}
+				// switch (msg.get(j).get(0).toUpperCase()) {
+				// case "GETSTOCKS":
+				// Commands.getStocks.run(msg.get(j), ip, port);
+				// break;
+				// case "GETSTOCK":
+				// Commands.getStockInfo.run(msg.get(j), ip, port);
+				// break;
+				// case "PING":
+				// Commands.ping.run(msg.get(j), ip, port);
+				// break;
+				// case "MSG":
+				// Commands.message.run(msg.get(j), ip, port);
+				// break;
+				// case "LS":
+				// Commands.list.run(msg.get(j), ip, port);
+				// break;
+				// default:
+				// sendMessage("Invalid Command.", ip, port);
+				// break;
+				// }
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
