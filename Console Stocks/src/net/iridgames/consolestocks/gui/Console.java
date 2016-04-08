@@ -44,7 +44,7 @@ public class Console {
 		}
 		int tempY = 0;
 		int iStart = console.size() - 20 - commandViewOffset;
-		int tempYPast = 0;
+		int tempYPast = 5;
 		if (iStart < 0) {
 			iStart = 0;
 		}
