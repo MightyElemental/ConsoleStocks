@@ -12,6 +12,8 @@ public abstract class Command {
 	
 	protected String description = "No description has been given";
 	
+	protected boolean isCommandHidden;
+	
 	protected List<String> alias = new ArrayList<String>();
 	
 	public Command( String command ) {
@@ -50,4 +52,12 @@ public abstract class Command {
 	}
 	
 	public abstract void addTextToConsole(String text);
+	
+	public boolean isCommandHidden() {
+		return isCommandHidden;
+	}
+	
+	public void setHidden(boolean isHidden) {
+		this.isCommandHidden = isHidden;
+	}
 }

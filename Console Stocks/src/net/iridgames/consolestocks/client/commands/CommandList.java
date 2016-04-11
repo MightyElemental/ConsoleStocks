@@ -17,11 +17,13 @@ public class CommandList extends CommandLocal {
 	@Override
 	public void run(ArrayList<String> args) {
 		for (CommandLocal c : LocalCommands.commands.values()) {
-			LocalCommands.addTextToConsole(c.getCommand());
-			for (int i = 0; i < c.getAlias().size(); i++) {
-				String a = c.getAlias().get(i);
-				if (a != null) {
-					LocalCommands.addTextToConsole(a);
+			if (!c.isCommandHidden()) {
+				LocalCommands.addTextToConsole(c.getCommand());
+				for (int i = 0; i < c.getAlias().size(); i++) {
+					String a = c.getAlias().get(i);
+					if (a != null) {
+						LocalCommands.addTextToConsole(a);
+					}
 				}
 			}
 		}

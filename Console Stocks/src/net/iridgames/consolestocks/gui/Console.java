@@ -42,9 +42,9 @@ public class Console {
 		if (commandViewOffset > console.size() - 20) {
 			commandViewOffset = console.size() - 20;
 		}
-		int tempY = 0;
-		int iStart = console.size() - 20 - commandViewOffset;
 		int tempYPast = 5;
+		int tempY = tempYPast;
+		int iStart = console.size() - 20 - commandViewOffset;
 		if (iStart < 0) {
 			iStart = 0;
 		}
@@ -107,6 +107,9 @@ public class Console {
 	
 	public void processCommandLineInput() {
 		StringBuilder sb = new StringBuilder(commandLine);
+		if (ConsoleStocks.client == null) {
+			localMode = true;
+		}
 		if (keyCodePressed == Input.KEY_TAB) {
 			if (localMode) {
 				for (String k : LocalCommands.commands.keySet()) {

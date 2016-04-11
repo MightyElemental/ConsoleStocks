@@ -15,7 +15,17 @@ public class CommandHelp extends CommandLocal {
 	@Override
 	public void run(ArrayList<String> args) {
 		if (args.size() < 3) {
-			LocalCommands.addTextToConsole("Usage: " + getUsage());
+			for (CommandLocal c : LocalCommands.commands.values()) {
+				if (!c.isCommandHidden()) {
+					LocalCommands.addTextToConsole(c.getCommand());
+					for (int i = 0; i < c.getAlias().size(); i++) {
+						String a = c.getAlias().get(i);
+						if (a != null) {
+							LocalCommands.addTextToConsole(a);
+						}
+					}
+				}
+			}
 			return;
 		}
 		try {
@@ -44,7 +54,7 @@ public class CommandHelp extends CommandLocal {
 	
 	@Override
 	public String getDescription() {
-		return "Use to get information about commands";
+		return "Use to get information about commands or get the list of usable commands";
 	}
 	
 }

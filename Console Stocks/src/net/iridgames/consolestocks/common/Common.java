@@ -238,4 +238,18 @@ public class Common {
 		return commands;
 	}
 	
+	public static String getCurrencySymbol() {
+		String name = Common.serverSettings.get("CURRENCY");
+		switch (name) {
+			case "pound":
+				return "\u00A3";
+			case "dollar":
+				return "$";
+			case "yen":
+				return "\u00A5";
+			default:
+				return "\u00A3";
+		}
+	}
+	
 }

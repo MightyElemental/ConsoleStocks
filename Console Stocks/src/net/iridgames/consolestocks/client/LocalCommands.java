@@ -9,6 +9,7 @@ import net.iridgames.consolestocks.client.commands.CommandConnect;
 import net.iridgames.consolestocks.client.commands.CommandDisconnect;
 import net.iridgames.consolestocks.client.commands.CommandHelp;
 import net.iridgames.consolestocks.client.commands.CommandList;
+import net.iridgames.consolestocks.client.commands.CommandNoot;
 import net.iridgames.consolestocks.client.commands.CommandSet;
 
 public class LocalCommands {
@@ -20,20 +21,26 @@ public class LocalCommands {
 	public static CommandLocal list = new CommandList();
 	public static CommandLocal disconnect = new CommandDisconnect();
 	public static CommandLocal connect = new CommandConnect();
+	public static CommandLocal noot = new CommandNoot();
 	
 	public static void addTextToConsole(String text) {
 		ConsoleStocks.stateGame.console.addText("> " + text);
 	}
 	
+	public static void addCommand(CommandLocal com) {
+		commands.put(com.getCommand().toUpperCase(), com);
+	}
+	
 	public static Map<String, CommandLocal> commands = new HashMap<String, CommandLocal>();
 	
 	public static void setupCommandList() {
-		commands.put(setOption.getCommand().toUpperCase(), setOption);
-		commands.put(help.getCommand().toUpperCase(), help);
-		commands.put(clear.getCommand().toUpperCase(), clear);
-		commands.put(list.getCommand().toUpperCase(), list);
-		commands.put(disconnect.getCommand().toUpperCase(), disconnect);
-		commands.put(connect.getCommand().toUpperCase(), connect);
+		addCommand(setOption);
+		addCommand(help);
+		addCommand(clear);
+		// addCommand(list);
+		addCommand(disconnect);
+		addCommand(connect);
+		addCommand(noot);
 	}
 	
 }
