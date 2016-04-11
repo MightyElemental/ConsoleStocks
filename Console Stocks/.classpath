@@ -18,5 +18,7 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/Console%20Stocks/lib/jars/network_engine_2.jar!/doc"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/jars/jogg-0.0.7.jar"/>
+	<classpathentry kind="lib" path="lib/jars/jorbis-0.0.15.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
