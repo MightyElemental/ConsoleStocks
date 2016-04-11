@@ -240,6 +240,9 @@ public class Common {
 	
 	public static String getCurrencySymbol() {
 		String name = Common.serverSettings.get("CURRENCY");
+		if (name == null) {
+			name = "nothing";
+		}
 		switch (name) {
 			case "pound":
 				return "\u00A3";

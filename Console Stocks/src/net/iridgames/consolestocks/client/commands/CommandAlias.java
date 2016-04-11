@@ -42,8 +42,13 @@ public class CommandAlias extends CommandLocal {
 			value += args.get(i) + " ";
 		}
 		
+		boolean flag = aliases.containsKey(key);
 		this.addAlias(key, value);
-		this.addTextToConsole("> '" + key + "' has been defined");
+		if (flag) {
+			this.addTextToConsole("> '" + key + "' has been redefined");
+		} else {
+			this.addTextToConsole("> '" + key + "' has been defined");
+		}
 	}
 	
 }

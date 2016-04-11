@@ -14,7 +14,7 @@ public class Client extends TCPClient implements MessageListenerClient {
 	
 	public Client( String name, String address, int port, int maxBytes ) {
 		super(address, port, false, maxBytes);
-		accountInfo.put("username", name);
+		accountInfo.put("username", "");
 		accountInfo.put("displayName", Common.clientSettings.get("USER"));
 		accountInfo.put("balance", 0);
 		accountInfo.put("stocksOwned", 0);
@@ -40,12 +40,9 @@ public class Client extends TCPClient implements MessageListenerClient {
 		System.out.println(obj);
 		if (((Map<String, Object>) obj).containsKey("UID")) {
 			this.clientUID = (String) ((Map<String, Object>) obj).get("UID");
+			accountInfo.put("username", clientUID);
 		} else if (((Map<String, Object>) obj).containsKey("ServerName")) {
-			serverInfo = ((Map<String, Object>) obj);
-			ConsoleStocks.stateGame.console.updatePrefix();
-			ConsoleStocks.stateGame.console.console.remove("Connecting...");
-			ConsoleStocks.stateGame.console.addText("Connected to server '" + serverInfo.get("ServerName") + "'");
-			ConsoleStocks.stateGame.console.localMode = false;
+			connected(obj);
 		} else if (((Map<String, Object>) obj).containsKey("OnlineClients")) {
 			if (serverInfo != null) {
 				serverInfo.putAll(((Map<String, Object>) obj));
@@ -57,6 +54,15 @@ public class Client extends TCPClient implements MessageListenerClient {
 			String command = (String) ((Map<String, Object>) obj).get("ServerMessage");
 			ConsoleStocks.stateGame.console.addText(">> " + command);
 		}
+	}
+	
+	@SuppressWarnings( "unchecked" )
+	public void connected(Object obj) {
+		serverInfo = ((Map<String, Object>) obj);
+		ConsoleStocks.stateGame.console.console.remove("Connecting...");
+		ConsoleStocks.stateGame.console.addText("Connected to server '" + serverInfo.get("ServerName") + "'");
+		ConsoleStocks.stateGame.console.localMode = false;
+		ConsoleStocks.stateGame.console.updatePrefix();
 	}
 	
 	@Override

@@ -9,6 +9,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
 import net.iridgames.consolestocks.ConsoleStocks;
+import net.iridgames.consolestocks.common.Common;
 
 public class PRender {
 	
@@ -50,7 +51,21 @@ public class PRender {
 			g.drawString("Account information not found.", x + 5, y + 5);
 			return;
 		}
-		
+		int i = 0;
+		for (String key : ConsoleStocks.client.accountInfo.keySet()) {
+			Object value = ConsoleStocks.client.accountInfo.get(key);
+			boolean flag = false;
+			if (key.equals("balance")) flag = true;
+			key = key.replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");
+			StringBuilder s = new StringBuilder(key);
+			s.replace(0, 1, (s.charAt(0) + "").toUpperCase());
+			if (flag) {
+				g.drawString(s.toString() + ": " + Common.getCurrencySymbol() + value, x + 5, y + 5 + (20 * i));
+			} else {
+				g.drawString(s.toString() + ": " + value, x + 5, y + 5 + (20 * i));
+			}
+			i++;
+		}
 	}
 	
 	/** Used to render client information

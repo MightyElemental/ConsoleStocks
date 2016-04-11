@@ -2,6 +2,7 @@ package net.iridgames.consolestocks.server;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,32 +28,16 @@ public class Parser implements MessageListenerServer {
 			ArrayList<ArrayList<String>> msg = Common.interpretCommandLine(message);
 			
 			for (int j = 0; j < msg.size(); j++) {
+				boolean flag = false;
 				for (String s : Commands.commands.keySet()) {
 					if (msg.get(j).get(0).equalsIgnoreCase(s) || Commands.commands.get(s).getAlias().contains(msg.get(0))) {
 						Commands.commands.get(s).run(msg.get(j), ip, port);
-						return;
+						flag = true;
 					} // Add invalid command
 				}
-				// switch (msg.get(j).get(0).toUpperCase()) {
-				// case "GETSTOCKS":
-				// Commands.getStocks.run(msg.get(j), ip, port);
-				// break;
-				// case "GETSTOCK":
-				// Commands.getStockInfo.run(msg.get(j), ip, port);
-				// break;
-				// case "PING":
-				// Commands.ping.run(msg.get(j), ip, port);
-				// break;
-				// case "MSG":
-				// Commands.message.run(msg.get(j), ip, port);
-				// break;
-				// case "LS":
-				// Commands.list.run(msg.get(j), ip, port);
-				// break;
-				// default:
-				// sendMessage("Invalid Command.", ip, port);
-				// break;
-				// }
+				if (!flag) {
+					sendMessage("Invalid Command.", ip, port);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -97,13 +82,23 @@ public class Parser implements MessageListenerServer {
 	}
 	
 	public void sendOnlineClients() {
+		String key = "";
 		try {
 			Object[] keys = server.getTcpConnections().keySet().toArray();
 			for (int i = 0; i < server.getTcpConnections().size(); i++) {
+				key = (String) keys[i];
 				InetAddress ip2 = server.getTcpConnections().get(keys[i]).getIp();
 				int port2 = server.getTcpConnections().get(keys[i]).getPort();
 				server.sendObject("OnlineClients", server.getTcpConnections().size(), ip2, port2);
 			}
+		} catch (SocketException e) {
+			try {
+				server.getTcpConnections().get(key).stopThread();
+			} catch (IOException | InterruptedException e1) {
+				e1.printStackTrace();
+			}
+			server.getTcpConnections().remove(key);
+			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

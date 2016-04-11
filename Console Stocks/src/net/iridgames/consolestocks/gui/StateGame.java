@@ -50,9 +50,10 @@ public class StateGame extends BasicGameState {
 	public void renderTL(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		final int xDisp = 0;
 		final int yDisp = 0;
-		if (console.keyCodePressed >= 0) {
-			g.drawString(Input.getKeyName(console.keyCodePressed), xDisp + 10, yDisp + 10);
-		}
+		PRender.renderPanel(PRender.ACCOUNT_INFO, gc, sbg, g, xDisp, yDisp);
+		// if (console.keyCodePressed >= 0) {
+		// g.drawString(Input.getKeyName(console.keyCodePressed), xDisp + 10, yDisp + 10);
+		// }
 		renderPanelNumber(g, gc, 1, xDisp, yDisp);
 	}
 	
