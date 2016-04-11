@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.iridgames.consolestocks.ConsoleStocks;
+import net.iridgames.consolestocks.client.commands.CommandAlias;
 import net.iridgames.consolestocks.client.commands.CommandClearScreen;
 import net.iridgames.consolestocks.client.commands.CommandConnect;
 import net.iridgames.consolestocks.client.commands.CommandDisconnect;
@@ -22,6 +23,7 @@ public class LocalCommands {
 	public static CommandLocal disconnect = new CommandDisconnect();
 	public static CommandLocal connect = new CommandConnect();
 	public static CommandLocal noot = new CommandNoot();
+	public static CommandLocal alias = new CommandAlias();
 	
 	public static void addTextToConsole(String text) {
 		ConsoleStocks.stateGame.console.addText("> " + text);
@@ -41,6 +43,7 @@ public class LocalCommands {
 		addCommand(disconnect);
 		addCommand(connect);
 		addCommand(noot);
+		addCommand(alias);
 	}
 	
 }
