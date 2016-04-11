@@ -75,7 +75,7 @@ public class ConsoleStocks extends StateBasedGame {
 					}
 				}
 			}
-			
+			setupCommon();
 			if (!isServer) {
 				setupClient();
 			} else {
@@ -87,6 +87,11 @@ public class ConsoleStocks extends StateBasedGame {
 		
 	}
 	
+	private static void setupCommon() {
+		Commands.setupCommandList();
+		LocalCommands.setupCommandList();
+	}
+	
 	private static void setupServer() throws IOException {
 		server = new TCPServer(port, false, 1024);
 		try {
@@ -96,7 +101,6 @@ public class ConsoleStocks extends StateBasedGame {
 			System.err.println("Make sure you are not using the same port as any other server on your network.");
 			System.exit(1);
 		}
-		Commands.setupCommandList();
 		Common.createServerProperties();
 		Common.loadServerProperties();
 		serverParser = new Parser(server);
@@ -110,7 +114,6 @@ public class ConsoleStocks extends StateBasedGame {
 		Common.loadClientProperties();
 		loadClientProperties();
 		client = new Client(Common.clientSettings.get("USER"), address, port, 1024);
-		LocalCommands.setupCommandList();
 		try {
 			client.setup();
 			client.addListener(client);

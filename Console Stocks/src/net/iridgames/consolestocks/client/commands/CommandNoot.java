@@ -11,6 +11,7 @@ public class CommandNoot extends CommandLocal {
 	public CommandNoot() {
 		super("nootnoot");
 		this.setHidden(true);
+		this.setDescription("Noot Noot!");
 	}
 	
 	@Override

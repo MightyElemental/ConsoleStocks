@@ -12,6 +12,7 @@ public class CommandGetStockInfo extends CommandServer {
 	
 	public CommandGetStockInfo() {
 		super("stockinfo");
+		this.setDescription("Use to get information about a specific stock");
 	}
 	
 	@Override
