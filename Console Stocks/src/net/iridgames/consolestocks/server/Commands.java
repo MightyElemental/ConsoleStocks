@@ -7,10 +7,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.iridgames.consolestocks.common.Common;
 import net.iridgames.consolestocks.server.commands.CommandGetStockInfo;
 import net.iridgames.consolestocks.server.commands.CommandGetStocks;
-import net.iridgames.consolestocks.server.commands.CommandList;
+import net.iridgames.consolestocks.server.commands.CommandHelp;
 import net.iridgames.consolestocks.server.commands.CommandMessage;
 import net.iridgames.consolestocks.server.commands.CommandPing;
 import net.mightyelemental.network.TCPServer;
@@ -22,18 +21,22 @@ public class Commands {
 	public static CommandServer getStocks = new CommandGetStocks();
 	public static CommandServer getStockInfo = new CommandGetStockInfo();
 	public static CommandServer message = new CommandMessage();
-	public static CommandServer list = new CommandList();
+	public static CommandServer help = new CommandHelp();
 	
 	// public static String[] commandList = { "GETSTOCKS", "GETSTOCK", "PING", "MSG", "LS", "LOCAL" };
 	
 	public static Map<String, CommandServer> commands = new HashMap<String, CommandServer>();
 	
 	public static void setupCommandList() {
-		commands.put(ping.getCommand(), ping);
-		commands.put(getStocks.getCommand(), getStocks);
-		commands.put(getStockInfo.getCommand(), getStockInfo);
-		commands.put(message.getCommand(), message);
-		commands.put(list.getCommand(), list);
+		addCommand(ping);
+		addCommand(getStocks);
+		addCommand(getStockInfo);
+		addCommand(message);
+		addCommand(help);
+	}
+	
+	public static void addCommand(CommandServer com) {
+		commands.put(com.getCommand().toUpperCase(), com);
 	}
 	
 	public static void messageUser(TCPServer server, ArrayList<String> commands, InetAddress ip, int port) throws UnknownHostException {
@@ -47,20 +50,6 @@ public class Commands {
 			server.sendObject("U2UvS", sendMessage, sendIP, port); // U2UvS - User To User Via Server
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-	}
-	
-	public static String getCurrencySymbol() {
-		String name = Common.serverSettings.get("CURRENCY");
-		switch (name) {
-			case "pound":
-				return "\u00A3";
-			case "dollar":
-				return "$";
-			case "yen":
-				return "\u00A5";
-			default:
-				return "\u00A3";
 		}
 	}
 }

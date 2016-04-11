@@ -5,13 +5,17 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import net.iridgames.consolestocks.ConsoleStocks;
 import net.iridgames.consolestocks.common.Common;
 
 public class StateGame extends BasicGameState {
 	
+	
+	public Sound noot;
 	
 	private final int ID;
 	
@@ -25,8 +29,7 @@ public class StateGame extends BasicGameState {
 	
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		// TODO Auto-generated method stub
-		
+		noot = ConsoleStocks.resLoad.loadSound("noot");
 	}
 	
 	@Override

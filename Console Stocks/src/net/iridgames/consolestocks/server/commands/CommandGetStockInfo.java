@@ -4,8 +4,8 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 
 import net.iridgames.consolestocks.ConsoleStocks;
+import net.iridgames.consolestocks.common.Common;
 import net.iridgames.consolestocks.server.CommandServer;
-import net.iridgames.consolestocks.server.Commands;
 
 public class CommandGetStockInfo extends CommandServer {
 	
@@ -29,7 +29,7 @@ public class CommandGetStockInfo extends CommandServer {
 		} catch (NullPointerException e) {
 			
 		}
-		String message = name + " is worth " + Commands.getCurrencySymbol() + value;
+		String message = name + " is worth " + Common.getCurrencySymbol() + value;
 		if (value == 0) {
 			message = name + " is not a valid stock";
 		}

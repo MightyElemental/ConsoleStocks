@@ -6,6 +6,7 @@ import java.util.Random;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -41,6 +42,9 @@ public class ConsoleStocks extends StateBasedGame {
 	public static final String VERSION = "0.5.0";
 	public static final String TITLE = GAME_NAME + " | v" + VERSION;
 	public static final int WIDTH = 1600;
+	public static Image NULL_IMAGE;
+	
+	public static ResourceLoader resLoad;
 	
 	public ConsoleStocks( String name ) {
 		super(name);
@@ -101,6 +105,7 @@ public class ConsoleStocks extends StateBasedGame {
 	}
 	
 	private static void setupClient() {
+		resLoad = new ResourceLoader();
 		Common.createClientProperties();
 		Common.loadClientProperties();
 		loadClientProperties();
@@ -154,7 +159,7 @@ public class ConsoleStocks extends StateBasedGame {
 	@Override
 	public void initStatesList(GameContainer gc) throws SlickException {
 		this.getState(STATE_MENU).init(gc, this);
-		this.getState(STATE_GAME).init(gc, this);
+		// this.getState(STATE_GAME).init(gc, this);
 		this.enterState(STATE_GAME);
 	}
 	
