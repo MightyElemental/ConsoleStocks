@@ -23,7 +23,7 @@ public class LocalCommands {
 	public static CommandLocal disconnect = new CommandDisconnect();
 	public static CommandLocal connect = new CommandConnect();
 	public static CommandLocal noot = new CommandNoot();
-	public static CommandLocal alias = new CommandAlias();
+	public static CommandAlias alias = new CommandAlias();
 	
 	public static void addTextToConsole(String text) {
 		ConsoleStocks.stateGame.console.addText("> " + text);

@@ -1,5 +1,6 @@
 package net.iridgames.consolestocks.client.commands;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import net.iridgames.consolestocks.ConsoleStocks;
@@ -19,7 +20,7 @@ public class CommandDisconnect extends CommandLocal {
 			try {
 				ConsoleStocks.client.stopClient();
 				ConsoleStocks.client = null;
-			} catch (InterruptedException e) {
+			} catch (InterruptedException | IOException e) {
 				e.printStackTrace();
 			}
 		} else {

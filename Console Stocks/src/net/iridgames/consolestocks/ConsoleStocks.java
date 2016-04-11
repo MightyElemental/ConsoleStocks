@@ -121,7 +121,7 @@ public class ConsoleStocks extends StateBasedGame {
 			System.err.println("Could not connect to server!");
 			try {
 				client.stopClient();
-			} catch (InterruptedException e1) {
+			} catch (InterruptedException | IOException e1) {
 				e1.printStackTrace();
 			}
 			client = null;

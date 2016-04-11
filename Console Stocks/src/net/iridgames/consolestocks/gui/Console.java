@@ -234,6 +234,17 @@ public class Console {
 		}
 		ArrayList<ArrayList<String>> list = Common.interpretCommandLine(s);
 		boolean flag = false;
+		
+		// aliases
+		for (int i = 0; i < list.size(); i++) {
+			if (LocalCommands.alias.getAliases().containsKey(list.get(i).get(0).toUpperCase())) {
+				String value = LocalCommands.alias.getAliases().get(list.get(i).get(0).toUpperCase());
+				ArrayList<String> alias = Common.interpretCommandLine(value).get(0);
+				list.get(i).remove(0);
+				list.get(i).addAll(0, alias);
+				System.out.println(list);
+			}
+		}
 		if (list.get(0).get(0).equalsIgnoreCase(LocalCommands.disconnect.getCommand())) {
 			LocalCommands.disconnect.run(list.get(0));
 		} else {

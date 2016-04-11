@@ -23,6 +23,7 @@ public class CommandAlias extends CommandLocal {
 	
 	public void addAlias(String key, String value) {
 		aliases.put(key, value);
+		System.err.println(value);
 	}
 	
 	public Map<String, String> getAliases() {
@@ -35,10 +36,14 @@ public class CommandAlias extends CommandLocal {
 			this.addTextToConsole("> " + getUsage());
 			return;
 		}
-		String key = args.get(2);// <key>
-		String value = args.get(3);// <command>
+		String key = args.get(2).toUpperCase();// <key>
+		String value = "";// <command>
+		for (int i = 3; i < args.size(); i++) {// For multiple argument aliases
+			value += args.get(i) + " ";
+		}
+		
 		this.addAlias(key, value);
-		this.addTextToConsole("> '" + key + "' has been added");
+		this.addTextToConsole("> '" + key + "' has been defined");
 	}
 	
 }

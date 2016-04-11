@@ -1,5 +1,6 @@
 package net.iridgames.consolestocks.client;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,7 +64,7 @@ public class Client extends TCPClient implements MessageListenerClient {
 		ConsoleStocks.stateGame.console.addText("SERVER HAS BEEN CLOSED");
 		try {
 			ConsoleStocks.client.stopClient();
-		} catch (InterruptedException e) {
+		} catch (InterruptedException | IOException e) {
 			e.printStackTrace();
 		}
 		ConsoleStocks.client = null;
