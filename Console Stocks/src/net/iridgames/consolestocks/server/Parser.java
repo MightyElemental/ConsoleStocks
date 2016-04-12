@@ -11,11 +11,13 @@ import net.iridgames.consolestocks.common.Common;
 import net.mightyelemental.network.TCPServer;
 import net.mightyelemental.network.listener.MessageListenerServer;
 
-public class Parser implements MessageListenerServer {
+public class Parser implements MessageListenerServer, Runnable {
 	
 	
 	public TCPServer server;
 	public Stocks stocks;
+	
+	public Thread serverThread = new Thread(this);
 	
 	public Parser( TCPServer server ) {
 		this.server = server;
@@ -124,5 +126,17 @@ public class Parser implements MessageListenerServer {
 		server.getTcpConnections().remove(uid);
 		server.getGUI().updateClients();
 		sendOnlineClients();
+	}
+	
+	@Override
+	public void run() {
+		try {
+			while (true) {
+				Thread.sleep(5000);
+				stocks.updateValues();
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }

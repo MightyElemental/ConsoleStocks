@@ -106,7 +106,8 @@ public class ConsoleStocks extends StateBasedGame {
 		serverParser = new Parser(server);
 		server.addListener(serverParser);
 		server.initGUI(Common.serverSettings.get("SERVERNAME"));
-		server.getGUI().textField.setText("Your not getting my IP.");
+		serverParser.serverThread.start();
+		// server.getGUI().textField.setText("Your not getting my IP.");
 	}
 	
 	private static void setupClient() {

@@ -3,6 +3,7 @@ package net.iridgames.consolestocks.server;
 import java.util.ArrayList;
 import java.util.Random;
 
+import net.iridgames.consolestocks.Calculators;
 import net.iridgames.consolestocks.common.Common;
 
 /** @author WolfgangTS */
@@ -33,7 +34,17 @@ public class Stocks {
 		return null;
 	}
 	
-	public static void progressDay() {
-		
+	public void updateValues() {
+		for (int i = 0; i < stockList.size(); i++) {
+			float value = stockList.get(i).getValue();
+			float randomPercent = (random.nextInt(200) - 100) / 10f;
+			value += value * (randomPercent / 100);
+			value = (float) Calculators.round(value, 2);
+			stockList.get(i).setValue(value);
+			if (i == 0) {
+				System.out.println(stockList.get(0).getValue());
+				System.out.println(randomPercent + "%");
+			}
+		}
 	}
 }
