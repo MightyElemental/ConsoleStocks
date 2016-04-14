@@ -8,6 +8,7 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.openal.SoundStore;
 import org.newdawn.slick.state.StateBasedGame;
 
 import net.iridgames.consolestocks.client.Client;
@@ -39,12 +40,10 @@ public class ConsoleStocks extends StateBasedGame {
 	public static Random rand = new Random();
 	
 	public static final String GAME_NAME = "Console Stocks";
-	public static final String VERSION = "0.5.0";
+	public static final String VERSION = "0.6.8";
 	public static final String TITLE = GAME_NAME + " | v" + VERSION;
 	public static final int WIDTH = 1600;
 	public static Image NULL_IMAGE;
-	
-	public static ResourceLoader resLoad;
 	
 	public ConsoleStocks( String name ) {
 		super(name);
@@ -111,7 +110,6 @@ public class ConsoleStocks extends StateBasedGame {
 	}
 	
 	private static void setupClient() {
-		resLoad = new ResourceLoader();
 		Common.createClientProperties();
 		Common.loadClientProperties();
 		loadClientProperties();
@@ -128,9 +126,9 @@ public class ConsoleStocks extends StateBasedGame {
 			}
 			client = null;
 		}
-		
 		AppGameContainer appGc;
 		try {
+			SoundStore.get().init();
 			appGc = new AppGameContainer(new ConsoleStocks(TITLE));
 			appGc.setDisplayMode(WIDTH, (int) (WIDTH / 16.0 * 9.0), false);
 			appGc.setTargetFrameRate(60);

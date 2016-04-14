@@ -10,6 +10,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import net.iridgames.consolestocks.ConsoleStocks;
+import net.iridgames.consolestocks.ResourceLoader;
 import net.iridgames.consolestocks.common.Common;
 
 public class StateGame extends BasicGameState {
@@ -29,7 +30,7 @@ public class StateGame extends BasicGameState {
 	
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		noot = ConsoleStocks.resLoad.loadSound("noot");
+		ConsoleStocks.stateGame.noot = ResourceLoader.loadSound("noot");
 	}
 	
 	@Override

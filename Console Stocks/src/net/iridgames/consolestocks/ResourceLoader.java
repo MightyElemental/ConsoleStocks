@@ -12,10 +12,11 @@ import org.newdawn.slick.Sound;
  * @since 28/10/2014 */
 public class ResourceLoader {
 	
+	/* DO NOT USE THIS FOR ANYTHING BUT CONSOLE STOCKS */
 	
-	private Map<String, Image> imageLoads = new HashMap<String, Image>();
-	private Map<String, Sound> soundLoads = new HashMap<String, Sound>();
-	private Map<String, Music> musicLoads = new HashMap<String, Music>();
+	private static Map<String, Image> imageLoads = new HashMap<String, Image>();
+	private static Map<String, Sound> soundLoads = new HashMap<String, Sound>();
+	private static Map<String, Music> musicLoads = new HashMap<String, Music>();
 	
 	/** Loads an image from the 'assets/textures' package
 	 * 
@@ -92,23 +93,23 @@ public class ResourceLoader {
 	 *            the path to the sound file beginning with 'assets/sounds'. Remember that you can replace slashes '/'
 	 *            with dots '.'
 	 * @return Sound the newly loaded sound */
-	public Sound loadSound(String soundPath) {
+	public static Sound loadSound(String soundPath) {
 		
 		Sound loadedSound = null;
 		
 		String location = soundPath.replaceAll("[.]", "/");
 		location += ".ogg";
 		location = "assets/sounds/" + location;
-		if (imageLoads.get(location) != null) {
+		if (imageLoads.containsKey(location)) {
 			return soundLoads.get(location);
 		} else {
 			try {
-				File temp = new File(this.getClass().getClassLoader().getResource(location).toURI());
+				File temp = new File(location);
 				if (temp.exists()) {
-					loadedSound = new Sound(this.getClass().getClassLoader().getResourceAsStream(location), location);
+					loadedSound = new Sound(location);
 					System.out.println("Added sound\t'" + location + "'");
 				} else {
-					throw new Exception("Missing sound\t'" + location + "'");
+					throw new Exception("Missing sound\t'" + location + "' ");
 				}
 			} catch (Exception e) {
 				System.out.println("Missing sound\t'" + location + "'");

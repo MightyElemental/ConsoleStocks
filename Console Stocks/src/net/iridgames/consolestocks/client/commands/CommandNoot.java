@@ -16,7 +16,12 @@ public class CommandNoot extends CommandLocal {
 	
 	@Override
 	public void run(ArrayList<String> args) {
-		ConsoleStocks.stateGame.noot.play();
+		try {
+			ConsoleStocks.stateGame.noot.play();
+		} catch (Exception e) {
+			System.out.println("Sound not found");
+			this.addTextToConsole("Sound file not avaliable");
+		}
 	}
 	
 }
