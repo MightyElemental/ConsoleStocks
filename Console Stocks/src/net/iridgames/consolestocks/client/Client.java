@@ -31,7 +31,7 @@ public class Client extends TCPClient implements MessageListenerClient {
 	}
 	
 	public String getName() {
-		return accountInfo.get("username") + "";
+		return accountInfo.get("displayName") + "";
 	}
 	
 	@SuppressWarnings( "unchecked" )

@@ -163,12 +163,12 @@ public class Console {
 				this.commandViewOffset++;
 			} else {
 				if (commands.size() > 0) {
-					pastComCur++;
 					if (commands.size() - 1 - pastComCur < 0) {
 						pastComCur = commands.size() - 1;
 					}
 					sb.delete(0, sb.length());
 					sb.append(commands.get(commands.size() - 1 - pastComCur));
+					pastComCur++;
 				}
 				cursor = sb.length();
 			}
@@ -242,7 +242,6 @@ public class Console {
 				ArrayList<String> alias = Common.interpretCommandLine(value).get(0);
 				list.get(i).remove(0);
 				list.get(i).addAll(0, alias);
-				System.out.println(list);
 			}
 		}
 		if (list.get(0).get(0).equalsIgnoreCase(LocalCommands.disconnect.getCommand())) {
