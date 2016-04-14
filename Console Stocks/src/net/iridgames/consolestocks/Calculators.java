@@ -8,9 +8,9 @@ import org.newdawn.slick.TrueTypeFont;
 public class Calculators {
 	
 	
-	public static double round(double value, int precision) {
+	public static float round(double value, int precision) {
 		int scale = (int) Math.pow(10, precision);
-		return (double) Math.round(value * scale) / scale;
+		return (float) ((double) Math.round(value * scale) / scale);
 	}
 	
 	public static double distance(Point p, Point q) {

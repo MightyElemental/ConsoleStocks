@@ -132,7 +132,7 @@ public class Parser implements MessageListenerServer, Runnable {
 	public void run() {
 		try {
 			while (true) {
-				Thread.sleep(5000);
+				Thread.sleep(1000);
 				stocks.updateValues();
 			}
 		} catch (InterruptedException e) {

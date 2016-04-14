@@ -1,5 +1,7 @@
 package net.iridgames.consolestocks.server;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import net.iridgames.consolestocks.Calculators;
@@ -12,6 +14,8 @@ public class Stock
 	
 	private String name;
 	private float value;
+	
+	protected List<Float> pastValues = new ArrayList<Float>();
 	
 	public Stock(String name, float value)
 	{
@@ -60,5 +64,17 @@ public class Stock
 	public void setValue(float value)
 	{
 		this.value = value;
+	}
+
+	
+	public List<Float> getPastValues() 
+	{
+		return pastValues;
+	}
+
+	
+	public void addValue(float value) 
+	{
+		this.pastValues.add(value);
 	}
 }

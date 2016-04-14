@@ -36,15 +36,21 @@ public class Stocks {
 	
 	public void updateValues() {
 		for (int i = 0; i < stockList.size(); i++) {
+			stockList.get(i).addValue(stockList.get(i).getValue());
 			float value = stockList.get(i).getValue();
 			float randomPercent = (random.nextInt(200) - 100) / 10f;
 			value += value * (randomPercent / 100);
 			value = (float) Calculators.round(value, 2);
 			stockList.get(i).setValue(value);
-			if (i == 0) {
-				System.out.println(stockList.get(0).getValue());
-				System.out.println(randomPercent + "%");
-			}
+			calculateValueIncrease(stockList.get(i));
 		}
+	}
+	
+	public float calculateValueIncrease(Stock stock) {
+		float valueOri = stock.getPastValues().get(0);
+		float temp = (stock.getValue() - valueOri) / valueOri * 100;
+		System.out.println(valueOri + " | " + stock.getValue());
+		System.out.println(temp + "% increase");
+		return Calculators.round(temp, 2);
 	}
 }
