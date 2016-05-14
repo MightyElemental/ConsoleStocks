@@ -76,4 +76,16 @@ public class Client extends TCPClient implements MessageListenerClient {
 		ConsoleStocks.client = null;
 	}
 	
+	public void onConnectionRefused() {
+		System.err.println("Could not connect to server!");
+		ConsoleStocks.stateGame.console.console.remove("Connecting...");
+		ConsoleStocks.stateGame.console.addText("Could not connect to " + this.getAddress());
+		try {
+			ConsoleStocks.client.stopClient();
+		} catch (InterruptedException | IOException e) {
+			e.printStackTrace();
+		}
+		ConsoleStocks.client = null;
+	}
+	
 }

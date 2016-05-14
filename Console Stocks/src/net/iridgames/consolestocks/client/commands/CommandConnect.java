@@ -1,5 +1,7 @@
 package net.iridgames.consolestocks.client.commands;
 
+import java.io.IOException;
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.util.ArrayList;
 
@@ -40,15 +42,18 @@ public class CommandConnect extends CommandLocal {
 			ConsoleStocks.port = Integer.parseInt(args.get(3));
 		}
 		
+		this.addTextToConsole("Connecting...");
+		
 		try {
 			ConsoleStocks.client = new Client(Common.clientSettings.get("USER"), ConsoleStocks.address, ConsoleStocks.port, 1024);
 			ConsoleStocks.client.setup();
 			ConsoleStocks.client.addListener(ConsoleStocks.client);
-		} catch (Exception e) {
+		} catch (ConnectException e) {
+			ConsoleStocks.client.onConnectionRefused();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		this.addTextToConsole("Connecting...");
 	}
 	
 	@Override

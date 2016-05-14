@@ -2,6 +2,7 @@ package net.iridgames.consolestocks;
 
 import java.io.IOException;
 import java.net.BindException;
+import java.net.ConnectException;
 import java.util.Random;
 
 import org.newdawn.slick.AppGameContainer;
@@ -117,6 +118,8 @@ public class ConsoleStocks extends StateBasedGame {
 		try {
 			client.setup();
 			client.addListener(client);
+		} catch (ConnectException e) {
+			client.onConnectionRefused();
 		} catch (IOException e) {
 			System.err.println("Could not connect to server!");
 			try {
