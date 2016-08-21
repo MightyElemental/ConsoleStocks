@@ -34,6 +34,7 @@ public class Stocks {
 		return null;
 	}
 	
+	/** @author Mighty Elemental */
 	public void updateValues() {
 		for (int i = 0; i < stockList.size(); i++) {
 			stockList.get(i).addValue(stockList.get(i).getValue());
@@ -46,11 +47,13 @@ public class Stocks {
 		}
 	}
 	
-	public float calculateValueIncrease(Stock stock) {
+	/** @author Mighty Elemental */
+	public static float calculateValueIncrease(Stock stock) {
+		if (stock.getPastValues().size() == 0) { return 0; }
 		float valueOri = stock.getPastValues().get(0);
 		float temp = (stock.getValue() - valueOri) / valueOri * 100;
-		System.out.println(valueOri + " | " + stock.getValue());
-		System.out.println(temp + "% increase");
+		// System.out.println(valueOri + " | " + stock.getValue());
+		// System.out.println(temp + "% increase");
 		return Calculators.round(temp, 2);
 	}
 }

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.iridgames.consolestocks.common.Common;
+import net.iridgames.consolestocks.server.gui.ServerFrame;
 import net.mightyelemental.network.TCPServer;
 import net.mightyelemental.network.listener.MessageListenerServer;
 
@@ -134,6 +135,7 @@ public class Parser implements MessageListenerServer, Runnable {
 			while (true) {
 				Thread.sleep(1000);
 				stocks.updateValues();
+				((ServerFrame) server.getGUI()).updateStocks();
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();

@@ -1,4 +1,4 @@
-package net.iridgames.consolestocks.gui;
+package net.iridgames.consolestocks.client.gui;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

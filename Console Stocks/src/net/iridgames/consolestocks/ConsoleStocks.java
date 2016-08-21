@@ -14,11 +14,13 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import net.iridgames.consolestocks.client.Client;
 import net.iridgames.consolestocks.client.LocalCommands;
+import net.iridgames.consolestocks.client.gui.StateGame;
+import net.iridgames.consolestocks.client.gui.StateMenu;
 import net.iridgames.consolestocks.common.Common;
-import net.iridgames.consolestocks.gui.StateGame;
-import net.iridgames.consolestocks.gui.StateMenu;
 import net.iridgames.consolestocks.server.Commands;
 import net.iridgames.consolestocks.server.Parser;
+import net.iridgames.consolestocks.server.gui.ServerFrame;
+import net.mightyelemental.network.BasicCommands;
 import net.mightyelemental.network.TCPServer;
 
 /** @author MightyElemental & WolfgangTS */
@@ -105,7 +107,7 @@ public class ConsoleStocks extends StateBasedGame {
 		Common.loadServerProperties();
 		serverParser = new Parser(server);
 		server.addListener(serverParser);
-		server.initGUI(Common.serverSettings.get("SERVERNAME"));
+		server.initGUI(new ServerFrame(server, BasicCommands.getExternalIPAddress()));// Common.serverSettings.get("SERVERNAME")
 		serverParser.serverThread.start();
 		// server.getGUI().textField.setText("Your not getting my IP.");
 	}
@@ -115,9 +117,9 @@ public class ConsoleStocks extends StateBasedGame {
 		Common.loadClientProperties();
 		loadClientProperties();
 		client = new Client(Common.clientSettings.get("USER"), address, port, 1024);
+		client.addListener(client);
 		try {
 			client.setup();
-			client.addListener(client);
 		} catch (ConnectException e) {
 			client.onConnectionRefused();
 		} catch (IOException e) {

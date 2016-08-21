@@ -1,4 +1,4 @@
-package net.iridgames.consolestocks.gui;
+package net.iridgames.consolestocks.client.gui;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;

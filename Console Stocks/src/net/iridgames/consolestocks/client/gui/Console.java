@@ -1,4 +1,4 @@
-package net.iridgames.consolestocks.gui;
+package net.iridgames.consolestocks.client.gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -247,6 +247,13 @@ public class Console {
 		if (list.get(0).get(0).equalsIgnoreCase(LocalCommands.disconnect.getCommand())) {
 			LocalCommands.disconnect.run(list.get(0));
 		} else {
+			// Clear Screen
+			if (list.get(0).get(0).equalsIgnoreCase(LocalCommands.clear.getCommand())) {
+				list.get(0).clear();
+				list.get(0).add("local");
+				list.get(0).add("cls");
+			}
+			
 			// Run single local command
 			if (list.get(0).get(0).equalsIgnoreCase("local")) {
 				flag = true;
