@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.text.DecimalFormat;
 
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
@@ -24,6 +25,7 @@ public class StockDisplay extends JPanel {
 	}
 	
 	final int tof = 14;
+	DecimalFormat df = new DecimalFormat("#,##0.00");
 	
 	public void paint(Graphics gg) {
 		super.paint(gg);
@@ -33,18 +35,22 @@ public class StockDisplay extends JPanel {
 		g.setColor(Color.black);
 		g.drawString("Stock: " + stock.getName(), 4, tof);
 		// int textX = g.getFontMetrics().stringWidth("Stock: " + stock.getName()) + 4;
-		int len = g.getFontMetrics().stringWidth(Common.getCurrencySymbol() + stock.getValue());
+		int len = g.getFontMetrics().stringWidth(Common.getCurrencySymbol() + df.format(stock.getValue()));
 		int x = getWidth() - len - 22;
-		g.drawString(Common.getCurrencySymbol() + stock.getValue(), getWidth() - len - 4, tof);
+		g.drawString(Common.getCurrencySymbol() + df.format(stock.getValue()), getWidth() - len - 4, tof);
 		drawShapes(g, x);
+		drawStockPercent(g, len);
 		
+	}
+	
+	public void drawStockPercent(Graphics2D g, int len) {
 		float percent = Stocks.calculateValueIncrease(stock);
-		String s = percent + "%";
+		String s = df.format(percent) + "%";
 		if (percent > 0) {
 			s = "+" + s;
 		}
 		len = g.getFontMetrics().stringWidth(s);
-		g.drawString(s, getWidth() - len - 4, tof * 2);
+		g.drawString(s, getWidth() - len - 4, tof * 2 + 2);
 	}
 	
 	public void drawShapes(Graphics2D g, int x) {

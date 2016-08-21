@@ -127,16 +127,18 @@ public class ServerFrame extends net.mightyelemental.network.gui.ServerGUI {
 		panel_3.add(lblStocks);
 		
 		scrollPane_1 = new JScrollPane();
+		scrollPane_1.setViewportBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane_1.setBounds(0, 25, 195, 301);
 		panel_3.add(scrollPane_1);
 		
 		stockScrollPaneInside = new JPanel();
+		updateStocks();
 		scrollPane_1.setViewportView(stockScrollPaneInside);
+		scrollPane_1.getViewport().setPreferredSize(new Dimension(195, 301));
 		stockScrollPaneInside.setLayout(null);
 		
-		updateStocks();
 	}
 	
 	public void paint(Graphics g) {
@@ -151,7 +153,7 @@ public class ServerFrame extends net.mightyelemental.network.gui.ServerGUI {
 			panel_2.setBounds(10, 11, 449, this.getHeight() - (387 - 155));
 			panel_1.setBounds(253, 177 + (this.getHeight() - 387), 206, 171);
 			panel.setBounds(10, 177 + (this.getHeight() - 387), 233, 171);
-			stockScrollPaneInside.setBounds(10, 25, 185, this.getHeight() - 80);
+			scrollPane_1.setBounds(0, 25, 195, this.getHeight() - 80);
 			panel_3.setBounds(469, 11, 205, this.getHeight() - 50);
 		} catch (Exception e) {
 		}
@@ -168,7 +170,7 @@ public class ServerFrame extends net.mightyelemental.network.gui.ServerGUI {
 				stockScrollPaneInside.add(stockDisplays.get(i));
 				i++;
 			}
-			stockScrollPaneInside.setBounds(0, 0, stockScrollPaneInside.getWidth(), (i + 1) * 52 + 6 * 2);
+			stockScrollPaneInside.setPreferredSize(new Dimension(stockScrollPaneInside.getWidth(), i * 52 + 6));
 		}
 		for (StockDisplay s : stockDisplays) {
 			s.repaint();
