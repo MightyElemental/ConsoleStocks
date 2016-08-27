@@ -10,8 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
 import net.iridgames.consolestocks.common.Common;
-import net.iridgames.consolestocks.server.Stock;
-import net.iridgames.consolestocks.server.Stocks;
+import net.iridgames.stockAPI.Stock;
 
 @SuppressWarnings( "serial" )
 public class StockDisplay extends JPanel {
@@ -35,32 +34,41 @@ public class StockDisplay extends JPanel {
 		g.setColor(Color.black);
 		g.drawString("Stock: " + stock.getName(), 4, tof);
 		// int textX = g.getFontMetrics().stringWidth("Stock: " + stock.getName()) + 4;
-		int len = g.getFontMetrics().stringWidth(Common.getCurrencySymbol() + df.format(stock.getValue()));
+		int len = g.getFontMetrics().stringWidth(Common.getCurrencySymbol() + df.format(stock.getPrice()));
 		int x = getWidth() - len - 22;
-		g.drawString(Common.getCurrencySymbol() + df.format(stock.getValue()), getWidth() - len - 4, tof);
+		g.drawString(Common.getCurrencySymbol() + df.format(stock.getPrice()), getWidth() - len - 4, tof);
 		drawShapes(g, x);
 		drawStockPercent(g, len);
-		
+		g.setColor(Color.black);
+		g.drawString(stock.getDateEdit() + ", " + stock.getTimeEdit(), 4, tof * 2);
 	}
 	
 	public void drawStockPercent(Graphics2D g, int len) {
-		float percent = Stocks.calculateValueIncrease(stock);
+		float percent = (float) stock.getPercentChange();// Stocks.calculateValueIncrease(stock);
 		String s = df.format(percent) + "%";
 		if (percent > 0) {
 			s = "+" + s;
 		}
 		len = g.getFontMetrics().stringWidth(s);
-		g.drawString(s, getWidth() - len - 4, tof * 2 + 2);
+		g.drawString(s, getWidth() - len - 4, tof * 2);
+		
+		if (stock.getChangeAmount() > 0) {
+			s = Common.getCurrencySymbol() + "+" + stock.getChangeAmount();
+		} else {
+			s = Common.getCurrencySymbol() + stock.getChangeAmount();
+		}
+		len = g.getFontMetrics().stringWidth(s);
+		g.drawString(s, getWidth() - len - 4, tof * 3);
 	}
 	
 	public void drawShapes(Graphics2D g, int x) {
 		Polygon loss = new Polygon(new int[] { 5 + x, 10 + x, 15 + x }, new int[] { 5, 15, 5 }, 3);
 		Polygon gain = new Polygon(new int[] { 5 + x, 10 + x, 15 + x }, new int[] { 15, 5, 15 }, 3);
 		try {
-			if (stock.getPastValues().get(0) < stock.getValue()) {
+			if (stock.getPercentChange() > 0) {
 				g.setColor(Color.green.darker());
 				g.fillPolygon(gain);
-			} else if (stock.getPastValues().get(0) > stock.getValue()) {
+			} else if (stock.getPercentChange() < 0) {
 				g.setColor(Color.red);
 				g.fillPolygon(loss);
 			} else {

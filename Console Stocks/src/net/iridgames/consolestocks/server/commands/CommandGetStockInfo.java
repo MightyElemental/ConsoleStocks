@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import net.iridgames.consolestocks.ConsoleStocks;
 import net.iridgames.consolestocks.common.Common;
 import net.iridgames.consolestocks.server.CommandServer;
-import net.iridgames.consolestocks.server.Stock;
+import net.iridgames.consolestocks.server.Stocks;
+import net.iridgames.stockAPI.Stock;
 
 public class CommandGetStockInfo extends CommandServer {
 	
@@ -29,13 +30,12 @@ public class CommandGetStockInfo extends CommandServer {
 		Stock stock;
 		try {
 			stock = ConsoleStocks.serverParser.stocks.getStock(name);
-			value = stock.getValue();
+			value = stock.getPrice();
 		} catch (NullPointerException e) {
 			ConsoleStocks.serverParser.sendMessage(name + " is not a valid stock", ip, port);
 			return;
 		}
-		String message = name + " is worth " + Common.getCurrencySymbol() + value + " ("
-			+ ConsoleStocks.serverParser.stocks.calculateValueIncrease(stock) + "%)";
+		String message = name + " is worth " + Common.getCurrencySymbol() + value + " (" + Stocks.calculateValueIncrease(stock) + "%)";
 		ConsoleStocks.serverParser.sendMessage(message, ip, port);
 	}
 	

@@ -10,20 +10,16 @@ import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 import net.iridgames.consolestocks.ConsoleStocks;
 import net.iridgames.consolestocks.common.Common;
-import net.iridgames.consolestocks.server.Stock;
 import net.mightyelemental.network.Server;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
-import javax.swing.border.BevelBorder;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
 
 @SuppressWarnings( "serial" )
 public class ServerFrame extends net.mightyelemental.network.gui.ServerGUI {
@@ -33,6 +29,7 @@ public class ServerFrame extends net.mightyelemental.network.gui.ServerGUI {
 	private JPanel panel;
 	private JPanel panel_1;
 	private JPanel panel_2;
+	private JLabel lblStocks;
 	
 	JPanel panel_3;
 	public JPanel stockScrollPaneInside;
@@ -121,7 +118,7 @@ public class ServerFrame extends net.mightyelemental.network.gui.ServerGUI {
 		contentPane.add(panel_3);
 		panel_3.setLayout(null);
 		
-		JLabel lblStocks = new JLabel("Stocks");
+		lblStocks = new JLabel("Stocks (0)");
 		lblStocks.setHorizontalAlignment(SwingConstants.CENTER);
 		lblStocks.setBounds(10, 0, 185, 14);
 		panel_3.add(lblStocks);
@@ -134,7 +131,7 @@ public class ServerFrame extends net.mightyelemental.network.gui.ServerGUI {
 		panel_3.add(scrollPane_1);
 		
 		stockScrollPaneInside = new JPanel();
-		updateStocks();
+		updateStocks(0);
 		scrollPane_1.setViewportView(stockScrollPaneInside);
 		scrollPane_1.getViewport().setPreferredSize(new Dimension(195, 301));
 		stockScrollPaneInside.setLayout(null);
@@ -159,11 +156,11 @@ public class ServerFrame extends net.mightyelemental.network.gui.ServerGUI {
 		}
 	}
 	
-	public void updateStocks() {
+	public void updateStocks(int secondsSinceLastUpdate) {
 		if (stockDisplays.size() != ConsoleStocks.serverParser.stocks.stockList.size()) {
 			stockDisplays.clear();
 			int i = 0;
-			for (Stock s : ConsoleStocks.serverParser.stocks.stockList) {
+			for (net.iridgames.stockAPI.Stock s : ConsoleStocks.serverParser.stocks.stockList.values()) {
 				StockDisplay sd = new StockDisplay(s);
 				sd.setBounds(5, i * 52 + 6, 160, 50);
 				stockDisplays.add(sd);
@@ -172,6 +169,7 @@ public class ServerFrame extends net.mightyelemental.network.gui.ServerGUI {
 			}
 			stockScrollPaneInside.setPreferredSize(new Dimension(stockScrollPaneInside.getWidth(), i * 52 + 6));
 		}
+		lblStocks.setText("Stocks (" + (60 - secondsSinceLastUpdate) + "s)");
 		for (StockDisplay s : stockDisplays) {
 			s.repaint();
 		}

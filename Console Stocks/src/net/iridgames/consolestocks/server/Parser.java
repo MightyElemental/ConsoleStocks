@@ -129,13 +129,19 @@ public class Parser implements MessageListenerServer, Runnable {
 		sendOnlineClients();
 	}
 	
+	int count;
+	
 	@Override
 	public void run() {
 		try {
 			while (true) {
 				Thread.sleep(1000);
-				stocks.updateValues();
-				((ServerFrame) server.getGUI()).updateStocks();
+				if (count % 60 == 0) {
+					stocks.updateStocks();
+					
+				}
+				((ServerFrame) server.getGUI()).updateStocks(count % 60);
+				count++;
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();

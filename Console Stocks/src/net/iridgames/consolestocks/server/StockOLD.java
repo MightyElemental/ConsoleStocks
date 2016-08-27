@@ -7,9 +7,10 @@ import java.util.Random;
 import net.iridgames.consolestocks.Calculators;
 import net.iridgames.consolestocks.ConsoleStocks;
 
-/**@author WolfgangTS*/
-public class Stock
-{
+/** @author WolfgangTS */
+@Deprecated
+public class StockOLD {
+	
 	private static Random random = new Random();
 	
 	private String name;
@@ -17,64 +18,51 @@ public class Stock
 	
 	protected List<Float> pastValues = new ArrayList<Float>();
 	
-	public Stock(String name, float value)
-	{
+	public StockOLD( String name, float value ) {
 		this.setName(name);
 		this.setValue(value);
 	}
 	
-	public Stock(String name)
-	{
+	public StockOLD( String name ) {
 		// Name, Value
-		this(name, (float) (Calculators.round(random.nextFloat()*100+1, 2)));
+		this(name, (float) (Calculators.round(random.nextFloat() * 100 + 1, 2)));
 	}
 	
-	public static Stock generateRandom()
-	{
-		return new Stock(generateCharacters(5));
+	public static StockOLD generateRandom() {
+		return new StockOLD(generateCharacters(5));
 	}
 	
-	public static String generateCharacters(int n)
-	{
+	public static String generateCharacters(int n) {
 		String characters = "";
 		
-		for (int i = 0; i < n; i++)
-		{
+		for (int i = 0; i < n; i++) {
 			characters += (char) (ConsoleStocks.rand.nextInt(26) + 'a');
 		}
 		
 		return characters.toUpperCase();
 	}
-
-	public String getName()
-	{
+	
+	public String getName() {
 		return name;
 	}
-
-	public void setName(String name)
-	{
+	
+	public void setName(String name) {
 		this.name = name;
 	}
-
-	public float getValue()
-	{
+	
+	public float getValue() {
 		return value;
 	}
-
-	public void setValue(float value)
-	{
+	
+	public void setValue(float value) {
 		this.value = value;
 	}
-
 	
-	public List<Float> getPastValues() 
-	{
+	public List<Float> getPastValues() {
 		return pastValues;
 	}
-
 	
-	public void addValue(float value) 
-	{
+	public void addValue(float value) {
 		this.pastValues.add(value);
 	}
 }
