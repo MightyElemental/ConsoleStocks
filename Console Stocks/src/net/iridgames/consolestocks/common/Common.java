@@ -255,4 +255,8 @@ public class Common {
 		}
 	}
 	
+	public static String getVerifyCode() {
+		return "ConsoleStocks";
+	}
+	
 }

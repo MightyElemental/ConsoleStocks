@@ -5,7 +5,7 @@ public class StockTest {
 	
 	public static void main(String[] args) {
 		
-		Stock facebook = StockFetcher.getStock("FB");
+		Stock facebook = StockFetcher.getStock("FB","Facebook");
 		System.out.println("Price: " + facebook.getPrice());
 		System.out.println("Change Amount: " + facebook.getChangeAmount());
 		System.out.println("Edit Date: " + facebook.getDateEdit());

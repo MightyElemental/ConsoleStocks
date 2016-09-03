@@ -162,12 +162,12 @@ public class ServerFrame extends net.mightyelemental.network.gui.ServerGUI {
 			int i = 0;
 			for (net.iridgames.stockAPI.Stock s : ConsoleStocks.serverParser.stocks.stockList.values()) {
 				StockDisplay sd = new StockDisplay(s);
-				sd.setBounds(5, i * 52 + 6, 160, 50);
+				sd.setBounds(5, i * 66 + 6, 160, 64);
 				stockDisplays.add(sd);
 				stockScrollPaneInside.add(stockDisplays.get(i));
 				i++;
 			}
-			stockScrollPaneInside.setPreferredSize(new Dimension(stockScrollPaneInside.getWidth(), i * 52 + 6));
+			stockScrollPaneInside.setPreferredSize(new Dimension(stockScrollPaneInside.getWidth(), i * 66 + 6));
 		}
 		lblStocks.setText("Stocks (" + (60 - secondsSinceLastUpdate) + "s)");
 		for (StockDisplay s : stockDisplays) {

@@ -32,7 +32,7 @@ public class StockDisplay extends JPanel {
 		g.setColor(Color.lightGray);
 		g.fillRect(1, 1, getWidth() - 2, getHeight() - 2);
 		g.setColor(Color.black);
-		g.drawString("Stock: " + stock.getName(), 4, tof);
+		g.drawString("Stock: " + stock.getSymbol(), 4, tof);
 		// int textX = g.getFontMetrics().stringWidth("Stock: " + stock.getName()) + 4;
 		int len = g.getFontMetrics().stringWidth(Common.getCurrencySymbol() + df.format(stock.getPrice()));
 		int x = getWidth() - len - 22;
@@ -41,6 +41,8 @@ public class StockDisplay extends JPanel {
 		drawStockPercent(g, len);
 		g.setColor(Color.black);
 		g.drawString(stock.getDateEdit() + ", " + stock.getTimeEdit(), 4, tof * 2);
+		g.drawString("Updates: " + stock.getPastValues().size(), 4, tof * 3);
+		g.drawString(stock.getName(), 4, tof * 4);
 	}
 	
 	public void drawStockPercent(Graphics2D g, int len) {

@@ -10,7 +10,7 @@ import net.iridgames.stockAPI.Stock;
 import net.iridgames.stockAPI.StockFetcher;
 import net.iridgames.stockAPI.StockUpdateListener;
 
-/** @author WolfgangTS */
+/** @author Mighty Elemental */
 
 public class Stocks implements StockUpdateListener {
 	
@@ -23,10 +23,14 @@ public class Stocks implements StockUpdateListener {
 	public ArrayList<String> symbols = new ArrayList<String>();
 	
 	{
-		symbols.add("FB");
-		symbols.add("GOOG");
-		symbols.add("AAPL");
-		symbols.add("MSFT");
+		symbols.add("FB:Facebook");
+		symbols.add("GOOG:Google");
+		symbols.add("AAPL:Apple");
+		symbols.add("MSFT:Microsoft");
+		symbols.add("MSFT:Microsoft");
+		symbols.add("GBP:Global Petroleum Limited");
+		symbols.add("ATVI:Activision");
+		symbols.add("GOLD:Randgold Resources");
 	}
 	
 	public Stocks() {
@@ -37,7 +41,7 @@ public class Stocks implements StockUpdateListener {
 	
 	public void loadStocks() {
 		for (String s : symbols) {
-			stockList.put(s, StockFetcher.getStock(s));
+			stockList.put(s.split(":")[0], StockFetcher.getStock(s.split(":")[0], s.split(":")[1]));
 		}
 	}
 	
@@ -51,14 +55,10 @@ public class Stocks implements StockUpdateListener {
 	// }
 	
 	public Stock getStock(String name) {
-		for (int i = 0; i < stockList.size(); i++) {
-			if (stockList.get(i).getName().equals(name.toUpperCase())) { return stockList.get(i); }
-		}
-		
+		if (stockList.containsKey(name.toUpperCase())) { return stockList.get(name.toUpperCase()); }
 		return null;
 	}
 	
-	/** @author Mighty Elemental */
 	@Deprecated
 	public void updateValues() {
 		for (int i = 0; i < stockList.size(); i++) {
@@ -72,7 +72,6 @@ public class Stocks implements StockUpdateListener {
 		}
 	}
 	
-	/** @author Mighty Elemental */
 	public static float calculateValueIncrease(Stock stock) {
 		if (stock.getPastValues().size() == 0) { return 0; }
 		float valueOri = stock.getPastValues().get(0);
@@ -89,7 +88,7 @@ public class Stocks implements StockUpdateListener {
 	
 	public void updateStocks() {
 		for (String s : symbols) {
-			StockFetcher.stockListener.onStockUpdated(StockFetcher.getStock(s));
+			StockFetcher.stockListener.onStockUpdated(StockFetcher.getStock(s.split(":")[0], s.split(":")[1]));
 		}
 	}
 	

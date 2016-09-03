@@ -107,12 +107,15 @@ public class Parser implements MessageListenerServer, Runnable {
 		}
 	}
 	
-	@SuppressWarnings( "unchecked" )
 	@Override
-	public void onObjectRecievedFromClient(InetAddress ip, int port, Object obj) {
+	public void onObjectRecievedFromClient(InetAddress ip, int port, Map<String, Object> obj) {
 		System.out.println(obj);
 		String UID = server.getTCPConnectionFromIP(ip, port).getUID();
-		String command = (String) ((Map<String, Object>) obj).get("Command");
+		if (!obj.containsKey("Command")) {
+			server.getGUI().addCommand(UID + ">> Verification Sent");
+			return;
+		}
+		String command = (String) obj.get("Command");
 		server.getGUI().addCommand(UID + ">> " + command);
 		try {
 			parseMessage(command, ip, port);

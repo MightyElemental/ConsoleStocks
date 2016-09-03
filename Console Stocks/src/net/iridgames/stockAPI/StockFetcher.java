@@ -21,7 +21,7 @@ public class StockFetcher {
 	 *            the company's stock symbol
 	 * @return a stock object containing info about the company's stock
 	 * @see Stock */
-	public static Stock getStock(String symbol) {
+	public static Stock getStock(String symbol, String name) {
 		String sym = symbol.toUpperCase();
 		double price = 0.0;
 		double percentChange = 0.0;
@@ -29,7 +29,6 @@ public class StockFetcher {
 		String timeEdit = "";
 		String dateEdit = "";
 		long ID = 0;
-		String name = sym;
 		try {
 			
 			// Retrieve JSON String From Google Finance
@@ -56,8 +55,13 @@ public class StockFetcher {
 			price = StockHelper.handleDouble(settings.get("l") + "");
 			percentChange = StockHelper.handleDouble(settings.get("cp_fix") + "");
 			changeAmount = StockHelper.handleDouble(settings.get("c_fix") + "");
-			timeEdit = settings.get("elt").toString().split(",")[1].replace("EDT", "");
-			dateEdit = settings.get("elt").toString().split(",")[0];
+			try {
+				timeEdit = settings.get("elt").toString().split(",")[1].replace("EDT", "").split(" ")[1];
+				dateEdit = settings.get("elt").toString().split(",")[0];
+			} catch (NullPointerException e) {
+				timeEdit = settings.get("lt").toString().split(",")[1].replace(" EDT", "").split(" ")[1];
+				dateEdit = settings.get("lt").toString().split(",")[0];
+			}
 			ID = Long.parseLong(settings.get("id") + "");
 			
 		} catch (IOException e) {

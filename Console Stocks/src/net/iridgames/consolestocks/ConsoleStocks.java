@@ -95,7 +95,7 @@ public class ConsoleStocks extends StateBasedGame {
 	}
 	
 	private static void setupServer() throws IOException {
-		server = new TCPServer(port, false, 1024);
+		server = new TCPServer(port, false, 1024, Common.getVerifyCode());
 		try {
 			server.setupServer();
 		} catch (BindException e) {

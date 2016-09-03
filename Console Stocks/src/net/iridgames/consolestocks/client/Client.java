@@ -13,7 +13,7 @@ public class Client extends TCPClient implements MessageListenerClient {
 	
 	
 	public Client( String name, String address, int port, int maxBytes ) {
-		super(address, port, false, maxBytes);
+		super(address, port, false, maxBytes, Common.getVerifyCode());
 		accountInfo.put("username", "");
 		accountInfo.put("displayName", Common.clientSettings.get("USER"));
 		accountInfo.put("balance", 0);

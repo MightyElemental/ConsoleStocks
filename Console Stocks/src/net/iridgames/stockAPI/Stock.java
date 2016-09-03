@@ -75,7 +75,7 @@ public class Stock {
 	
 	/** Updates stock with information from another stock */
 	public void update(Stock stock) {
-		if (this.timeEdit != stock.timeEdit || this.dateEdit != stock.dateEdit) {
+		if (!this.timeEdit.equals(stock.timeEdit) || !this.dateEdit.equals(stock.dateEdit)) {
 			pastValues.add((float) this.price);
 			this.price = stock.price;
 			this.percentChange = stock.percentChange;
