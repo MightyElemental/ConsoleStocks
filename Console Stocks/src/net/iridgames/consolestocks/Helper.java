@@ -2,11 +2,38 @@ package net.iridgames.consolestocks;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.TrueTypeFont;
 
-public class Calculators {
+public class Helper {
 	
+	
+	public static void drawString(Graphics g, String s, float x, float y) {// color{text}
+		String[] words = s.split(" ");
+		List<String> wordsAndColors = new ArrayList<String>();
+		for (int i = 0; i < words.length; i++) {
+			if (words[i].contains("{")) {
+				wordsAndColors.add("<" + words[i].split("\\{")[0] + ">");
+				wordsAndColors.add(words[i].split("\\{")[1]);
+				
+				while (i < words.length && !words[i + 1].contains("}")) {
+					i++;
+					if (i < words.length) {
+						wordsAndColors.add(words[i]);
+					} else {
+						break;
+					}
+				}
+			}
+			if (words[i].contains("}")) {
+				wordsAndColors.add(words[i].replace("}", ""));
+			}
+		}
+		
+	}
 	
 	public static float round(double value, int precision) {
 		int scale = (int) Math.pow(10, precision);

@@ -68,7 +68,7 @@ public class StateGame extends BasicGameState {
 	public void renderBR(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		final int xDisp = gc.getWidth() / 2;
 		final int yDisp = gc.getHeight() / 2;
-		console.renderConsole(gc, sbg, g, xDisp, yDisp);
+		PRender.renderPanel(PRender.CONSOLE, gc, sbg, g, xDisp, yDisp);
 		renderPanelNumber(g, gc, 4, xDisp, yDisp);
 	}
 	

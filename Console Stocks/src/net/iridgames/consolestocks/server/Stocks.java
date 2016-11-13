@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import net.iridgames.consolestocks.Calculators;
+import net.iridgames.consolestocks.Helper;
 import net.iridgames.stockAPI.Stock;
 import net.iridgames.stockAPI.StockFetcher;
 import net.iridgames.stockAPI.StockUpdateListener;
@@ -66,7 +66,7 @@ public class Stocks implements StockUpdateListener {
 			float value = (float) stockList.get(i).getPrice();
 			float randomPercent = (random.nextInt(200) - 100) / 10f;
 			value += value * (randomPercent / 100);
-			value = (float) Calculators.round(value, 2);
+			value = (float) Helper.round(value, 2);
 			stockList.get(i).setPrice(value);
 			calculateValueIncrease(stockList.get(i));
 		}
@@ -78,7 +78,7 @@ public class Stocks implements StockUpdateListener {
 		float temp = (float) ((stock.getPrice() - valueOri) / valueOri * 100);
 		// System.out.println(valueOri + " | " + stock.getValue());
 		// System.out.println(temp + "% increase");
-		return Calculators.round(temp, 2);
+		return Helper.round(temp, 2);
 	}
 	
 	@Override

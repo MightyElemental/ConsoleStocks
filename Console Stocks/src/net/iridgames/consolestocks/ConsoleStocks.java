@@ -3,7 +3,11 @@ package net.iridgames.consolestocks;
 import java.io.IOException;
 import java.net.BindException;
 import java.net.ConnectException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
@@ -43,14 +47,13 @@ public class ConsoleStocks extends StateBasedGame {
 	public static Random rand = new Random();
 	
 	public static final String GAME_NAME = "Console Stocks";
-	public static final String VERSION = "0.6.9";
+	public static final String VERSION = "0.7.0";
 	public static final String TITLE = GAME_NAME + " | v" + VERSION;
 	public static final int WIDTH = 1600;
 	public static Image NULL_IMAGE;
 	
 	public ConsoleStocks( String name ) {
 		super(name);
-		
 		addState(new StateMenu(STATE_MENU));
 		addState(stateGame);
 	}

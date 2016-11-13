@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
@@ -19,8 +20,10 @@ public class PRender {
 	public static final int ACCOUNT_INFO = 2;
 	public static final int CHAT_BOX = 3;
 	public static final int STOCK_VALUE_INFO = 4;
+	public static final int CONSOLE = 5;
 	
 	public static void renderPanel(int panelID, GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) {
+		g.setColor(Color.green);
 		switch (panelID) {
 			case CLIENT_INFO:
 				try {
@@ -43,9 +46,13 @@ public class PRender {
 					e.printStackTrace();
 				}
 				break;
+			case CONSOLE:
+				renderConsole(gc, sbg, g, x, y);
+				break;
 		}
 	}
 	
+	/**Used to render account information*/
 	private static void renderAccount(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) throws UnknownHostException {
 		if (ConsoleStocks.client == null || !ConsoleStocks.client.isRunning()) {
 			g.drawString("Account information not found.", x + 5, y + 5);
@@ -114,6 +121,10 @@ public class PRender {
 		for (int i = 0; i < list.length; i++) {
 			g.drawString(list[i], x + 5, y + 5 + (20 * i));
 		}
+	}
+	
+	private static void renderConsole(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) {
+		ConsoleStocks.stateGame.console.renderConsole(gc, sbg, g, x, y);
 	}
 	
 }

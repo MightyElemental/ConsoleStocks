@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import net.iridgames.consolestocks.Calculators;
+import net.iridgames.consolestocks.Helper;
 import net.iridgames.consolestocks.ConsoleStocks;
 
 /** @author WolfgangTS */
@@ -25,7 +25,7 @@ public class StockOLD {
 	
 	public StockOLD( String name ) {
 		// Name, Value
-		this(name, (float) (Calculators.round(random.nextFloat() * 100 + 1, 2)));
+		this(name, (float) (Helper.round(random.nextFloat() * 100 + 1, 2)));
 	}
 	
 	public static StockOLD generateRandom() {
