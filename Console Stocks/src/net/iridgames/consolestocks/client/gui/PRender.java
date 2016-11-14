@@ -10,6 +10,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
 import net.iridgames.consolestocks.ConsoleStocks;
+import net.iridgames.consolestocks.Helper;
 import net.iridgames.consolestocks.common.Common;
 
 public class PRender {
@@ -23,7 +24,7 @@ public class PRender {
 	public static final int CONSOLE = 5;
 	
 	public static void renderPanel(int panelID, GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) {
-		g.setColor(Color.green);
+		g.setColor(Color.white);
 		switch (panelID) {
 			case CLIENT_INFO:
 				try {
@@ -52,10 +53,10 @@ public class PRender {
 		}
 	}
 	
-	/**Used to render account information*/
+	/** Used to render account information */
 	private static void renderAccount(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) throws UnknownHostException {
 		if (ConsoleStocks.client == null || !ConsoleStocks.client.isRunning()) {
-			g.drawString("Account information not found.", x + 5, y + 5);
+			Helper.drawString(g, "alert{Account information not found}", x + 5, y + 5);
 			return;
 		}
 		int i = 0;
@@ -81,7 +82,7 @@ public class PRender {
 	@SuppressWarnings( "unchecked" )
 	private static void renderClient(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) throws UnknownHostException {
 		if (ConsoleStocks.client == null) {
-			g.drawString("Client information not found.", x + 5, y + 5);
+			Helper.drawString(g, "alert{Client information not found}", x + 5, y + 5);
 			return;
 		}
 		Object message = "";
@@ -96,7 +97,7 @@ public class PRender {
 			"User: " + ConsoleStocks.client.getName(), "ClientUID: " + ConsoleStocks.client.getUID(),
 			"Message Last Recieved From Server: " + message };
 		for (int i = 0; i < list.length; i++) {
-			g.drawString(list[i], x + 5, y + 5 + (20 * i));
+			Helper.drawString(g, list[i], x + 5, y + 5 + (20 * i));
 		}
 	}
 	
@@ -105,21 +106,21 @@ public class PRender {
 	 * @throws UnknownHostException */
 	private static void renderServer(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) throws UnknownHostException {
 		if (ConsoleStocks.client == null || !ConsoleStocks.client.isRunning()) {
-			String[] list = { "Server information not found.", "", "---WARNING---", "NO CONNECTION" };
+			String[] list = { "alert{Server information not found}", "", "error{~~~WARNING~~~}", "NO CONNECTION" };
 			for (int i = 0; i < list.length; i++) {
-				g.drawString(list[i], x + 5, y + 5 + (20 * i));
+				Helper.drawString(g, list[i], x + 5, y + 5 + (20 * i));
 			}
 			return;
 		}
 		if (ConsoleStocks.client.serverInfo == null) {
-			g.drawString("Server information not found.", x + 5, y + 5);
+			Helper.drawString(g, "alert{Server information not found.}", x + 5, y + 5);
 			return;
 		}
 		String[] list = { "Server Information", "Server Name: " + ConsoleStocks.client.serverInfo.get("ServerName"),
 			"Number Of Users Online: " + ConsoleStocks.client.serverInfo.get("OnlineClients"),
 			"Server Currency: " + ConsoleStocks.client.serverInfo.get("Currency").toString().toUpperCase() };
 		for (int i = 0; i < list.length; i++) {
-			g.drawString(list[i], x + 5, y + 5 + (20 * i));
+			Helper.drawString(g, list[i], x + 5, y + 5 + (20 * i));
 		}
 	}
 	

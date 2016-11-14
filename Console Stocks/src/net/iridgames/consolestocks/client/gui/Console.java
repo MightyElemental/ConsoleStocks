@@ -1,5 +1,10 @@
 package net.iridgames.consolestocks.client.gui;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +30,7 @@ public class Console {
 	public ArrayList<String> commands = new ArrayList<String>();
 	public ArrayList<String> console = new ArrayList<String>();
 	
-	public String prefix = "abcd@local> ";
+	public String prefix = "root@local> ";
 	public int flashSpeed = 40;
 	public char cursorSymbol = '_';
 	public String commandLine = "";
@@ -65,7 +70,7 @@ public class Console {
 				String[] command = console.get(i).split("(?<=\\G" + result + ")");
 				
 				Helper.drawString(g, strJoin(command, "\n").toString(), x + 10, y + tempYPast + (20 * (i - iStart)));
-				//g.drawString(strJoin(command, "\n").toString(), x + 10, y + tempYPast + (20 * (i - iStart)));
+				// g.drawString(strJoin(command, "\n").toString(), x + 10, y + tempYPast + (20 * (i - iStart)));
 				tempYPast += ((command.length - 1) * 20);
 				tempY = (20 * (iStop - iStart)) + tempYPast;
 			}
@@ -316,7 +321,7 @@ public class Console {
 	
 	public void updatePrefix() {
 		if (ConsoleStocks.client == null || !ConsoleStocks.client.isRunning()) {
-			prefix = "abcd@local> ";
+			prefix = "root@local> ";
 			return;
 		}
 		int maxPre = 7;
@@ -337,6 +342,33 @@ public class Console {
 		if (text != null) {
 			console.add(text);
 		}
+	}
+	
+	Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
+	
+	public void onPaste() {
+		
+		Transferable t = c.getContents(this);
+		if (t == null) { return; }
+		try {
+			String p = (String) t.getTransferData(DataFlavor.stringFlavor);
+			commandLine += p;
+			dispCommandLine += p;
+			cursor += p.length();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} // try
+	}
+	
+	public void onCopy() {
+		StringSelection stringSelection = new StringSelection(commandLine);
+		c.setContents(stringSelection, null);
+	}
+	
+	public void onServerClosed() {
+		updatePrefix();
+		ConsoleStocks.stateGame.console.addText("error{SERVER HAS BEEN CLOSED}");
+		dispCommandLine = prefix + commandLine;
 	}
 	
 }

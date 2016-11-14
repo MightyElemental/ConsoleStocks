@@ -1,5 +1,6 @@
 package net.iridgames.consolestocks.client.commands;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import net.iridgames.consolestocks.ConsoleStocks;
@@ -45,7 +46,12 @@ public class CommandSet extends CommandLocal {
 						}
 					}
 					ConsoleStocks.client.setName(name);
-					Common.setClientVariable("USER", name);
+					try {
+						Common.clientConfig.setVariable("USER", name);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					// Common.setClientVariable("USER", name);
 					ConsoleStocks.stateGame.console.addText("Your username has been set to: " + name);
 				}
 				break;
@@ -54,8 +60,10 @@ public class CommandSet extends CommandLocal {
 					ConsoleStocks.stateGame.console.addText("Usage: set shownumbers [true/false]");
 				} else {
 					try {
-						Common.setClientVariable("SHOWPANELNUMBERS", Boolean.parseBoolean(args.get(3)) + "");
+						Common.clientConfig.setVariable("SHOWPANELNUMBERS", args.get(3).contains("t") + "");
+						// Common.setClientVariable("SHOWPANELNUMBERS", Boolean.parseBoolean(args.get(3)) + "");
 					} catch (Exception e) {
+						e.printStackTrace();
 						ConsoleStocks.stateGame.console.addText("Usage: set shownumbers [true/false]");
 					}
 				}
@@ -65,6 +73,9 @@ public class CommandSet extends CommandLocal {
 			case "defaultport":
 				break;
 			case "panel":
+				break;
+			default:
+				ConsoleStocks.stateGame.console.addText("Usage: " + getUsage());
 				break;
 		}
 	}

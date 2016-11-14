@@ -24,7 +24,7 @@ public class CommandDisconnect extends CommandLocal {
 				e.printStackTrace();
 			}
 		} else {
-			this.addTextToConsole("No server to disconnect from");
+			this.addTextToConsole("alert{No server to disconnect from}");
 		}
 	}
 	

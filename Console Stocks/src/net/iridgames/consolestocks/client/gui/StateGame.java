@@ -80,7 +80,7 @@ public class StateGame extends BasicGameState {
 	}
 	
 	public void renderPanelNumber(Graphics g, GameContainer gc, int number, int x, int y) {
-		if (Common.clientSettings.get("SHOWPANELNUMBERS").equals("false")) { return; }
+		if (Common.clientConfig.getVal("SHOWPANELNUMBERS").equals("false")) { return; }
 		float xD = x + gc.getWidth() / 2f;
 		float yD = y + gc.getHeight() / 2f;
 		g.setColor(new Color(100, 100, 100, 0.5f));
@@ -95,12 +95,15 @@ public class StateGame extends BasicGameState {
 		ticks += delta / 17;
 		console.lControlDown = gc.getInput().isKeyDown(Input.KEY_LCONTROL);
 		console.updateCommandLine(ticks);
+		ctrlDown = gc.getInput().isKeyDown(29);
 	}
 	
 	@Override
 	public int getID() {
 		return ID;
 	}
+	
+	boolean ctrlDown = false;
 	
 	@Override
 	public void keyPressed(int key, char c) {
@@ -109,6 +112,12 @@ public class StateGame extends BasicGameState {
 		console.keyPressedTime = System.currentTimeMillis();
 		console.keyChar = c;
 		console.processCommandLineInput();
+		if (key == Input.KEY_V && ctrlDown) {
+			console.onPaste();
+		}
+		if (key == Input.KEY_C && ctrlDown) {
+			console.onCopy();
+		}
 	}
 	
 	@Override

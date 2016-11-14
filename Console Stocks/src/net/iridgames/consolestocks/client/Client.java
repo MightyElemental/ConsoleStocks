@@ -67,19 +67,19 @@ public class Client extends TCPClient implements MessageListenerClient {
 	
 	@Override
 	public void onServerClosed() {
-		ConsoleStocks.stateGame.console.addText("SERVER HAS BEEN CLOSED");
 		try {
 			ConsoleStocks.client.stopClient();
 		} catch (InterruptedException | IOException e) {
 			e.printStackTrace();
 		}
+		ConsoleStocks.stateGame.console.onServerClosed();
 		ConsoleStocks.client = null;
 	}
 	
 	public void onConnectionRefused() {
 		System.err.println("Could not connect to server!");
 		ConsoleStocks.stateGame.console.console.remove("Connecting...");
-		ConsoleStocks.stateGame.console.addText("Could not connect to " + this.getAddress());
+		ConsoleStocks.stateGame.console.addText("error{~WARNING~} Could not connect to " + this.getAddress());
 		try {
 			ConsoleStocks.client.stopClient();
 		} catch (InterruptedException | IOException e) {

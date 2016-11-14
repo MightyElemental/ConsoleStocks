@@ -19,6 +19,20 @@ public class Common {
 	public static final String SERVER_PROPERTIES = "server.properties";
 	public static final String CLIENT_PROPERTIES = "client.properties";
 	
+	public static ConfigFile clientConfig = new ConfigFile(CLIENT_PROPERTIES) {
+		
+		
+		@Override
+		public void setDefaultSettings() {
+			this.addDefault("User", "name!");
+			this.addDefault("CursorFlashSpeed", "40");
+			this.addDefault("DefaultServerIP", "127.0.0.1");
+			this.addDefault("DefaultServerPort", "4040");
+			this.addDefault("ShowPanelNumbers", "false");
+		}
+		
+	};
+	
 	public static Map<String, String> serverSettings = new HashMap<String, String>();
 	public static Map<String, String> clientSettings = new HashMap<String, String>();
 	
@@ -91,7 +105,7 @@ public class Common {
 		}
 	}
 	
-	public static void setClientVariable(String key, String value) {
+	public static void setClientVariable2(String key, String value) {
 		if (!doesFileExist(CLIENT_PROPERTIES)) {
 			createClientProperties();
 		}
@@ -105,13 +119,14 @@ public class Common {
 			bw.write("//ClientProperties " + time);
 			bw.newLine();
 			for (int i = 0; i < defaultClientVariables.length; i++) {
-				if (defaultClientVariables[i][0].toUpperCase().equals(key.toUpperCase())) {
-					bw.write(defaultClientVariables[i][0] + ":" + value);
-					clientSettings.put(defaultClientVariables[i][0].toUpperCase(), value);
-				} else if (clientSettings.containsKey(defaultClientVariables[i][0].toUpperCase())) {
+				if (defaultClientVariables[i][0].toUpperCase().equals(key.toUpperCase())) {// key == key
+					bw.write(defaultClientVariables[i][0] + ":" + value);// write dKey + val
+					clientSettings.put(defaultClientVariables[i][0].toUpperCase(), value);// write dKey + val
+				} else if (clientSettings.containsKey(defaultClientVariables[i][0].toUpperCase())) {// cSet contains dKey
+					// write dKey + cVal
 					bw.write(defaultClientVariables[i][0] + ":" + clientSettings.get(defaultClientVariables[i][0].toUpperCase()));
 				} else {
-					bw.write(defaultClientVariables[i][0] + ":" + defaultClientVariables[i][1]);
+					bw.write(defaultClientVariables[i][0] + ":" + defaultClientVariables[i][1]); //write dKey + dVal
 				}
 				
 				bw.newLine();

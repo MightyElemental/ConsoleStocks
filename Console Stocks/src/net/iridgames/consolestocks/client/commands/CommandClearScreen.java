@@ -10,7 +10,7 @@ public class CommandClearScreen extends CommandLocal {
 	
 	public CommandClearScreen() {
 		super("cls");
-		// this.addAlias("clear");
+		this.addAlias("clear");
 		this.setDescription("Use to clear the screen");
 	}
 	

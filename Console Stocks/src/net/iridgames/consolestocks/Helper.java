@@ -31,15 +31,15 @@ public class Helper {
 							break;
 						}
 					}
-					wordsAndColors.add("<default>");
 				}
+				wordsAndColors.add("<default>");
 			} else if (!words[i].contains("}")) {
 				wordsAndColors.add(words[i]);
 			}
 			words[i] = words[i].replace("}", "");
 			words[i] = words[i].replace("{", "");
 		}
-		System.out.println(wordsAndColors + "| " + s);
+		//System.out.println(wordsAndColors);
 		float x1 = x;
 		for (int i = 0; i < wordsAndColors.size(); i++) {
 			String word = wordsAndColors.get(i);
@@ -57,7 +57,7 @@ public class Helper {
 						break;
 				}
 			} else {
-				g.drawString(word + "  ", x1, y);
+				g.drawString(word, x1, y);
 				x1 += g.getFont().getWidth(word + "  ");
 			}
 		}

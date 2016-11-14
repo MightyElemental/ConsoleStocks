@@ -16,15 +16,18 @@ import java.util.Map;
 public abstract class ConfigFile {
 	
 	
-	public Map<String, String> argMap = new HashMap<String, String>();
+	private Map<String, String> argMap = new HashMap<String, String>();
 	
-	public Map<String, String> defaultSettings = new HashMap<String, String>();
+	private Map<String, String> defaultSettings = new HashMap<String, String>();
 	
 	public String fileName = "";
 	
 	public ConfigFile( String name ) {
 		this.fileName = name;
+		setDefaultSettings();
 	}
+	
+	public abstract void setDefaultSettings();
 	
 	public void addDefault(String key, String val) {
 		defaultSettings.put(key, val);
@@ -39,7 +42,7 @@ public abstract class ConfigFile {
 		System.out.println("Generating " + fileName + " config file");
 		FileWriter fileWriter = new FileWriter(fileName);
 		BufferedWriter bw = new BufferedWriter(fileWriter);
-		bw.write("//" + fileName + "ConfigFile");
+		bw.write("//" + fileName + " ConfigFile");
 		bw.newLine();
 		for (String key : defaultSettings.keySet()) {
 			bw.write(key + ":" + defaultSettings.get(key));
@@ -63,7 +66,7 @@ public abstract class ConfigFile {
 	
 	private void interpret(ArrayList<String> data) {
 		for (String line : data) {
-			if (line.startsWith("//")) {
+			if (line.startsWith("//")) {// skip comments
 				continue;
 			}
 			String[] setting = line.split(":");
@@ -83,7 +86,8 @@ public abstract class ConfigFile {
 		return f.exists();
 	}
 	
-	private void verify() throws IOException {
+	/** Used to overwrite everything in the properties file to ensure there are no faulty settings */
+	public void verify() throws IOException {
 		if (!doesFileExist(fileName)) { return; }
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
@@ -91,7 +95,7 @@ public abstract class ConfigFile {
 		
 		FileWriter fileWriter = new FileWriter(fileName);
 		BufferedWriter bw = new BufferedWriter(fileWriter);
-		bw.write("//" + fileName + "ConfigFile " + time);
+		bw.write("//" + fileName + " ConfigFile " + time);
 		bw.newLine();
 		for (String key : defaultSettings.keySet()) {
 			if (argMap.containsKey(key.toUpperCase())) {
@@ -99,6 +103,33 @@ public abstract class ConfigFile {
 			} else {
 				bw.write(key + ":" + defaultSettings.get(key));
 			}
+			bw.newLine();
+		}
+		bw.close();
+	}
+	
+	public void setVariable(String key, String value) throws IOException {
+		if (!doesFileExist(fileName)) {
+			createFile();
+		}
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+		String time = dateFormat.format(cal.getTime());
+		
+		FileWriter fileWriter = new FileWriter(fileName);
+		BufferedWriter bw = new BufferedWriter(fileWriter);
+		bw.write("//" + fileName + " ConfigFile " + time);
+		bw.newLine();
+		for (String defaultKey : defaultSettings.keySet()) {
+			if (defaultKey.toUpperCase().equals(key.toUpperCase())) {
+				bw.write(defaultKey + ":" + value);
+				argMap.put(defaultKey.toUpperCase(), value);
+			} else if (argMap.containsKey(defaultKey.toUpperCase())) {
+				bw.write(defaultKey + ":" + argMap.get(defaultKey.toUpperCase()));
+			} else {
+				bw.write(defaultKey + ":" + defaultSettings.get(defaultKey));
+			}
+			
 			bw.newLine();
 		}
 		bw.close();

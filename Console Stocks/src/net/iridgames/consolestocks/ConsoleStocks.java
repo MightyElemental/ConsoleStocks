@@ -3,11 +3,7 @@ package net.iridgames.consolestocks;
 import java.io.IOException;
 import java.net.BindException;
 import java.net.ConnectException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
@@ -115,11 +111,14 @@ public class ConsoleStocks extends StateBasedGame {
 		// server.getGUI().textField.setText("Your not getting my IP.");
 	}
 	
-	private static void setupClient() {
-		Common.createClientProperties();
-		Common.loadClientProperties();
+	private static void setupClient() throws IOException {
+		Common.clientConfig.createFile();
+		// Common.createClientProperties();
+		Common.clientConfig.load();
+		// Common.loadClientProperties();
+		
 		loadClientProperties();
-		client = new Client(Common.clientSettings.get("USER"), address, port, 1024);
+		client = new Client(Common.clientConfig.getVal("USER"), address, port, 1024);
 		client.addListener(client);
 		try {
 			client.setup();
@@ -149,22 +148,38 @@ public class ConsoleStocks extends StateBasedGame {
 		}
 	}
 	
-	private static void loadClientProperties() {
-		if (Common.clientSettings.get("DEFAULTSERVERIP").length() > 5) {
-			address = Common.clientSettings.get("DEFAULTSERVERIP");
+	private static void loadClientProperties() throws NullPointerException, IOException {
+		Common.clientConfig.verify();
+		if (Common.clientConfig.getVal("DEFAULTSERVERIP").length() > 5) {
+			address = Common.clientConfig.getVal("DEFAULTSERVERIP");
 		}
-		if (Common.clientSettings.get("DEFAULTSERVERPORT").length() > 1) {
+		if (Common.clientConfig.getVal("DEFAULTSERVERPORT").length() > 1) {
 			try {
-				port = Integer.parseInt(Common.clientSettings.get("DEFAULTSERVERPORT"));
+				port = Integer.parseInt(Common.clientConfig.getVal("DEFAULTSERVERPORT"));
 			} catch (Exception e) {
-				System.err.println("'" + Common.clientSettings.get("DEFAULTSERVERPORT") + "' is not a valid port");
+				System.err.println("'" + Common.clientConfig.getVal("DEFAULTSERVERPORT") + "' is not a valid port");
 			}
 		}
 		try {
-			stateGame.console.flashSpeed = Integer.parseInt(Common.clientSettings.get("CURSORFLASHSPEED"));
+			stateGame.console.flashSpeed = Integer.parseInt(Common.clientConfig.getVal("CURSORFLASHSPEED"));
 		} catch (Exception e) {
-			System.err.println("'" + Common.clientSettings.get("CURSORFLASHSPEED") + "' is not a valid number");
+			System.err.println("'" + Common.clientConfig.getVal("CURSORFLASHSPEED") + "' is not a valid number");
 		}
+		// if (Common.clientSettings.get("DEFAULTSERVERIP").length() > 5) {
+		// address = Common.clientSettings.get("DEFAULTSERVERIP");
+		// }
+		// if (Common.clientSettings.get("DEFAULTSERVERPORT").length() > 1) {
+		// try {
+		// port = Integer.parseInt(Common.clientSettings.get("DEFAULTSERVERPORT"));
+		// } catch (Exception e) {
+		// System.err.println("'" + Common.clientSettings.get("DEFAULTSERVERPORT") + "' is not a valid port");
+		// }
+		// }
+		// try {
+		// stateGame.console.flashSpeed = Integer.parseInt(Common.clientSettings.get("CURSORFLASHSPEED"));
+		// } catch (Exception e) {
+		// System.err.println("'" + Common.clientSettings.get("CURSORFLASHSPEED") + "' is not a valid number");
+		// }
 	}
 	
 	@Override
