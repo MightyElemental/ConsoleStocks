@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.TrueTypeFont;
 
@@ -17,19 +18,47 @@ public class Helper {
 		for (int i = 0; i < words.length; i++) {
 			if (words[i].contains("{")) {
 				wordsAndColors.add("<" + words[i].split("\\{")[0] + ">");
-				wordsAndColors.add(words[i].split("\\{")[1]);
-				
-				while (i < words.length && !words[i + 1].contains("}")) {
-					i++;
-					if (i < words.length) {
-						wordsAndColors.add(words[i]);
-					} else {
-						break;
+				if (words[i].contains("}")) {
+					wordsAndColors.add(words[i].split("\\{")[1].replace("}", ""));
+					
+				} else {
+					wordsAndColors.add(words[i].split("\\{")[1]);
+					while (i < words.length && !words[i].contains("}")) {
+						i++;
+						if (i < words.length) {
+							wordsAndColors.add(words[i].replace("}", ""));
+						} else {
+							break;
+						}
 					}
+					wordsAndColors.add("<default>");
 				}
+			} else if (!words[i].contains("}")) {
+				wordsAndColors.add(words[i]);
 			}
-			if (words[i].contains("}")) {
-				wordsAndColors.add(words[i].replace("}", ""));
+			words[i] = words[i].replace("}", "");
+			words[i] = words[i].replace("{", "");
+		}
+		System.out.println(wordsAndColors + "| " + s);
+		float x1 = x;
+		for (int i = 0; i < wordsAndColors.size(); i++) {
+			String word = wordsAndColors.get(i);
+			if (word.contains("<") && word.contains(">")) {
+				switch (word) {
+					case "<error>":
+						g.setColor(Color.red);
+						break;
+					case "<alert>":
+						g.setColor(Color.yellow);
+						break;
+					case "<default>":
+					default:
+						g.setColor(Color.white);
+						break;
+				}
+			} else {
+				g.drawString(word + "  ", x1, y);
+				x1 += g.getFont().getWidth(word + "  ");
 			}
 		}
 		

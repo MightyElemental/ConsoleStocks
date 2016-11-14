@@ -10,6 +10,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
 
 import net.iridgames.consolestocks.ConsoleStocks;
+import net.iridgames.consolestocks.Helper;
 import net.iridgames.consolestocks.client.LocalCommands;
 import net.iridgames.consolestocks.common.Common;
 import net.iridgames.consolestocks.server.Commands;
@@ -63,7 +64,8 @@ public class Console {
 				
 				String[] command = console.get(i).split("(?<=\\G" + result + ")");
 				
-				g.drawString(strJoin(command, "\n").toString(), x + 10, y + tempYPast + (20 * (i - iStart)));
+				Helper.drawString(g, strJoin(command, "\n").toString(), x + 10, y + tempYPast + (20 * (i - iStart)));
+				//g.drawString(strJoin(command, "\n").toString(), x + 10, y + tempYPast + (20 * (i - iStart)));
 				tempYPast += ((command.length - 1) * 20);
 				tempY = (20 * (iStop - iStart)) + tempYPast;
 			}
