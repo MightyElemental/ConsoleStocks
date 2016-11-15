@@ -5,6 +5,8 @@ import java.net.BindException;
 import java.net.ConnectException;
 import java.util.Random;
 
+import javax.swing.JOptionPane;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
@@ -83,6 +85,7 @@ public class ConsoleStocks extends StateBasedGame {
 				setupServer();
 			}
 		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.toString(), "An error has occured", JOptionPane.WARNING_MESSAGE);
 			e.printStackTrace();
 		}
 		

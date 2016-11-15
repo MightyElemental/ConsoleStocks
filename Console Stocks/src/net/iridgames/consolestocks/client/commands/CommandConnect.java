@@ -25,14 +25,15 @@ public class CommandConnect extends CommandLocal {
 	@Override
 	public void run(ArrayList<String> args) {
 		if (ConsoleStocks.client != null) {
-			this.addTextToConsole("You must disconnect from the current server");
+			this.addTextToConsole("alert{You must disconnect from the current server}");
 			return;
 		}
+		this.addTextToConsole("alert{Connecting...}");
 		if (args.size() > 2) {
 			try {
 				InetAddress.getByName(args.get(2));
 			} catch (Exception e) {
-				this.addTextToConsole("That is not a valid ip address");
+				this.addTextToConsole("alert{That is not a valid ip address}");
 				return;
 			}
 			ConsoleStocks.address = args.get(2);
@@ -42,18 +43,19 @@ public class CommandConnect extends CommandLocal {
 			ConsoleStocks.port = Integer.parseInt(args.get(3));
 		}
 		
-		this.addTextToConsole("Connecting...");
-		
 		try {
 			ConsoleStocks.client = new Client(Common.clientSettings.get("USER"), ConsoleStocks.address, ConsoleStocks.port, 1024);
 			ConsoleStocks.client.setup();
 			ConsoleStocks.client.addListener(ConsoleStocks.client);
 		} catch (ConnectException e) {
-			ConsoleStocks.client.onConnectionRefused();
+			ConsoleStocks.client.getInitiater().onConnectionRefused();
+			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+		if (!ConsoleStocks.client.hasBeenSetup()) {
+			ConsoleStocks.client.getInitiater().onConnectionRefused();
+		}
 	}
 	
 	@Override
