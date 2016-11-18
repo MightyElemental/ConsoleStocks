@@ -32,7 +32,8 @@ public class Console {
 	
 	public String prefix = "root@local> ";
 	public int flashSpeed = 40;
-	public char cursorSymbol = '_';
+	public char cursorSymbol = '|';
+	public boolean displayCursor = false;
 	public String commandLine = "";
 	public String dispCommandLine = prefix;
 	public int cursor = 0;
@@ -83,7 +84,18 @@ public class Console {
 		
 		String[] command = dispCommandLine.split("(?<=\\G" + result + ")");
 		
+		// Helper.drawString(g, strJoin(command, "\n").toString(), x + 10, y + tempY);
 		g.drawString(strJoin(command, "\n").toString(), x + 10, y + tempY);
+		drawCursor(g, x + 5, y + tempY);
+	}
+	
+	private void drawCursor(Graphics g, float x, float y) {
+		if (displayCursor) {
+			char[] chars = new char[cursor + prefix.length()];
+			Arrays.fill(chars, ' ');
+			String spaces = new String(chars);
+			g.drawString(spaces + cursorSymbol, x, y);
+		}
 	}
 	
 	public void updateCommandLine(float ticks) {
@@ -101,14 +113,16 @@ public class Console {
 		
 		if (ticks % flashSpeed > flashSpeed / 2 && keyCodePressed != Input.KEY_LEFT && keyCodePressed != Input.KEY_RIGHT) {
 			dispCommandLine = prefix + commandLine;
+			displayCursor = false;
 			return;
 		}
+		displayCursor = true;
 		StringBuilder sb = new StringBuilder(commandLine);
 		try {
-			sb.deleteCharAt(cursor);
+			// sb.deleteCharAt(cursor);
 		} catch (Exception e) {
 		}
-		sb.insert(cursor, cursorSymbol);
+		// sb.insert(cursor, cursorSymbol);
 		dispCommandLine = prefix + sb.toString();
 	}
 	
@@ -297,7 +311,7 @@ public class Console {
 					return;
 				}
 			}
-			addText("Invalid Command.");
+			addText("alert{Invalid Command.}");
 		}
 	}
 	
@@ -369,6 +383,14 @@ public class Console {
 		updatePrefix();
 		ConsoleStocks.stateGame.console.addText("error{SERVER HAS BEEN CLOSED}");
 		dispCommandLine = prefix + commandLine;
+	}
+	
+	public void onHomeKey() {
+		cursor = 0;
+	}
+	
+	public void onEndKey() {
+		cursor = commandLine.length();
 	}
 	
 }

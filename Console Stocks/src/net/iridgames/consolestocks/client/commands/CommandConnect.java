@@ -24,11 +24,11 @@ public class CommandConnect extends CommandLocal {
 	
 	@Override
 	public void run(ArrayList<String> args) {
+		this.addTextToConsole("alert{Connecting...}");
 		if (ConsoleStocks.client != null) {
 			this.addTextToConsole("alert{You must disconnect from the current server}");
 			return;
 		}
-		this.addTextToConsole("alert{Connecting...}");
 		if (args.size() > 2) {
 			try {
 				InetAddress.getByName(args.get(2));

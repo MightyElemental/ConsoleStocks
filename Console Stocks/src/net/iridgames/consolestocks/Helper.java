@@ -22,11 +22,15 @@ public class Helper {
 					wordsAndColors.add(words[i].split("\\{")[1].replace("}", ""));
 					
 				} else {
-					wordsAndColors.add(words[i].split("\\{")[1]);
+					try {
+						wordsAndColors.add(words[i].split("\\{")[1]);
+					} catch (ArrayIndexOutOfBoundsException e) {
+						wordsAndColors.add(words[i]);
+					}
 					while (i < words.length && !words[i].contains("}")) {
 						i++;
 						if (i < words.length) {
-							wordsAndColors.add(words[i].replace("}", ""));
+							wordsAndColors.add(words[i].replaceFirst("}", ""));
 						} else {
 							break;
 						}
@@ -36,20 +40,26 @@ public class Helper {
 			} else if (!words[i].contains("}")) {
 				wordsAndColors.add(words[i]);
 			}
-			words[i] = words[i].replace("}", "");
-			words[i] = words[i].replace("{", "");
+			if (i < words.length) {
+				words[i] = words[i].replace("}", "");
+				words[i] = words[i].replace("{", "");
+			}
 		}
-		//System.out.println(wordsAndColors);
+		wordsAndColors.add("<default>");
+		// System.out.println(wordsAndColors);
 		float x1 = x;
 		for (int i = 0; i < wordsAndColors.size(); i++) {
 			String word = wordsAndColors.get(i);
-			if (word.contains("<") && word.contains(">")) {
+			if (word.startsWith("<") && word.endsWith(">")) {
 				switch (word) {
 					case "<error>":
 						g.setColor(Color.red);
 						break;
 					case "<alert>":
 						g.setColor(Color.yellow);
+						break;
+					case "<user>":
+						g.setColor(Color.gray);
 						break;
 					case "<default>":
 					default:

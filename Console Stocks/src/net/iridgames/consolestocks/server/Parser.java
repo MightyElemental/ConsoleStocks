@@ -39,12 +39,12 @@ public class Parser implements MessageListenerServer, Runnable {
 					} // Add invalid command
 				}
 				if (!flag) {
-					sendMessage("Invalid Command.", ip, port);
+					sendMessage("alert{Invalid Command.}", ip, port);
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			sendMessage("Internal Server Error.", ip, port);
+			sendMessage("error{Internal Server Error.}", ip, port);
 		}
 	}
 	

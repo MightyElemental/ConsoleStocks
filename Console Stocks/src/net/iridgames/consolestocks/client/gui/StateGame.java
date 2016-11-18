@@ -118,6 +118,13 @@ public class StateGame extends BasicGameState {
 		if (key == Input.KEY_C && ctrlDown) {
 			console.onCopy();
 		}
+		if (key == Input.KEY_HOME) {
+			console.onHomeKey();
+		}
+		if (key == Input.KEY_END) {
+			console.onEndKey();
+		}
+		// TODO add home + end buttons
 	}
 	
 	@Override

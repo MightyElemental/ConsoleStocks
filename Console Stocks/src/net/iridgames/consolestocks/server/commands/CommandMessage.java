@@ -28,7 +28,7 @@ public class CommandMessage extends CommandServer {
 			
 			String senderUID = ConsoleStocks.server.getTCPConnectionFromIP(ip, port).getUID();
 			
-			String sendMessage = senderUID + ">> ";
+			String sendMessage = "user{" + senderUID + "} >> ";
 			for (int i = 2; i < args.size(); i++) {
 				sendMessage += args.get(i) + " ";
 			}
