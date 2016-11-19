@@ -167,8 +167,9 @@ public class Console {
 		}
 		if (keyCodePressed != Input.KEY_LEFT && keyCodePressed != Input.KEY_RIGHT && keyCodePressed != Input.KEY_BACK
 			&& keyCodePressed != Input.KEY_DELETE) {
-			sb.insert(cursor, (keyChar + "").replaceAll("[^A-Za-z0-9 -_+=./|\\;:\"'`~!@#$%^&*(){}]", ""));
-			cursor++;
+			String c = (keyChar + "").replaceAll("[^A-Za-z0-9 -_+=./|\\;:\"'`~!@#$%^&*(){}]", "");
+			sb.insert(cursor, c);
+			cursor+=c.length();
 			updateCursor(sb.length());
 		}
 		if (keyCodePressed == Input.KEY_LEFT) {

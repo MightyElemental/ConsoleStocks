@@ -45,7 +45,7 @@ public class ConsoleStocks extends StateBasedGame {
 	public static Random rand = new Random();
 	
 	public static final String GAME_NAME = "Console Stocks";
-	public static final String VERSION = "0.7.0";
+	public static final String VERSION = "0.8.5";
 	public static final String TITLE = GAME_NAME + " | v" + VERSION;
 	public static final int WIDTH = 1600;
 	public static Image NULL_IMAGE;
