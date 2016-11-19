@@ -12,6 +12,7 @@ public class CommandSet extends CommandLocal {
 	
 	public CommandSet() {
 		super("set");
+		this.setLocalAndServer(true);
 	}
 	
 	public String getDescription() {

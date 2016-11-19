@@ -10,7 +10,7 @@ public class CommandList extends CommandLocal {
 	
 	public CommandList() {
 		super("ls");
-		// this.addAlias("list");
+		this.addAlias("list");
 		this.setDescription("Use to list all commands");
 	}
 	

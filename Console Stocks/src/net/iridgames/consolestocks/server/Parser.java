@@ -95,13 +95,13 @@ public class Parser implements MessageListenerServer, Runnable {
 				server.sendObject("OnlineClients", server.getTcpConnections().size(), ip2, port2);
 			}
 		} catch (SocketException e) {
+			e.printStackTrace();
 			try {
 				server.getTcpConnections().get(key).stopThread();
 			} catch (IOException | InterruptedException e1) {
 				e1.printStackTrace();
 			}
 			server.getTcpConnections().remove(key);
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

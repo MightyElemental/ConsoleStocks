@@ -33,6 +33,13 @@ public class LocalCommands {
 		commands.put(com.getCommand().toUpperCase(), com);
 	}
 	
+	public static boolean canRunOnServerMode(String command) {
+		if (commands.get(command.split(" ")[0].toUpperCase()) != null) {
+			if (commands.get(command.split(" ")[0].toUpperCase()).isLocalAndServer()) { return true; }
+		}
+		return false;
+	}
+	
 	public static Map<String, CommandLocal> commands = new HashMap<String, CommandLocal>();
 	
 	public static void setupCommandList() {

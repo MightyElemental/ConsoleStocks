@@ -254,7 +254,6 @@ public class Console {
 			localMode = true;
 		}
 		ArrayList<ArrayList<String>> list = Common.interpretCommandLine(s);
-		boolean flag = false;
 		
 		// aliases
 		for (int i = 0; i < list.size(); i++) {
@@ -265,42 +264,52 @@ public class Console {
 				list.get(i).addAll(0, alias);
 			}
 		}
-		if (list.get(0).get(0).equalsIgnoreCase(LocalCommands.disconnect.getCommand())) {
-			LocalCommands.disconnect.run(list.get(0));
+		if (LocalCommands.canRunOnServerMode(list.get(0).get(0))) {
+			LocalCommands.commands.get(list.get(0).get(0).toUpperCase()).run(list.get(0));
 		} else {
-			// Clear Screen
-			if (list.get(0).get(0).equalsIgnoreCase(LocalCommands.clear.getCommand())) {
-				list.get(0).clear();
-				list.get(0).add("local");
-				list.get(0).add("cls");
-			}
-			
-			// Run single local command
-			if (list.get(0).get(0).equalsIgnoreCase("local")) {
-				flag = true;
-				if (list.get(0).size() == 1) {
-					localMode = !localMode;
-				} else {
-					for (int i = 0; i < list.size(); i++) {
-						processLocalCommands(list.get(i));
-					}
-				}
-			}
-			// Run server command
-			if (!localMode && !flag && ConsoleStocks.client != null) {
-				if (ConsoleStocks.client.isRunning()) {
-					ConsoleStocks.client.sendObject("Command", s);
-				}
-			}
-			// Run local command while in local mode
-			if (localMode && !flag) {
+			processCommands(list, s);
+		}
+		// if (list.get(0).get(0).equalsIgnoreCase(LocalCommands.disconnect.getCommand())) {
+		// LocalCommands.disconnect.run(list.get(0));
+		// } else {
+		// processCommands(list, s);
+		// }
+		updatePrefix();
+	}
+	
+	private void processCommands(ArrayList<ArrayList<String>> list, String s) throws IOException {
+		boolean flag = false;
+		// Clear Screen
+		if (list.get(0).get(0).equalsIgnoreCase(LocalCommands.clear.getCommand())) {
+			list.get(0).clear();
+			list.get(0).add("local");
+			list.get(0).add("cls");
+		}
+		
+		// Run single local command
+		if (list.get(0).get(0).equalsIgnoreCase("local")) {
+			flag = true;
+			if (list.get(0).size() == 1) {
+				localMode = !localMode;
+			} else {
 				for (int i = 0; i < list.size(); i++) {
-					list.get(i).add(0, "local");
 					processLocalCommands(list.get(i));
 				}
 			}
 		}
-		updatePrefix();
+		// Run server command
+		if (!localMode && !flag && ConsoleStocks.client != null) {
+			if (ConsoleStocks.client.isRunning()) {
+				ConsoleStocks.client.sendObject("Command", s);
+			}
+		}
+		// Run local command while in local mode
+		if (localMode && !flag) {
+			for (int i = 0; i < list.size(); i++) {
+				list.get(i).add(0, "local");
+				processLocalCommands(list.get(i));
+			}
+		}
 	}
 	
 	private void processLocalCommands(ArrayList<String> command) {
@@ -379,9 +388,10 @@ public class Console {
 		c.setContents(stringSelection, null);
 	}
 	
-	public void onServerClosed() {
+	/** When the client has been dropped from the server or the server has been closed, this method will be called. */
+	public void onClientDropped(String reason) {
 		updatePrefix();
-		ConsoleStocks.stateGame.console.addText("error{SERVER HAS BEEN CLOSED}");
+		ConsoleStocks.stateGame.console.addText("Your client has been alert{dropped by the server}");
 		dispCommandLine = prefix + commandLine;
 	}
 	

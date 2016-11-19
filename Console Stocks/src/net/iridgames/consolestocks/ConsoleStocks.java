@@ -97,7 +97,20 @@ public class ConsoleStocks extends StateBasedGame {
 	}
 	
 	private static void setupServer() throws IOException {
-		server = new TCPServer(port, false, 1024, Common.getVerifyCode());
+		server = new TCPServer(port, false, 1024, Common.getVerifyCode()) {
+			
+			
+			@Override
+			public void onVerifyDenied(String uid) throws IOException {
+				getTCPConnectionFromUID(uid).sendObject("ServerMessage",
+					"error{Your client verification code does not match the server verification code!}");
+			}
+			
+			@Override
+			public void onVerified(String uid) throws IOException {
+				getTCPConnectionFromUID(uid).sendObject("ServerMessage", "alert{Your client has been verified.}");
+			}
+		};
 		try {
 			server.setupServer();
 		} catch (BindException e) {

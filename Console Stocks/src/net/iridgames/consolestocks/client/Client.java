@@ -66,13 +66,15 @@ public class Client extends TCPClient implements MessageListenerClient {
 	}
 	
 	@Override
-	public void onServerClosed() {
+	public void onClientDropped(String reason) {
+		ConsoleStocks.stateGame.console.onClientDropped(reason);
 		try {
-			ConsoleStocks.client.stopClient();
+			if (ConsoleStocks.client != null) {
+				ConsoleStocks.client.stopClient();
+			}
 		} catch (InterruptedException | IOException e) {
 			e.printStackTrace();
 		}
-		ConsoleStocks.stateGame.console.onServerClosed();
 		ConsoleStocks.client = null;
 	}
 	

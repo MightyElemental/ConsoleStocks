@@ -23,7 +23,7 @@ public class CommandAlias extends CommandLocal {
 	
 	public void addAlias(String key, String value) {
 		aliases.put(key, value);
-		System.err.println(value);
+		//System.err.println(value);
 	}
 	
 	public Map<String, String> getAliases() {

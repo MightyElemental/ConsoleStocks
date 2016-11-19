@@ -12,6 +12,7 @@ public class CommandDisconnect extends CommandLocal {
 	public CommandDisconnect() {
 		super("disconnect");
 		this.setDescription("Use to disconnect from a server");
+		this.setLocalAndServer(true);
 	}
 	
 	@Override
@@ -23,8 +24,9 @@ public class CommandDisconnect extends CommandLocal {
 			} catch (InterruptedException | IOException e) {
 				e.printStackTrace();
 			}
+			this.addTextToConsole("alert{Disconnected from server}");
 		} else {
-			this.addTextToConsole("alert{No server to disconnect from}");
+			this.addTextToConsole("alert{No server to disconnect from!}");
 		}
 	}
 	
