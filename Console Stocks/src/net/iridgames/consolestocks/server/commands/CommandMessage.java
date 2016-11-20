@@ -13,6 +13,7 @@ public class CommandMessage extends CommandServer {
 	
 	public CommandMessage() {
 		super("msg");
+		this.addAlias("message");
 	}
 	
 	@Override
@@ -22,7 +23,8 @@ public class CommandMessage extends CommandServer {
 			TCPConnection con = ConsoleStocks.server.getTCPConnectionFromUID(args.get(1));
 			
 			if (con == null) {
-				ConsoleStocks.serverParser.sendMessage("'" + args.get(1) + "' is not a valid ClientUID", ip, port);
+				sendTextToClient("alert{'" + args.get(1) + "' is not a valid ClientUID}", ip, port);
+				// ConsoleStocks.serverParser.sendMessage("'" + args.get(1) + "' is not a valid ClientUID", ip, port);
 				return;
 			}
 			

@@ -70,7 +70,12 @@ public class Parser implements MessageListenerServer, Runnable {
 		try {
 			server.sendObject("UID", uid, ip, port);
 		} catch (IOException e) {
-			e.printStackTrace();
+			try {
+				server.killConnection(uid);
+				return;
+			} catch (IOException | InterruptedException e1) {
+				e1.printStackTrace();
+			}
 		}
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();

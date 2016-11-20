@@ -21,7 +21,10 @@ public abstract class CommandServer extends Command {
 		super(command);
 	}
 	
-	/** Used to call the command */
+	/** Used to call the command
+	 * 
+	 * @param args
+	 *            the arguments of the command including the command. E.g. msg, abcd, hello, world*/
 	public abstract void run(ArrayList<String> args, InetAddress ip, int port);
 	
 	/** Is the command for admins only */
