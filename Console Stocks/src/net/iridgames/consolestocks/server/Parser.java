@@ -25,8 +25,9 @@ public class Parser implements MessageListenerServer, Runnable {
 		this.stocks = new Stocks();
 	}
 	
+	/** Used to process commands sent to the server */
 	public void parseMessage(String message, InetAddress ip, int port) throws IOException {
-		
+		String UID = server.getTCPConnectionFromIP(ip, port).getUID();
 		try {
 			ArrayList<ArrayList<String>> msg = Common.interpretCommandLine(message);
 			
@@ -40,6 +41,8 @@ public class Parser implements MessageListenerServer, Runnable {
 				}
 				if (!flag) {
 					sendMessage("alert{Invalid Command.}", ip, port);
+				} else {
+					server.getGUI().addCommand(UID + ">> " + message);
 				}
 			}
 		} catch (Exception e) {
@@ -50,7 +53,7 @@ public class Parser implements MessageListenerServer, Runnable {
 	
 	public void sendMessage(String message, InetAddress ip, int port) {
 		try {
-			System.out.println(message);
+			// System.out.println(message);
 			server.sendObject("ServerMessage", message, ip, port);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -121,7 +124,6 @@ public class Parser implements MessageListenerServer, Runnable {
 			return;
 		}
 		String command = (String) obj.get("Command");
-		server.getGUI().addCommand(UID + ">> " + command);
 		try {
 			parseMessage(command, ip, port);
 		} catch (IOException e) {

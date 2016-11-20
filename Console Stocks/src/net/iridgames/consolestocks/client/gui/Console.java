@@ -169,7 +169,7 @@ public class Console {
 			&& keyCodePressed != Input.KEY_DELETE) {
 			String c = (keyChar + "").replaceAll("[^A-Za-z0-9 -_+=./|\\;:\"'`~!@#$%^&*(){}]", "");
 			sb.insert(cursor, c);
-			cursor+=c.length();
+			cursor += c.length();
 			updateCursor(sb.length());
 		}
 		if (keyCodePressed == Input.KEY_LEFT) {
@@ -266,7 +266,12 @@ public class Console {
 			}
 		}
 		if (LocalCommands.canRunOnServerMode(list.get(0).get(0))) {
-			LocalCommands.commands.get(list.get(0).get(0).toUpperCase()).run(list.get(0));
+			int x = 0;
+			if (!localMode) {
+				list.get(0).add(0, "local");
+				x = 1;
+			}
+			LocalCommands.commands.get(list.get(0).get(x).toUpperCase()).run(list.get(0));
 		} else {
 			processCommands(list, s);
 		}

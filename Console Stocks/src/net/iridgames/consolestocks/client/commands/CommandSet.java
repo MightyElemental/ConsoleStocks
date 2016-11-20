@@ -26,6 +26,7 @@ public class CommandSet extends CommandLocal {
 	
 	@Override
 	public void run(ArrayList<String> args) {
+		System.out.println(args);
 		if (args.size() < 3) {
 			ConsoleStocks.stateGame.console.addText("Usage: " + getUsage());
 			return;

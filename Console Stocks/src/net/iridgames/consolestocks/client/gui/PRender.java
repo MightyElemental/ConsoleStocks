@@ -50,11 +50,15 @@ public class PRender {
 			case CONSOLE:
 				renderConsole(gc, sbg, g, x, y);
 				break;
+			case CHAT_BOX:
+				renderChatBox(gc, sbg, g, x, y);
+				break;
 		}
 	}
 	
 	/** Used to render account information */
 	private static void renderAccount(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) throws UnknownHostException {
+		drawTitle(gc, g, x, y, "Account Info");
 		if (ConsoleStocks.client == null || !ConsoleStocks.client.isRunning()) {
 			Helper.drawString(g, "alert{Account information not found}", x + 5, y + 5);
 			return;
@@ -81,6 +85,7 @@ public class PRender {
 	 * @throws UnknownHostException */
 	@SuppressWarnings( "unchecked" )
 	private static void renderClient(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) throws UnknownHostException {
+		drawTitle(gc, g, x, y, "Client Info");
 		if (ConsoleStocks.client == null) {
 			Helper.drawString(g, "alert{Client information not found}", x + 5, y + 5);
 			return;
@@ -105,6 +110,7 @@ public class PRender {
 	 * 
 	 * @throws UnknownHostException */
 	private static void renderServer(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) throws UnknownHostException {
+		drawTitle(gc, g, x, y, "Server Info");
 		if (ConsoleStocks.client == null || !ConsoleStocks.client.isRunning()) {
 			String[] list = { "alert{Server information not found}", "", "error{~~~WARNING~~~}", "NO CONNECTION" };
 			for (int i = 0; i < list.length; i++) {
@@ -125,7 +131,25 @@ public class PRender {
 	}
 	
 	private static void renderConsole(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) {
+		drawTitle(gc, g, x, y, "Console");
 		ConsoleStocks.stateGame.console.renderConsole(gc, sbg, g, x, y);
+	}
+	
+	private static void renderChatBox(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) {
+		drawTitle(gc, g, x, y, "Chat Panel");// TODO add client name to the panel
+		// TODO add Map<String, ArrayList<String>> chats. // Client UID, messages (incoming and outgoing)
+		// TODO add a display for the above information
+	}
+	
+	private static void drawTitle(GameContainer gc, Graphics g, int x, int y, String title) {
+		int h = g.getFont().getHeight(title);
+		int w = g.getFont().getWidth(title);
+		g.setColor(Color.gray);
+		g.fillRoundRect(x + gc.getWidth() / 2 - w - 11, y + 2, w + 8, h + 2, 5, 5);
+		g.setColor(Color.gray.brighter());
+		g.drawRoundRect(x + gc.getWidth() / 2 - w - 11, y + 2, w + 8, h + 2, 5, 5);
+		g.setColor(Color.white);
+		g.drawString(title, x + gc.getWidth() / 2 - w - 7, y + 1);
 	}
 	
 }
