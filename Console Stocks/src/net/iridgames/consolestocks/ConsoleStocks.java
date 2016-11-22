@@ -45,7 +45,7 @@ public class ConsoleStocks extends StateBasedGame {
 	public static Random rand = new Random();
 	
 	public static final String GAME_NAME = "Console Stocks";
-	public static final String VERSION = "0.9.3 alpha";
+	public static final String VERSION = "0.9.4 alpha";
 	public static final String TITLE = GAME_NAME + " | v" + VERSION;
 	public static final int WIDTH = 1600;
 	public static Image NULL_IMAGE;
@@ -97,7 +97,7 @@ public class ConsoleStocks extends StateBasedGame {
 	}
 	
 	private static void setupServer() throws IOException {
-		server = new TCPServer(port, false, 1024, Common.getVerifyCode()) {
+		server = new TCPServer(port, Common.getVerifyCode()) {
 			
 			
 			@Override
@@ -111,6 +111,11 @@ public class ConsoleStocks extends StateBasedGame {
 				getTCPConnectionFromUID(uid).sendObject("ServerMessage", "alert{Your client has been verified.}");
 			}
 		};
+		Common.createServerProperties();
+		Common.loadServerProperties();
+		serverParser = new Parser(server);
+		server.addListener(serverParser);
+		server.initGUI(new ServerFrame(server, BasicCommands.getExternalIPAddress()));// Common.serverSettings.get("SERVERNAME")
 		try {
 			server.setupServer();
 		} catch (BindException e) {
@@ -118,11 +123,6 @@ public class ConsoleStocks extends StateBasedGame {
 			System.err.println("Make sure you are not using the same port as any other server on your network.");
 			System.exit(1);
 		}
-		Common.createServerProperties();
-		Common.loadServerProperties();
-		serverParser = new Parser(server);
-		server.addListener(serverParser);
-		server.initGUI(new ServerFrame(server, BasicCommands.getExternalIPAddress()));// Common.serverSettings.get("SERVERNAME")
 		serverParser.serverThread.start();
 		// server.getGUI().textField.setText("Your not getting my IP.");
 	}

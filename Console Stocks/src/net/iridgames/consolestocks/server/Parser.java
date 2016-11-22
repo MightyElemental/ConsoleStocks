@@ -133,6 +133,7 @@ public class Parser implements MessageListenerServer, Runnable {
 	
 	@Override
 	public void onClientDisconnect(InetAddress ip, int port, String uid) {
+		uid = (uid == null ? "#null" : uid);
 		server.getGUI().addCommand(uid + "> Has Disconnected From Server");
 		server.getTcpConnections().remove(uid);
 		server.getGUI().updateClients();

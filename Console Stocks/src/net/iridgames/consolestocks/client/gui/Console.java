@@ -30,6 +30,8 @@ public class Console {
 	public ArrayList<String> commands = new ArrayList<String>();
 	public ArrayList<String> console = new ArrayList<String>();
 	
+	
+	
 	public String prefix = "root@local> ";
 	public int flashSpeed = 40;
 	public char cursorSymbol = '|';
