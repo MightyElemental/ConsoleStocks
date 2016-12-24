@@ -16,6 +16,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import net.iridgames.consolestocks.ConsoleStocks;
 import net.iridgames.consolestocks.Helper;
+import net.iridgames.consolestocks.ResourceLoader;
 import net.iridgames.consolestocks.client.LocalCommands;
 import net.iridgames.consolestocks.common.Common;
 import net.iridgames.consolestocks.server.Commands;
@@ -30,8 +31,6 @@ public class Console {
 	public ArrayList<String> commands = new ArrayList<String>();
 	public ArrayList<String> console = new ArrayList<String>();
 	
-	
-	
 	public String prefix = "root@local> ";
 	public int flashSpeed = 40;
 	public char cursorSymbol = '|';
@@ -43,6 +42,20 @@ public class Console {
 	public int commandViewOffset = 0;
 	
 	public boolean lControlDown = false;
+	
+	private boolean keySoundPlay = false;
+	private boolean deleteSoundPlay = false;
+	
+	private void handleSoundEffects() {
+		if (keySoundPlay) {
+			ResourceLoader.loadSound("type_0").play(1.9f + (ConsoleStocks.rand.nextFloat()/2f), 0.5f);
+			keySoundPlay = false;
+		}
+		if (deleteSoundPlay) {
+			ResourceLoader.loadSound("type_1").play(1.2f+ (ConsoleStocks.rand.nextFloat()/5f), 0.5f);
+			deleteSoundPlay = false;
+		}
+	}
 	
 	public void renderConsole(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) {
 		if (commandViewOffset < 0) {
@@ -160,12 +173,14 @@ public class Console {
 				cursor--;
 			}
 			updateCursor(sb.length());
+			deleteSoundPlay = true;// TODO remove xD
 		}
 		if (keyCodePressed == Input.KEY_DELETE) {
 			if (cursor < sb.length()) {
 				sb.deleteCharAt(cursor);
 			}
 			updateCursor(sb.length());
+			deleteSoundPlay = true;// TODO remove xD
 		}
 		if (keyCodePressed != Input.KEY_LEFT && keyCodePressed != Input.KEY_RIGHT && keyCodePressed != Input.KEY_BACK
 			&& keyCodePressed != Input.KEY_DELETE) {
@@ -173,6 +188,7 @@ public class Console {
 			sb.insert(cursor, c);
 			cursor += c.length();
 			updateCursor(sb.length());
+			keySoundPlay = true;// TODO remove xD
 		}
 		if (keyCodePressed == Input.KEY_LEFT) {
 			cursor--;
@@ -246,6 +262,8 @@ public class Console {
 		// GO AT END
 		
 		dispCommandLine = prefix + commandLine.toString();
+		
+		handleSoundEffects();
 	}
 	
 	public boolean localMode = false;

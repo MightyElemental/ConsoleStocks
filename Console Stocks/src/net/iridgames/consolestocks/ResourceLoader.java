@@ -92,6 +92,7 @@ public class ResourceLoader {
 	 * @param soundPath
 	 *            the path to the sound file beginning with 'assets/sounds'. Remember that you can replace slashes '/'
 	 *            with dots '.'
+	 *            The suffix is also automatically added. (.ogg)
 	 * @return Sound the newly loaded sound */
 	public static Sound loadSound(String soundPath) {
 		
@@ -100,7 +101,7 @@ public class ResourceLoader {
 		String location = soundPath.replaceAll("[.]", "/");
 		location += ".ogg";
 		location = "assets/sounds/" + location;
-		if (imageLoads.containsKey(location)) {
+		if (soundLoads.containsKey(location)) {
 			return soundLoads.get(location);
 		} else {
 			try {
