@@ -97,7 +97,7 @@ public class ConsoleStocks extends StateBasedGame {
 	}
 	
 	private static void setupServer() throws IOException {
-		server = new TCPServer(port, Common.getVerifyCode()) {
+		server = new TCPServer(port, Common.getVerifyCode(), 5) {
 			
 			
 			@Override

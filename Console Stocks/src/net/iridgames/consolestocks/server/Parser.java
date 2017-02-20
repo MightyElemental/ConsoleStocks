@@ -101,7 +101,7 @@ public class Parser implements MessageListenerServer, Runnable {
 		} catch (SocketException e) {
 			e.printStackTrace();
 			try {
-				server.getTcpConnections().get(key).stopThread();
+				server.getTcpConnections().get(key).stopThread("has been kicked (socket error)");
 			} catch (IOException | InterruptedException e1) {
 				e1.printStackTrace();
 			}

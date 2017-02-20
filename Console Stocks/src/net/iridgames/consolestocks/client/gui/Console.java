@@ -48,11 +48,11 @@ public class Console {
 	
 	private void handleSoundEffects() {
 		if (keySoundPlay) {
-			ResourceLoader.loadSound("type_0").play(1.9f + (ConsoleStocks.rand.nextFloat()/2f), 0.5f);
+			ResourceLoader.loadSound("type_0").play(1.9f + (ConsoleStocks.rand.nextFloat() / 2f), 0.5f);
 			keySoundPlay = false;
 		}
 		if (deleteSoundPlay) {
-			ResourceLoader.loadSound("type_1").play(1.2f+ (ConsoleStocks.rand.nextFloat()/5f), 0.5f);
+			ResourceLoader.loadSound("type_1").play(1.2f + (ConsoleStocks.rand.nextFloat() / 5f), 0.5f);
 			deleteSoundPlay = false;
 		}
 	}
@@ -374,6 +374,10 @@ public class Console {
 			return;
 		}
 		int maxPre = 7;
+		if (ConsoleStocks.client.serverInfo == null) {
+			prefix = ConsoleStocks.client.getUID() + "@local> ";
+			return;
+		}
 		String s = ConsoleStocks.client.serverInfo.get("ServerName").toString().replace(" ", "");
 		s = s.replace(";", "").replace("!", "").replace("\"", "").replace("\\", "").replace("/", "").replace(",", "");
 		StringBuilder temp = new StringBuilder(s);

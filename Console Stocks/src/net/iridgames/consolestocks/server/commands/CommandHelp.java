@@ -43,7 +43,7 @@ public class CommandHelp extends CommandServer {
 				this.sendTextToClient(desc, ip, port);
 				this.sendTextToClient("Usage: " + usage, ip, port);
 			} catch (NullPointerException e) {
-				this.sendTextToClient("Invalid Command.", ip, port);
+				this.sendTextToClient("alert{Invalid Command: '" + args.get(1) + "'}", ip, port);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
