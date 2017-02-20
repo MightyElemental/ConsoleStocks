@@ -19,7 +19,7 @@ import javax.swing.border.EtchedBorder;
 
 import net.iridgames.consolestocks.ConsoleStocks;
 import net.iridgames.consolestocks.common.Common;
-import net.mightyelemental.network.Server;
+import net.mightyelemental.network.TCPServer;
 
 @SuppressWarnings( "serial" )
 public class ServerFrame extends net.mightyelemental.network.gui.ServerGUI {
@@ -38,7 +38,7 @@ public class ServerFrame extends net.mightyelemental.network.gui.ServerGUI {
 	private JScrollPane scrollPane_1;
 	
 	/** Create the frame. */
-	public ServerFrame( Server server, String IPAddress ) {
+	public ServerFrame( TCPServer server, String IPAddress ) {
 		super(Common.serverSettings.get("SERVERNAME"), server, IPAddress);
 		addComponentListener(new ComponentAdapter() {
 			

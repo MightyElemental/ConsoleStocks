@@ -80,15 +80,11 @@ public class Parser implements MessageListenerServer, Runnable {
 				e1.printStackTrace();
 			}
 		}
-		try {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("ServerName", Common.serverSettings.get("SERVERNAME"));
-			map.put("OnlineClients", server.getTcpConnections().size());
-			map.put("Currency", Common.serverSettings.get("CURRENCY") + " (" + Common.getCurrencySymbol() + ")");
-			server.sendObjectMap(map, ip, port);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("ServerName", Common.serverSettings.get("SERVERNAME"));
+		map.put("OnlineClients", server.getTcpConnections().size());
+		map.put("Currency", Common.serverSettings.get("CURRENCY") + " (" + Common.getCurrencySymbol() + ")");
+		server.sendObjectMap(map, ip, port);
 		sendOnlineClients();
 	}
 	

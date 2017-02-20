@@ -15,6 +15,6 @@
 	<classpathentry kind="lib" path="lib/jars/json_simple.jar"/>
 	<classpathentry kind="lib" path="lib/jars/jogg-0.0.7.jar"/>
 	<classpathentry kind="lib" path="lib/jars/jorbis-0.0.15.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Network Engine"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Network Engine 2"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
