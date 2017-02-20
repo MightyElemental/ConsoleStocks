@@ -12,6 +12,7 @@ import net.iridgames.consolestocks.server.commands.CommandGetStocks;
 import net.iridgames.consolestocks.server.commands.CommandHelp;
 import net.iridgames.consolestocks.server.commands.CommandMessage;
 import net.iridgames.consolestocks.server.commands.CommandPing;
+import net.iridgames.consolestocks.server.commands.CommandUser;
 import net.mightyelemental.network.TCPServer;
 
 public class Commands {
@@ -22,6 +23,7 @@ public class Commands {
 	public static CommandServer getStockInfo = new CommandGetStockInfo();
 	public static CommandServer message = new CommandMessage();
 	public static CommandServer help = new CommandHelp();
+	public static CommandServer user = new CommandUser();
 	
 	// public static String[] commandList = { "GETSTOCKS", "GETSTOCK", "PING", "MSG", "LS", "LOCAL" };
 	
@@ -33,6 +35,7 @@ public class Commands {
 		addCommand(getStockInfo);
 		addCommand(message);
 		addCommand(help);
+		addCommand(user);
 	}
 	
 	public static void addCommand(CommandServer com) {

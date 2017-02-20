@@ -27,6 +27,7 @@ public class Parser implements MessageListenerServer, Runnable {
 	
 	/** Used to process commands sent to the server */
 	public void parseMessage(String message, InetAddress ip, int port) throws IOException {
+		if (message.length() < 1) return;
 		String UID = server.getTCPConnectionFromIP(ip, port).getUID();
 		try {
 			ArrayList<ArrayList<String>> msg = Common.interpretCommandLine(message);

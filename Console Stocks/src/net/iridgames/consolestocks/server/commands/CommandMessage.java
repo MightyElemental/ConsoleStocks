@@ -18,8 +18,11 @@ public class CommandMessage extends CommandServer {
 	
 	@Override
 	public void run(ArrayList<String> args, InetAddress ip, int port) {
-		if (args.size() < 3) { return; }
 		try {
+			if (args.size() < 3) {
+				this.sendTextToClient("Usage: " + getUsage(), ip, port);
+				return;
+			}
 			TCPConnection con = ConsoleStocks.server.getTCPConnectionFromUID(args.get(1));
 			
 			if (con == null) {

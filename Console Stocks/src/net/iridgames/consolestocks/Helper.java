@@ -62,8 +62,12 @@ public class Helper {
 						g.setColor(Color.gray);
 						break;
 					case "<default>":
-					default:
 						g.setColor(Color.white);
+						break;
+					default:
+						g.drawString(word, x1, y);
+						x1 += g.getFont().getWidth(word + "  ");
+						// g.setColor(Color.white);
 						break;
 				}
 			} else {

@@ -17,15 +17,21 @@ public class CommandHelp extends CommandServer {
 	}
 	
 	public String getUsage() {
-		return "help {command}";
+		return "help [command]";
 	}
 	
 	@Override
 	public void run(ArrayList<String> args, InetAddress ip, int port) {
 		if (args.size() < 2) {
+			String mess = "";
 			for (String key : Commands.commands.keySet()) {
-				ConsoleStocks.serverParser.sendMessage(key, ip, port);
+				if (!key.equals(Commands.commands.get(Commands.commands.size() - 1))) {
+					mess += key + ", ";
+				} else {
+					mess += key;
+				}
 			}
+			ConsoleStocks.serverParser.sendMessage(mess, ip, port);
 			return;
 		}
 		try { // message to client

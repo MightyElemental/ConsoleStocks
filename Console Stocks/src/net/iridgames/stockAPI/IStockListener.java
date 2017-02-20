@@ -11,7 +11,7 @@ public class IStockListener {
 	public void onStockUpdated(Stock stock) {
 		// notify listeners
 		for (StockUpdateListener i : listeners) {
-			i.onStockUpdate(stock, stock.getSymbol());
+			i.onStockUpdate(stock);
 		}
 	}
 	

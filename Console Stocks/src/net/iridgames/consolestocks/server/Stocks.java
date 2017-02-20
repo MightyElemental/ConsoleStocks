@@ -82,8 +82,8 @@ public class Stocks implements StockUpdateListener {
 	}
 	
 	@Override
-	public void onStockUpdate(Stock stock, String symbol) {
-		stockList.get(symbol).update(stock);
+	public void onStockUpdate(Stock stock) {
+		stockList.get(stock.getSymbol()).update(stock);
 	}
 	
 	public void updateStocks() {

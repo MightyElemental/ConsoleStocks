@@ -73,11 +73,9 @@ public class Console {
 		int iStop = console.size();
 		for (int i = iStart; i < iStop; i++) {
 			if (!console.isEmpty()) {
-				
 				if (console.get(i) == null) {
 					continue;
 				}
-				
 				int n = 85;
 				char[] chars = new char[n];
 				Arrays.fill(chars, '.');

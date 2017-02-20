@@ -3,6 +3,6 @@ package net.iridgames.stockAPI;
 public interface StockUpdateListener {
 	
 	
-	public void onStockUpdate(Stock stock, String symbol);
+	public void onStockUpdate(Stock stock);
 	
 }

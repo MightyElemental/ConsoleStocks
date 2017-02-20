@@ -28,6 +28,7 @@ public class StockDisplay extends JPanel {
 	
 	public void paint(Graphics gg) {
 		super.paint(gg);
+		if (stock == null) return;
 		Graphics2D g = (Graphics2D) gg;
 		g.setColor(Color.lightGray);
 		g.fillRect(1, 1, getWidth() - 2, getHeight() - 2);
