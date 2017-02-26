@@ -1,7 +1,9 @@
 package net.iridgames.consolestocks.client;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.iridgames.consolestocks.ConsoleStocks;
@@ -26,6 +28,9 @@ public class Client extends TCPClient implements MessageListenerClient {
 	
 	public Map<String, Object> accountInfo = new HashMap<String, Object>();
 	
+	/** All messages that have the tag 'U2UvS' are added to this list */
+	public List<String> chatList = new ArrayList<String>();
+	
 	public void setName(String name) {
 		accountInfo.put("username", name);
 	}
@@ -34,9 +39,8 @@ public class Client extends TCPClient implements MessageListenerClient {
 		return accountInfo.get("displayName") + "";
 	}
 	
-	@SuppressWarnings( "unchecked" )
 	@Override
-	public void onObjectRecievedFromServer(Object obj) {
+	public void onObjectRecievedFromServer(Map<String, Object> obj) {
 		System.out.println(obj);
 		if (((Map<String, Object>) obj).containsKey("UID")) {
 			this.clientUID = (String) ((Map<String, Object>) obj).get("UID");
@@ -50,6 +54,7 @@ public class Client extends TCPClient implements MessageListenerClient {
 		} else if (((Map<String, Object>) obj).containsKey("U2UvS")) {// Player to Player chat
 			String command = (String) ((Map<String, Object>) obj).get("U2UvS");
 			ConsoleStocks.stateGame.console.addText(command);
+			chatList.add(command);
 		} else {
 			String command = (String) ((Map<String, Object>) obj).get("ServerMessage");
 			ConsoleStocks.stateGame.console.addText(">> " + command);

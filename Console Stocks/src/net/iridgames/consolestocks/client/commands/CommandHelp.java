@@ -2,6 +2,7 @@ package net.iridgames.consolestocks.client.commands;
 
 import java.util.ArrayList;
 
+import net.iridgames.consolestocks.ConsoleStocks;
 import net.iridgames.consolestocks.client.CommandLocal;
 import net.iridgames.consolestocks.client.LocalCommands;
 
@@ -42,7 +43,7 @@ public class CommandHelp extends CommandLocal {
 			LocalCommands.addTextToConsole(desc);
 			LocalCommands.addTextToConsole("Usage: " + usage);
 		} catch (NullPointerException e) {
-			LocalCommands.addTextToConsole("Invalid Command.");
+			LocalCommands.addTextToConsole(ConsoleStocks.ERROR_INVALID_COMMAND);
 		}
 		
 	}

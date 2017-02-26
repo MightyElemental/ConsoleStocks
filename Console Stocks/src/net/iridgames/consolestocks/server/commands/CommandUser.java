@@ -38,6 +38,11 @@ public class CommandUser extends CommandServer {
 					}
 					mess += " ";
 				}
+				mess += " " + mess;
+				mess += " " + mess;
+				mess += " " + mess;
+				mess += " " + mess;
+				mess += " " + mess;
 				this.sendTextToClient(mess, ip, port);
 				return;
 			}

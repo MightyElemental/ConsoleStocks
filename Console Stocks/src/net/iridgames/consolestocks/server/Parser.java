@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.iridgames.consolestocks.ConsoleStocks;
 import net.iridgames.consolestocks.common.Common;
 import net.iridgames.consolestocks.server.gui.ServerFrame;
 import net.mightyelemental.network.TCPServer;
@@ -41,7 +42,7 @@ public class Parser implements MessageListenerServer, Runnable {
 					} // Add invalid command
 				}
 				if (!flag) {
-					sendMessage("alert{Invalid Command.}", ip, port);
+					sendMessage(ConsoleStocks.ERROR_INVALID_COMMAND, ip, port);
 				} else {
 					server.getGUI().addCommand(UID + ">> " + message);
 				}

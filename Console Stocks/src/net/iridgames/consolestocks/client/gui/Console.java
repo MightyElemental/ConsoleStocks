@@ -238,14 +238,16 @@ public class Console {
 			}
 			// Send Message
 			if (s.length() > 0) {
+				String s1 = formatUserInput(s.toString());
+				String s2 = formatUserInput(sb.toString());
 				commands.add(sb.toString());
-				addText(prefix + sb.toString());
+				addText(prefix + s2);
 				cursor = 0;
 				sb.delete(0, sb.length());
 				updateCursor(sb.length());
 				pastComCur = 0;
 				try {
-					processCommand(s.toString());
+					processCommand(s1);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -262,6 +264,15 @@ public class Console {
 		dispCommandLine = prefix + commandLine.toString();
 		
 		handleSoundEffects();
+	}
+	
+	/** Replaces characters used in the color system for example */
+	private String formatUserInput(String base) {
+		base = base.replace("<", "\uff1c");
+		base = base.replace(">", "\uff1e");
+		base = base.replace("{", "\uff62");
+		base = base.replace("}", "\uff63");
+		return base;
 	}
 	
 	public boolean localMode = false;
@@ -344,7 +355,7 @@ public class Console {
 					return;
 				}
 			}
-			addText("alert{Invalid Command.}");
+			addText(ConsoleStocks.ERROR_INVALID_COMMAND);
 		}
 	}
 	
@@ -419,7 +430,7 @@ public class Console {
 	/** When the client has been dropped from the server or the server has been closed, this method will be called. */
 	public void onClientDropped(String reason) {
 		updatePrefix();
-		ConsoleStocks.stateGame.console.addText("Your client has been alert{dropped by the server}");
+		ConsoleStocks.stateGame.console.addText("alert{Your client has been dropped by the server}");
 		dispCommandLine = prefix + commandLine;
 	}
 	

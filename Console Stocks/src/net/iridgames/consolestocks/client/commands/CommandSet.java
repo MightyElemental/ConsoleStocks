@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import net.iridgames.consolestocks.ConsoleStocks;
 import net.iridgames.consolestocks.client.CommandLocal;
+import net.iridgames.consolestocks.client.gui.PRender;
 import net.iridgames.consolestocks.common.Common;
 
 public class CommandSet extends CommandLocal {
@@ -21,27 +22,30 @@ public class CommandSet extends CommandLocal {
 	
 	@Override
 	public String getUsage() {
-		return "set [name/shownumbers]";
+		return "set [name/shownumbers/panel]";
 	}
 	
 	@Override
 	public void run(ArrayList<String> args) {
 		System.out.println(args);
-		if (args.size() < 3) {
+		if (args.get(0).equalsIgnoreCase("local")) {
+			args.remove(0);
+		}
+		if (args.size() < 2) {
 			ConsoleStocks.stateGame.console.addText("Usage: " + getUsage());
 			return;
 		}
-		switch (args.get(2)) { // E.G. local set name
+		switch (args.get(1)) { // E.G. set name
 			case "name":
 				if (ConsoleStocks.client == null) {
 					ConsoleStocks.stateGame.console.addText("No client available.");
 					break;
 				}
 				String name = "";
-				if (args.size() < 4) {
+				if (args.size() < 3) {
 					ConsoleStocks.stateGame.console.addText("Usage: set name <name>");
 				} else {
-					for (int i = 3; i < args.size(); i++) {
+					for (int i = 2; i < args.size(); i++) {
 						name += args.get(i);
 						if (i < args.size() - 1) {
 							name += " ";
@@ -58,11 +62,11 @@ public class CommandSet extends CommandLocal {
 				}
 				break;
 			case "shownumbers":
-				if (args.size() < 4) {
+				if (args.size() < 3) {
 					ConsoleStocks.stateGame.console.addText("Usage: set shownumbers [true/false]");
 				} else {
 					try {
-						Common.clientConfig.setVariable("SHOWPANELNUMBERS", args.get(3).contains("t") + "");
+						Common.clientConfig.setVariable("SHOWPANELNUMBERS", args.get(2).contains("t") + "");
 						// Common.setClientVariable("SHOWPANELNUMBERS", Boolean.parseBoolean(args.get(3)) + "");
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -75,9 +79,27 @@ public class CommandSet extends CommandLocal {
 			case "defaultport":
 				break;
 			case "panel":
+				if (args.size() < 4) {
+					ConsoleStocks.stateGame.console.addText("Usage: set panel [bl/tr/tl] [server/client/account/chat/stock]");
+				} else {
+					switch (args.get(2)) {
+						case "bl":
+							ConsoleStocks.stateGame.p_bl = PRender.nameToID(args.get(3));
+							break;
+						case "tr":
+							ConsoleStocks.stateGame.p_tr = PRender.nameToID(args.get(3));
+							break;
+						case "tl":
+							ConsoleStocks.stateGame.p_tl = PRender.nameToID(args.get(3));
+							break;
+						default:
+							ConsoleStocks.stateGame.console.addText("Usage: set panel [bl/tr/tl] [server/client/account/chat/stock]");
+							break;
+					}
+				}
 				break;
 			default:
-				ConsoleStocks.stateGame.console.addText("Usage: " + getUsage());
+				ConsoleStocks.stateGame.console.addText("Usage: " + getUsage() + "a");
 				break;
 		}
 	}

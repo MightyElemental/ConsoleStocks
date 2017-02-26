@@ -65,17 +65,26 @@ public class Helper {
 						g.setColor(Color.white);
 						break;
 					default:
-						g.drawString(word, x1, y);
-						x1 += g.getFont().getWidth(word + "  ");
+						g.drawString(unformatInput(word), x1, y);
+						x1 += g.getFont().getWidth(unformatInput(word) + "  ");
 						// g.setColor(Color.white);
 						break;
 				}
 			} else {
-				g.drawString(word, x1, y);
-				x1 += g.getFont().getWidth(word + "  ");
+				g.drawString(unformatInput(word), x1, y);
+				x1 += g.getFont().getWidth(unformatInput(word) + "  ");
 			}
 		}
 		
+	}
+	
+	/** Replaces characters used in the color system for example */
+	private static String unformatInput(String base) {
+		base = base.replace("\uff1c", "<");
+		base = base.replace("\uff1e", ">");
+		base = base.replace("\uff62", "{");
+		base = base.replace("\uff63", "}");
+		return base;
 	}
 	
 	public static float round(double value, int precision) {

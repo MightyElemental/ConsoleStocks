@@ -24,6 +24,8 @@ public class StateGame extends BasicGameState {
 	
 	public float ticks;
 	
+	public int p_bl = PRender.SERVER_INFO, p_tl = PRender.ACCOUNT_INFO, p_tr = PRender.CLIENT_INFO;
+	
 	public StateGame( int id ) {
 		this.ID = id;
 	}
@@ -51,7 +53,7 @@ public class StateGame extends BasicGameState {
 	public void renderTL(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		final int xDisp = 0;
 		final int yDisp = 0;
-		PRender.renderPanel(PRender.ACCOUNT_INFO, gc, sbg, g, xDisp, yDisp);
+		PRender.renderPanel(p_tl, gc, sbg, g, xDisp, yDisp);
 		// if (console.keyCodePressed >= 0) {
 		// g.drawString(Input.getKeyName(console.keyCodePressed), xDisp + 10, yDisp + 10);
 		// }
@@ -61,7 +63,7 @@ public class StateGame extends BasicGameState {
 	public void renderTR(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		final int xDisp = gc.getWidth() / 2;
 		final int yDisp = 0;
-		PRender.renderPanel(PRender.CLIENT_INFO, gc, sbg, g, xDisp, yDisp);
+		PRender.renderPanel(p_tr, gc, sbg, g, xDisp, yDisp);
 		renderPanelNumber(g, gc, 2, xDisp, yDisp);
 	}
 	
@@ -75,7 +77,7 @@ public class StateGame extends BasicGameState {
 	public void renderBL(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		final int xDisp = 0;
 		final int yDisp = gc.getHeight() / 2;
-		PRender.renderPanel(PRender.SERVER_INFO, gc, sbg, g, xDisp, yDisp);
+		PRender.renderPanel(p_bl, gc, sbg, g, xDisp, yDisp);
 		renderPanelNumber(g, gc, 3, xDisp, yDisp);
 	}
 	

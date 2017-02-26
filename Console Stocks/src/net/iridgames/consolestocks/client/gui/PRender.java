@@ -3,6 +3,7 @@ package net.iridgames.consolestocks.client.gui;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.List;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -22,6 +23,22 @@ public class PRender {
 	public static final int CHAT_BOX = 3;
 	public static final int STOCK_VALUE_INFO = 4;
 	public static final int CONSOLE = 5;
+	
+	public static int nameToID(String name) {
+		switch (name) {
+			case "server":
+				return SERVER_INFO;
+			case "client":
+				return CLIENT_INFO;
+			case "chat":
+				return CHAT_BOX;
+			case "account":
+				return ACCOUNT_INFO;
+			case "stock":
+				return STOCK_VALUE_INFO;
+		}
+		return 5;
+	}
 	
 	public static void renderPanel(int panelID, GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) {
 		g.setColor(Color.white);
@@ -87,7 +104,7 @@ public class PRender {
 	private static void renderClient(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) throws UnknownHostException {
 		drawTitle(gc, g, x, y, "Client Info");
 		if (ConsoleStocks.client == null) {
-			Helper.drawString(g, "alert{Client information not found}", x + 5, y + 5);
+			Helper.drawString(g, ConsoleStocks.ERROR_NO_CLIENT, x + 5, y + 5);
 			return;
 		}
 		Object message = "";
@@ -137,6 +154,16 @@ public class PRender {
 	
 	private static void renderChatBox(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) {
 		drawTitle(gc, g, x, y, "Chat Panel");// TODO add client name to the panel
+		g.setColor(Color.white);
+		if (ConsoleStocks.client != null) {
+			List<String> chats = ConsoleStocks.client.chatList;
+			for (int i = 21; i >= 0; i--) {
+				if (i >= chats.size()) continue;
+				Helper.drawString(g, (chats.size() - i - 1) + " " + chats.get(chats.size() - i - 1), x + 5, y + 425 - (5 + (20 * i)));
+			}
+		} else {
+			g.drawString(ConsoleStocks.ERROR_NO_CLIENT, x + 5, y + 5);
+		}
 		// TODO add Map<String, ArrayList<String>> chats. // Client UID, messages (incoming and outgoing)
 		// TODO add a display for the above information
 	}

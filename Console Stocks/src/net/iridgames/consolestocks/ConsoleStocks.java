@@ -50,6 +50,9 @@ public class ConsoleStocks extends StateBasedGame {
 	public static final int WIDTH = 1600;
 	public static Image NULL_IMAGE;
 	
+	public static final String ERROR_INVALID_COMMAND = "alert{Invalid Command. Use 'help' to see a list of commands}";
+	public static final String ERROR_NO_CLIENT = "alert{Client information not found}";
+	
 	public ConsoleStocks( String name ) {
 		super(name);
 		addState(new StateMenu(STATE_MENU));
