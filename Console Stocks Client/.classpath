@@ -8,5 +8,11 @@
 	<classpathentry kind="lib" path="lib/jars/minlog-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/jars/objenesis-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/jars/reflectasm-1.07.jar"/>
+	<classpathentry kind="lib" path="lib/jars/lwjgl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Console Stocks Client/lib/natives/windows"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jars/slick.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
