@@ -12,32 +12,28 @@ import com.esotericsoftware.kryonet.Client;
 
 import net.iridgames.consolestocks.gui.Interface;
 
-public class CSClient extends StateBasedGame implements Runnable {
-
-	Thread mainThread = new Thread(this);
+public class CSClient extends StateBasedGame {
 
 	ClientListener cListen = new ClientListener();
 
-	public static Interface userInterface;
+	public static Interface	userInterface;
+	public static Client	client;
 
-	public static Client client;
-
-	public static final int WIDTH = 1280;
-	public static final String GAME_NAME = "Console Stocks";
-	public static final String VERSION = "testing stage";
-	public static final String TITLE = GAME_NAME + " | " + VERSION;
-
-	public boolean running;
+	public static final int		WIDTH		= 1280;
+	public static final String	GAME_NAME	= "Console Stocks";
+	public static final String	VERSION		= "testing stage";
+	public static final String	TITLE		= GAME_NAME + " | " + VERSION;
 
 	public CSClient(String name) {
 		super(name);
-		running = true;
-		mainThread.start();
+		userInterface = new Interface();
+		this.addState(userInterface);
 		client = new Client();
 		client.start();
 		try {
 			client.connect(5000, "localhost", 4040);
 		} catch (IOException e) {
+			userInterface.pConsole.consoleEntries.add("Failed to join server");
 			System.err.println("Coult not connect to server");
 		}
 		client.addListener(cListen);
@@ -61,21 +57,7 @@ public class CSClient extends StateBasedGame implements Runnable {
 	}
 
 	@Override
-	public void run() {
-		while (running) {
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			client.sendTCP("Hello");
-		}
-	}
-
-	@Override
 	public void initStatesList(GameContainer gc) throws SlickException {
-		userInterface = new Interface();
-		this.addState(userInterface);
 		this.enterState(0);
 	}
 

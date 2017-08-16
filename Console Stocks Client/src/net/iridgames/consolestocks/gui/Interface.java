@@ -7,17 +7,20 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import net.iridgames.consolestocks.Helper;
+
 public class Interface extends BasicGameState {
 
 	private int[] panelNumbers = { PRender.PANEL_ACCOUNT_INFO, PRender.PANEL_CHAT, PRender.PANEL_STOCK_INFO,
 			PRender.PANEL_CONSOLE };
-	
-	public PanelConsole pConsole;
+
+	public PanelConsole pConsole = new PanelConsole();
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		// TODO Auto-generated method stub
-		pConsole = new PanelConsole();
+		Helper.setGameContainer(gc);
+		Helper.setGraphics(gc.getGraphics());
 	}
 
 	@Override
