@@ -15,6 +15,8 @@ public class Interface extends BasicGameState {
 			PRender.PANEL_CONSOLE };
 
 	public PanelConsole pConsole = new PanelConsole();
+	public char pressedKey;
+	public long keyPressedTime;
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
@@ -41,8 +43,18 @@ public class Interface extends BasicGameState {
 
 	@Override
 	public int getID() {
-		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	@Override
+	public void keyPressed(int key, char c) {
+		pressedKey = c;
+		keyPressedTime = System.currentTimeMillis();
+	}
+
+	@Override
+	public void keyReleased(int key, char c) {
+		
 	}
 
 }

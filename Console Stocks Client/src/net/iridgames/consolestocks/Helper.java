@@ -3,6 +3,7 @@ package net.iridgames.consolestocks;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
@@ -20,13 +21,27 @@ public class Helper {
 	}
 
 	public static void drawString(String s, int x, int y) {
-		String[] ss = s.split("\\S+\\{");
-		for (int i = 0; i < ss.length; i++) {
-			System.out.println(ss[i]);
-			g.drawString(ss[i], x, y);
-			x += g.getFont().getWidth(ss[i]);
+		List<String> ss = formatString(s);
+		for (int i = 0; i < ss.size(); i++) {
+			switch(ss.get(i)) {
+			case "<s>":
+				x += 5;
+				break;
+			case "<alert>":
+				g.setColor(Color.yellow);
+				break;
+			case "<error>":
+				g.setColor(Color.red);
+				break;
+			case "<clear>":
+				g.setColor(Color.white);
+				break;
+			default:
+				g.drawString(ss.get(i), x, y);
+				x += g.getFont().getWidth(ss.get(i));
+				break;
+			}
 		}
-		formatString("asd");
 	}
 
 	/**Takes a string, splits the string up and extracts color formatting.

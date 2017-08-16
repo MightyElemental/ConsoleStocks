@@ -14,5 +14,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/jars/slick.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Kryonet"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
