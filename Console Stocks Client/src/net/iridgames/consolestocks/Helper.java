@@ -37,7 +37,7 @@ public class Helper {
 				g.setColor(Color.white);
 				break;
 			default:
-				g.drawString(ss.get(i), x, y);
+				g.drawString(ss.get(i).replace("\u300C","<").replace("\u300D",">"), x, y);
 				x += g.getFont().getWidth(ss.get(i));
 				break;
 			}
