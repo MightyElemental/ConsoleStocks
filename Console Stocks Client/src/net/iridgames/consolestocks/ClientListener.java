@@ -8,13 +8,15 @@ public class ClientListener extends Listener {
 	int i = 0;
 
 	public void received(Connection connection, Object object) {
-		System.out.println(object.toString());
-		try {
-			CSClient.userInterface.pConsole.consoleEntries
-					.add(i + " " + object.toString().replaceAll("(\\r|\\n)", ""));
-		} catch (Exception e) {
+		if ( object instanceof String ) {
+			System.out.println(object.toString());
+			try {
+				CSClient.userInterface.pConsole.consoleEntries
+						.add(i + " " + object.toString().replaceAll("(\\r|\\n)", ""));
+			} catch (Exception e) {
+			}
+			i++;
 		}
-		i++;
 	}
 
 }
