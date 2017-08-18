@@ -11,8 +11,9 @@ public class ClientListener extends Listener {
 		if ( object instanceof String ) {
 			System.out.println(object.toString());
 			try {
-				CSClient.userInterface.pConsole.consoleEntries
-						.add(i + " " + object.toString().replaceAll("(\\r|\\n)", ""));
+
+				CSClient.userInterface.pConsole
+						.addEntry(i + " " + object.toString().replaceAll("(\\r|\\n)", ""));
 			} catch (Exception e) {
 			}
 			i++;

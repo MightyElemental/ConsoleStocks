@@ -33,7 +33,7 @@ public class CSClient extends StateBasedGame {
 		try {
 			client.connect(5000, "localhost", 4040);
 		} catch (IOException e) {
-			userInterface.pConsole.consoleEntries.add("Failed to join server");
+			userInterface.pConsole.addEntry("Failed to join server");
 			System.err.println("Coult not connect to server");
 		}
 		client.addListener(cListen);
