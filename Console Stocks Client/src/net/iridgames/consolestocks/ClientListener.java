@@ -13,7 +13,7 @@ public class ClientListener extends Listener {
 			try {
 
 				CSClient.userInterface.pConsole
-						.addEntry(i + " " + object.toString().replaceAll("(\\r|\\n)", ""));
+						.addEntry(object.toString());
 			} catch (Exception e) {
 			}
 			i++;

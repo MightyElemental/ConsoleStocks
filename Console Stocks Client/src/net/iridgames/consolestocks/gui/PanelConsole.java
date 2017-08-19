@@ -15,6 +15,7 @@ import net.iridgames.consolestocks.Settings;
 
 public class PanelConsole {
 
+	private List<String>		userInputs			= new ArrayList<String>();
 	private List<String>		consoleBuffer		= new ArrayList<String>();
 	private List<List<String>>	displayedEntries	= new ArrayList<List<String>>();
 	private int					entryPos;
@@ -34,9 +35,6 @@ public class PanelConsole {
 	}
 
 	public void renderConsoleEntries(GameContainer gc, StateBasedGame sbg, Graphics g, int x, int y) {
-		for ( int i = 0; i < 18; i++ ) {// TODO remove this - adds line numbers down side
-			g.drawString("" + (i + 1), x - 20, y + i * 20 + 5);
-		}
 		int currentLines = 0;
 		int height = (int) Math
 				.floor((gc.getHeight() / 2f - Settings.newLineSpace * 1.5f) / (float) Settings.newLineSpace);
@@ -48,7 +46,7 @@ public class PanelConsole {
 			currentLines++;
 			y += Settings.newLineSpace;
 		}
-		entryPos = height-currentLines+2;
+		entryPos = height - currentLines + 2;
 		renderInput(gc, sbg, g, x + 5, y);
 	}
 
@@ -67,7 +65,9 @@ public class PanelConsole {
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
-		for ( String s : consoleBuffer ) {
+		List<String> temp = new ArrayList<String>();
+		temp.addAll(consoleBuffer);
+		for ( String s : temp ) {
 			displayedEntries.addAll(Helper.formatLine(s));
 		}
 		consoleBuffer.clear();
@@ -105,12 +105,15 @@ public class PanelConsole {
 	}
 
 	private void submitConsoleEntry() {
+		String s = buffer.toString().replace("<", "\u300C").replace(">", "\u300D").replace("{", "\u3014")
+				.replace("}", "\u3015");
 		if ( buffer.toString().equals("CLEAR") ) {
 			displayedEntries.clear();
 		} else {
-			addEntry(prefix + (buffer.toString().replace("<", "\u300C").replace(">", "\u300D")
-					.replace("{", "\u3014").replace("}", "\u3015")));
+			addEntry(prefix + s);
+			CSClient.client.sendTCP("COMMAND" + s);
 		}
+		userInputs.add(s);
 		buffer.delete(0, buffer.length());
 		cursorPos = 0;
 	}
