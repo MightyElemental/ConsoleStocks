@@ -7,4 +7,4 @@ Link: https://github.com/EsotericSoftware/kryonet
 
 
 Copyright (c) 2008, Nathan Sweet
-(Read license for full copyright statement)ghfgh
+(Read license for full copyright statement)
