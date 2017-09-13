@@ -8,9 +8,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.openal.SoundStore;
 import org.newdawn.slick.state.StateBasedGame;
 
-import com.esotericsoftware.kryonet.Client;
-
 import net.iridgames.consolestocks.gui.Interface;
+import net.iridgames.consolestocks.network.Client;
 
 public class CSClient extends StateBasedGame {
 
@@ -18,6 +17,8 @@ public class CSClient extends StateBasedGame {
 
 	public static Interface	userInterface;
 	public static Client	client;
+
+	public static boolean running = true;
 
 	public static final int		WIDTH		= 1280;
 	public static final String	GAME_NAME	= "Console Stocks";
@@ -31,13 +32,14 @@ public class CSClient extends StateBasedGame {
 		client = new Client();
 		client.start();
 		try {
-			client.connect(5000, "localhost", 4040);
+			client.connect(5000, "77.172.138.167", 4040);
 		} catch (IOException e) {
+			e.printStackTrace();
 			userInterface.pConsole.addEntry("Failed to join server");
 			System.err.println("Coult not connect to server");
 		}
 		client.addListener(cListen);
-		client.sendTCP("Hello");
+		client.send("Hello");
 	}
 
 	public static void main(String[] args) {

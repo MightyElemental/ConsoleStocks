@@ -111,7 +111,7 @@ public class PanelConsole {
 			displayedEntries.clear();
 		} else {
 			addEntry(prefix + s);
-			CSClient.client.sendTCP("COMMAND" + s);
+			CSClient.client.send(s);
 		}
 		userInputs.add(s);
 		buffer.delete(0, buffer.length());
