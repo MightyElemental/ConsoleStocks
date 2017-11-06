@@ -2,33 +2,28 @@ package net.iridgames.consolestockserver;
 
 import java.io.IOException;
 
-import com.esotericsoftware.kryonet.Server;
+import net.iridgames.consolestockserver.network.Server;
 
-public class CSServer implements Runnable {
+public class CSServer {
 
-	Thread					mainThread	= new Thread(this);
-	ServerListener			sListen		= new ServerListener();
+	ServerListener			sListen	= new ServerListener();
 	public static Server	server;
 
+	public static boolean isRunning = true;
+
 	public CSServer() {
-		mainThread.start();
 		server = new Server();
-		server.start();
 		try {
 			server.bind(4040);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		server.start();
 		server.addListener(sListen);
 	}
 
 	public static void main(String[] args) {
 		new CSServer();
-	}
-
-	@Override
-	public void run() {
-
 	}
 
 }

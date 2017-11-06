@@ -7,9 +7,10 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import net.iridgames.consolestocks.ClientListener;
 import net.iridgames.consolestocks.Helper;
 
-public class Interface extends BasicGameState {
+public class Interface extends BasicGameState implements ClientListener {
 
 	private int[] panelNumbers = { PRender.PANEL_ACCOUNT_INFO, PRender.PANEL_CHAT, PRender.PANEL_STOCK_INFO,
 			PRender.PANEL_CONSOLE };
@@ -54,14 +55,33 @@ public class Interface extends BasicGameState {
 		pressedKey = key;
 		keyPressedTime = System.currentTimeMillis();
 		pConsole.processInput();
-//		pConsole.buffer
-//				.append((pressedChar + "").replaceAll("[^A-Za-z0-9 -_+=./|\\;:\"'`~!@#$%^&*(){}]", ""));
+		// pConsole.buffer
+		// .append((pressedChar + "").replaceAll("[^A-Za-z0-9
+		// -_+=./|\\;:\"'`~!@#$%^&*(){}]", ""));
 	}
 
 	@Override
 	public void keyReleased(int key, char c) {
 		pressedChar = 0;
 		pressedKey = -1;
+	}
+
+	@Override
+	public void received(String object) {
+		try {
+			pConsole.addEntry(object);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void onDisconnect(int disconnectCode) {
+		try {
+			pConsole.addEntry("Client has been disconnected! CODE "+disconnectCode);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

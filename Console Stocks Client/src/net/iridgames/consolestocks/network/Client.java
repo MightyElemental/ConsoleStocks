@@ -1,24 +1,24 @@
 package net.iridgames.consolestocks.network;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.iridgames.consolestocks.CSClient;
 import net.iridgames.consolestocks.ClientListener;
 
 public class Client implements Runnable {
 
-	Socket	clientSocket;
-	Thread	updateThread	= new Thread(this);
+	private Socket	clientSocket;
+	private Thread	updateThread	= new Thread(this);
+	private boolean	running			= true;
 
-	BufferedReader	br;
-	BufferedWriter	bw;
+	InputStream		is;
+	OutputStream	os;
 
 	List<ClientListener> listeners;
 
@@ -31,12 +31,12 @@ public class Client implements Runnable {
 		clientSocket.setSoTimeout(timeout);
 		clientSocket.setKeepAlive(true);
 		// clientSocket.connect(new InetSocketAddress(address, port), timeout);
-		br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-		bw = new BufferedWriter(new PrintWriter(clientSocket.getOutputStream()));
+		is = clientSocket.getInputStream();
+		os = clientSocket.getOutputStream();
 	}
 
 	public void start() {
-
+		updateThread.start();
 	}
 
 	public void send(String message) {
@@ -45,7 +45,7 @@ public class Client implements Runnable {
 		try {
 			// message+=" | \u30AB\u30BF\u30AB\u30CA";
 			System.out.println(message);
-			clientSocket.getOutputStream().write(message.getBytes("UTF-8"));// Converts to UTF-8 and sends the bytes
+			os.write(message.getBytes("UTF-8"));// Converts to UTF-8 and sends the bytes
 		} catch (NullPointerException e) {
 			System.exit(1);
 		} catch (IOException e) {
@@ -59,16 +59,26 @@ public class Client implements Runnable {
 
 	@Override
 	public void run() {
-		while (CSClient.running) {
+		while (running) {
+
 			try {
-				String text = br.readLine();
+				byte[] bytes = new byte[256];
+				is.read(bytes);
+				String text = new String(bytes).trim();
 				for ( ClientListener l : listeners ) {
 					l.received(text);
 				}
+			} catch (SocketException se) {
+				running = false;
+			} catch (SocketTimeoutException ste) {
+				System.out.println("Timeout");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 
+		}
+		for ( ClientListener l : listeners ) {
+			l.onDisconnect(-1);
 		}
 	}
 }

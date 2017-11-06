@@ -13,12 +13,8 @@ import net.iridgames.consolestocks.network.Client;
 
 public class CSClient extends StateBasedGame {
 
-	ClientListener cListen = new ClientListener();
-
 	public static Interface	userInterface;
 	public static Client	client;
-
-	public static boolean running = true;
 
 	public static final int		WIDTH		= 1280;
 	public static final String	GAME_NAME	= "Console Stocks";
@@ -30,15 +26,15 @@ public class CSClient extends StateBasedGame {
 		userInterface = new Interface();
 		this.addState(userInterface);
 		client = new Client();
-		client.start();
 		try {
-			client.connect(5000, "77.172.138.167", 4040);
+			client.connect(5000, "127.0.0.1", 4040);
 		} catch (IOException e) {
 			e.printStackTrace();
 			userInterface.pConsole.addEntry("Failed to join server");
 			System.err.println("Coult not connect to server");
 		}
-		client.addListener(cListen);
+		client.addListener(userInterface);
+		client.start();
 		client.send("Hello");
 	}
 
