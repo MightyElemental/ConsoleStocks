@@ -3,6 +3,7 @@ package net.iridgames.consolestocks.network;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
@@ -15,7 +16,7 @@ public class Client implements Runnable {
 
 	private Socket	clientSocket;
 	private Thread	updateThread	= new Thread(this);
-	private boolean	running			= true;
+	private boolean	running			= false;
 
 	InputStream		is;
 	OutputStream	os;
@@ -26,13 +27,14 @@ public class Client implements Runnable {
 		listeners = new ArrayList<ClientListener>();
 	}
 
-	public void connect(int timeout, String address, int port) throws IOException {
+	public void connect(int timeout, String address, int port) throws ConnectException, SocketException, IOException {
 		clientSocket = new Socket(address, port);
 		clientSocket.setSoTimeout(timeout);
 		clientSocket.setKeepAlive(true);
 		// clientSocket.connect(new InetSocketAddress(address, port), timeout);
 		is = clientSocket.getInputStream();
 		os = clientSocket.getOutputStream();
+		running = true;
 	}
 
 	public void start() {
@@ -47,7 +49,7 @@ public class Client implements Runnable {
 			System.out.println(message);
 			os.write(message.getBytes("UTF-8"));// Converts to UTF-8 and sends the bytes
 		} catch (NullPointerException e) {
-			System.exit(1);
+			// System.exit(1);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -81,4 +83,9 @@ public class Client implements Runnable {
 			l.onDisconnect(-1);
 		}
 	}
+	
+	public boolean isRunning() {
+		return running;
+	}
+	
 }

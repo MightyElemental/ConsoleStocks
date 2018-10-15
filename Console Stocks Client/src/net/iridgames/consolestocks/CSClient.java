@@ -1,6 +1,8 @@
 package net.iridgames.consolestocks;
 
 import java.io.IOException;
+import java.net.ConnectException;
+import java.net.SocketException;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
@@ -28,14 +30,20 @@ public class CSClient extends StateBasedGame {
 		client = new Client();
 		try {
 			client.connect(5000, "127.0.0.1", 4040);
+		} catch (ConnectException e) {
+			userInterface.pConsole.addEntry("error{Failed to join server} alert{(ConnectException)}");
+			System.err.println("Coult not connect to server");
+		} catch (SocketException e) {
+			userInterface.pConsole.addEntry("error{Failed to join server} alert{(SocketException)}");
+			System.err.println("Coult not connect to server");
 		} catch (IOException e) {
 			e.printStackTrace();
-			userInterface.pConsole.addEntry("Failed to join server");
-			System.err.println("Coult not connect to server");
 		}
-		client.addListener(userInterface);
-		client.start();
-		client.send("Hello");
+		if ( client.isRunning() ) {
+			client.addListener(userInterface);
+			client.start();
+			client.send("Hello");
+		}
 	}
 
 	public static void main(String[] args) {
